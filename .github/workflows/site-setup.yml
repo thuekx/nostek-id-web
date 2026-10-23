@@ -1,0 +1,51 @@
+name: Site setup
+
+# Creates the base pages and reading settings on STAGING with
+# tools/setup_site.py, so nobody needs Python on their own computer.
+# Run it from the Actions tab (Run workflow). Dry run unless "apply" is ticked.
+# Secrets (Settings > Secrets and variables > Actions):
+#   STAGING_WP_USER          a staging Administrator username
+#   STAGING_WP_APP_PASSWORD  that user's Application Password
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write to staging (unticked = dry run)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-setup
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run setup_site.py on staging.nostek.id
+        env:
+          REF: ${{ github.ref_name }}
+          APPLY: ${{ inputs.apply }}
+          NOSTEK_WP_URL: https://staging.nostek.id
+          NOSTEK_WP_USER: ${{ secrets.STAGING_WP_USER }}
+          NOSTEK_WP_APP_PASSWORD: ${{ secrets.STAGING_WP_APP_PASSWORD }}
+        run: |
+          if [ "$REF" != "main" ]; then
+            echo "REFUSE: run this from main (got $REF); nothing done"
+            exit 1
+          fi
+          if [ -z "$NOSTEK_WP_USER" ] || [ -z "$NOSTEK_WP_APP_PASSWORD" ]; then
+            echo "FAIL: secrets STAGING_WP_USER / STAGING_WP_APP_PASSWORD are not set; nothing done"
+            exit 1
+          fi
+          if [ "$APPLY" = "true" ]; then
+            python3 tools/setup_site.py --apply
+          else
+            python3 tools/setup_site.py
+          fi

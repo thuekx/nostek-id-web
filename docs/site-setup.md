@@ -10,7 +10,14 @@ The header and footer menus are part of the theme (`themes/nostek/parts/header.h
 | Topics | `topics` | Lists every Topic (`nostek/topics-list` block); each Topic lives at `/topics/<slug>/` |
 | Services, Market, About | `services`, `market`, `about` | Placeholder pages until their content is written |
 
-## Run
+## Run from GitHub (no local Python needed)
+
+1. Add two repository secrets: `STAGING_WP_USER` (a staging Administrator) and `STAGING_WP_APP_PASSWORD` (that user's Application Password).
+2. Actions → **Site setup** → **Run workflow** (branch `main`). Unticked *apply* = dry run (`PLAN` / `SKIP` lines); run again with *apply* ticked to write (`PASS` lines).
+
+The workflow only ever targets `https://staging.nostek.id`.
+
+## Run locally
 
 Needs an **Administrator** user with an Application Password (Settings > Reading needs `manage_options`). Credentials come from the environment only.
 
