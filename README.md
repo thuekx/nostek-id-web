@@ -9,16 +9,17 @@ WordPress core, uploads, third-party plugins, the database and all credentials s
 |---|---|
 | `themes/nostek/` | Block theme: `theme.json` (colors, fonts, spacing), templates, parts, patterns, `assets/css/retro.css` (textures, 3D title, ribbon, frames) |
 | `plugins/nostek-core/` | Site structure that must survive a theme change: Topics taxonomy, breadcrumb block, Topics list block |
-| `bin/deploy.sh` | Copies theme + plugin into the WordPress install for the checked-out branch, keeps the previous copy for rollback |
-| `.cpanel.yml` | cPanel Git Version Control runs `bin/deploy.sh` on "Deploy HEAD Commit" |
-| `.github/workflows/ci.yml` | PHP 8.1 lint, JSON, block markup, shellcheck, gitleaks |
-| `.github/workflows/deploy-production.yml` | On push to `production`: cPanel backup, pull, deploy (needs owner-set secrets) |
+| `.github/workflows/ci.yml` | PHP 8.1 lint, JSON, block markup, gitleaks |
+| `.github/workflows/deploy.yml` | Uploads theme + plugin over FTPS: `main` to staging, `production` to live |
 
 ## Branches and deploy
 
-- `main` deploys to **staging.nostek.id** (cPanel clone tracking `main`, owner clicks Deploy).
-- `production` deploys to **nostek.id** (merge `main` into `production`; the workflow runs once secrets exist).
-- Any other branch: `bin/deploy.sh` refuses and changes nothing.
+The host has no shell access, so deploys go over FTPS from GitHub Actions.
+
+- `main` deploys to **staging.nostek.id** with an FTP account whose home is the staging `wp-content`.
+- `production` deploys to **nostek.id** with a separate FTP account whose home is the live `wp-content`.
+- Until the FTP secrets exist the workflow skips and uploads nothing. Any other branch is refused.
+- Rollback = revert the commit; the next deploy uploads the previous files. JetBackup keeps daily server backups.
 
 ## Design
 
