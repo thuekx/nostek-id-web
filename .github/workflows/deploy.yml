@@ -1,0 +1,78 @@
+name: Deploy
+
+# main       -> staging.nostek.id   (FTP account limited to staging wp-content)
+# production -> nostek.id           (FTP account limited to live wp-content)
+# Secrets are set by the owner in Settings > Secrets and variables > Actions:
+#   FTP_HOST, FTP_STAGING_USER, FTP_STAGING_PASSWORD,
+#   FTP_PRODUCTION_USER, FTP_PRODUCTION_PASSWORD
+# Each FTP account's home directory is that site's wp-content folder, so
+# server paths below are relative to wp-content.
+on:
+  push:
+    branches: [main, production]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick target
+        id: target
+        env:
+          REF: ${{ github.ref_name }}
+          HOST: ${{ secrets.FTP_HOST }}
+          S_USER: ${{ secrets.FTP_STAGING_USER }}
+          S_PASS: ${{ secrets.FTP_STAGING_PASSWORD }}
+          P_USER: ${{ secrets.FTP_PRODUCTION_USER }}
+          P_PASS: ${{ secrets.FTP_PRODUCTION_PASSWORD }}
+        run: |
+          case "$REF" in
+            main)       user="$S_USER"; pass="$S_PASS"; site="staging.nostek.id" ;;
+            production) user="$P_USER"; pass="$P_PASS"; site="nostek.id" ;;
+            *) echo "REFUSE: branch $REF has no deploy target; nothing done"; exit 1 ;;
+          esac
+          if [ -z "$HOST" ] || [ -z "$user" ] || [ -z "$pass" ]; then
+            echo "SKIP: FTP secrets for $site are not set yet; nothing deployed"
+            echo "ready=no" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "ready=yes" >> "$GITHUB_OUTPUT"
+          echo "site=$site" >> "$GITHUB_OUTPUT"
+
+      - name: Upload theme
+        if: steps.target.outputs.ready == 'yes'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_USER || secrets.FTP_STAGING_USER }}
+          password: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_PASSWORD || secrets.FTP_STAGING_PASSWORD }}
+          protocol: ftps
+          local-dir: ./themes/nostek/
+          server-dir: ./themes/nostek/
+          state-name: .nostek-deploy-state.json
+
+      - name: Upload plugin
+        if: steps.target.outputs.ready == 'yes'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_USER || secrets.FTP_STAGING_USER }}
+          password: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_PASSWORD || secrets.FTP_STAGING_PASSWORD }}
+          protocol: ftps
+          local-dir: ./plugins/nostek-core/
+          server-dir: ./plugins/nostek-core/
+          state-name: .nostek-deploy-state.json
+
+      - name: Result
+        if: steps.target.outputs.ready == 'yes'
+        run: echo "PASS deployed ${GITHUB_SHA::7} to ${{ steps.target.outputs.site }}"
