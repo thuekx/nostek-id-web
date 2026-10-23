@@ -56,6 +56,70 @@ function nostek_core_register_topics() {
 	);
 }
 
+add_action( 'init', 'nostek_core_register_roles' );
+/**
+ * "Nostek Agent": for virtual-team writers. Can write, upload images and pick
+ * Topics, but cannot publish, so every article lands as Pending Review.
+ * To let a trusted agent publish, change that user's role to Author.
+ */
+function nostek_core_register_roles() {
+	if ( get_role( 'nostek_agent' ) ) {
+		return;
+	}
+	add_role(
+		'nostek_agent',
+		__( 'Nostek Agent', 'nostek-core' ),
+		array(
+			'read'         => true,
+			'edit_posts'   => true,
+			'delete_posts' => true,
+			'upload_files' => true,
+		)
+	);
+}
+
+add_action( 'init', 'nostek_core_register_source_id' );
+/**
+ * Stable id an agent gives each article, so re-sending the same article
+ * updates it instead of creating a duplicate. WordPress drops the slug for
+ * users who cannot publish, so the slug cannot serve as that id.
+ */
+function nostek_core_register_source_id() {
+	register_post_meta(
+		'post',
+		'nostek_source_id',
+		array(
+			'type'          => 'string',
+			'single'        => true,
+			'show_in_rest'  => true,
+			'auth_callback' => static function () {
+				return current_user_can( 'edit_posts' );
+			},
+		)
+	);
+}
+
+add_filter( 'rest_post_query', 'nostek_core_rest_filter_source_id', 10, 2 );
+/**
+ * Allows GET /wp/v2/posts?nostek_source_id=<id> for users who can edit posts.
+ *
+ * @param array           $args    WP_Query arguments.
+ * @param WP_REST_Request $request REST request.
+ * @return array
+ */
+function nostek_core_rest_filter_source_id( $args, $request ) {
+	$source_id = $request->get_param( 'nostek_source_id' );
+	if ( is_string( $source_id ) && '' !== $source_id && current_user_can( 'edit_posts' ) ) {
+		$args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			array(
+				'key'   => 'nostek_source_id',
+				'value' => sanitize_text_field( $source_id ),
+			),
+		);
+	}
+	return $args;
+}
+
 register_activation_hook( __FILE__, 'nostek_core_activate' );
 function nostek_core_activate() {
 	nostek_core_register_topics();

@@ -9,7 +9,8 @@ WordPress core, uploads, third-party plugins, the database and all credentials s
 |---|---|
 | `themes/nostek/` | Block theme: `theme.json` (colors, fonts, spacing), templates, parts, patterns, `assets/css/retro.css` (textures, 3D title, ribbon, frames) |
 | `plugins/nostek-core/` | Site structure that must survive a theme change: Topics taxonomy, breadcrumb block, Topics list block |
-| `.github/workflows/ci.yml` | PHP 8.1 lint, JSON, block markup, gitleaks |
+| `tools/publish_article.py` | Publishes an article JSON over the REST API (see `docs/content-api.md`) |
+| `.github/workflows/ci.yml` | PHP 8.1 lint, JSON, Python tools, block markup, gitleaks |
 | `.github/workflows/deploy.yml` | Uploads theme + plugin over FTPS: `main` to staging, `production` to live |
 
 ## Branches and deploy
@@ -31,3 +32,4 @@ Block styles editors can pick: Retro 3D heading, Section divider, Ribbon, Kicker
 - **Journal sections** = native categories: News, Insights, Guides & Tutorials, Reviews, Founder's Note.
 - **Topics** = `topic` taxonomy (`/topics/<slug>/`), with a short description shown on the Topics list and archive page.
 - Contributors (WordPress role *Contributor*) can write drafts and pick Topics; only editors create Topics or publish.
+- Virtual-team agents use the *Nostek Agent* role and publish through the REST API: [docs/content-api.md](docs/content-api.md).
