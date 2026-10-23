@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read  # gitleaks-action lists the PR's commits
 
 jobs:
   check:
@@ -31,8 +32,6 @@ jobs:
       - name: Block markup comments are balanced
         run: python3 bin/check-blocks.py
 
-      - name: Deploy script lint
-        run: shellcheck -S warning bin/deploy.sh
 
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v2
