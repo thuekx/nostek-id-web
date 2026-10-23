@@ -1,0 +1,36 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home",
+      "content": "<!-- wp:paragraph -->\n<p>The front page layout comes from the Nostek theme (template front-page). This text is not shown.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "journal",
+      "title": "Journal",
+      "content": ""
+    },
+    {
+      "slug": "topics",
+      "title": "Topics",
+      "content": "<!-- wp:paragraph -->\n<p>Browse the Journal by topic.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:nostek/topics-list /-->"
+    },
+    {
+      "slug": "services",
+      "title": "Services",
+      "content": "<!-- wp:paragraph -->\n<p>Services: coming soon.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "market",
+      "title": "Market",
+      "content": "<!-- wp:paragraph -->\n<p>Market: coming soon.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "about",
+      "title": "About",
+      "content": "<!-- wp:paragraph -->\n<p>About Nostek ID: coming soon.</p>\n<!-- /wp:paragraph -->"
+    }
+  ],
+  "front_page": "home",
+  "posts_page": "journal"
+}

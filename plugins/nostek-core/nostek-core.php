@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.1.0' );
+define( 'NOSTEK_CORE_VERSION', '0.1.1' );
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -29,13 +29,23 @@ function nostek_core_register_topics() {
 		array( 'post' ),
 		array(
 			'labels'            => array(
-				'name'          => __( 'Topics', 'nostek-core' ),
-				'singular_name' => __( 'Topic', 'nostek-core' ),
-				'all_items'     => __( 'All Topics', 'nostek-core' ),
-				'edit_item'     => __( 'Edit Topic', 'nostek-core' ),
-				'add_new_item'  => __( 'Add New Topic', 'nostek-core' ),
-				'search_items'  => __( 'Search Topics', 'nostek-core' ),
-				'menu_name'     => __( 'Topics', 'nostek-core' ),
+				'name'              => __( 'Topics', 'nostek-core' ),
+				'singular_name'     => __( 'Topic', 'nostek-core' ),
+				'all_items'         => __( 'All Topics', 'nostek-core' ),
+				'edit_item'         => __( 'Edit Topic', 'nostek-core' ),
+				'add_new_item'      => __( 'Add New Topic', 'nostek-core' ),
+				'search_items'      => __( 'Search Topics', 'nostek-core' ),
+				'menu_name'         => __( 'Topics', 'nostek-core' ),
+				// Hierarchical taxonomies fall back to category wording otherwise.
+				'view_item'         => __( 'View Topic', 'nostek-core' ),
+				'update_item'       => __( 'Update Topic', 'nostek-core' ),
+				'new_item_name'     => __( 'New Topic Name', 'nostek-core' ),
+				'parent_item'       => __( 'Parent Topic', 'nostek-core' ),
+				'parent_item_colon' => __( 'Parent Topic:', 'nostek-core' ),
+				'not_found'         => __( 'No topics found.', 'nostek-core' ),
+				'no_terms'          => __( 'No topics', 'nostek-core' ),
+				'back_to_items'     => __( '&larr; Go to Topics', 'nostek-core' ),
+				'item_link'         => __( 'Topic Link', 'nostek-core' ),
 			),
 			'hierarchical'      => true,
 			'public'            => true,
