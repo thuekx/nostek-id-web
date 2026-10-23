@@ -28,6 +28,9 @@ jobs:
         run: |
           find themes plugins -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool > /dev/null
 
+      - name: Python tools compile
+        run: python3 -m py_compile tools/*.py bin/*.py
+
       - name: Block markup comments are balanced
         run: python3 bin/check-blocks.py
 
