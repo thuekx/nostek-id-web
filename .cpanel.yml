@@ -1,0 +1,6 @@
+---
+# cPanel Git Version Control runs these tasks on "Deploy HEAD Commit".
+# Branch main -> staging.nostek.id, branch production -> nostek.id.
+deployment:
+  tasks:
+    - /bin/bash bin/deploy.sh

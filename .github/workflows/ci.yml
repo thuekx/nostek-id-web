@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, production]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: PHP syntax (8.1)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: none
+      - run: |
+          find themes plugins -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: JSON files are valid
+        run: |
+          find themes plugins -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool > /dev/null
+
+      - name: Block markup comments are balanced
+        run: python3 bin/check-blocks.py
+
+      - name: Deploy script lint
+        run: shellcheck -S warning bin/deploy.sh
+
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,15 @@
+# Only custom code lives here. Never commit WordPress core, uploads,
+# third-party plugins, database dumps, backups or credentials.
+wp-config.php
+.env
+.env.*
+*.sql
+*.sql.gz
+*.zip
+*.tar.gz
+*.wpress
+uploads/
+cache/
+node_modules/
+vendor/
+.DS_Store

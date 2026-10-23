@@ -1,0 +1,301 @@
+/*
+ * Nostek retro layer.
+ * Colors and fonts come from theme.json presets; this file adds what
+ * theme.json cannot express: textures, the 3D title, ribbon, frames.
+ */
+
+:root {
+	--nostek-noise: url("../img/paper-noise.svg");
+	--nostek-spray: url("../img/spray.svg");
+	--nostek-ink: var(--wp--preset--color--ink);
+	--nostek-teal: var(--wp--preset--color--teal);
+	--nostek-teal-dark: var(--wp--preset--color--teal-dark);
+	--nostek-red: var(--wp--preset--color--red);
+	--nostek-red-dark: var(--wp--preset--color--red-dark);
+	--nostek-cream: var(--wp--preset--color--cream);
+	--nostek-paper: var(--wp--preset--color--paper);
+}
+
+body,
+.editor-styles-wrapper {
+	background-image: var(--nostek-noise);
+}
+
+/* Heading: retro 3D title (like the VintWood page title) */
+.is-style-title-3d {
+	position: relative;
+	color: var(--nostek-teal);
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 800;
+	font-size: var(--wp--preset--font-size--display);
+	line-height: 0.95;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	text-shadow:
+		1px 1px 0 var(--nostek-teal-dark),
+		2px 2px 0 var(--nostek-teal-dark),
+		3px 3px 0 var(--nostek-teal-dark),
+		4px 4px 0 var(--nostek-teal-dark),
+		5px 5px 0 var(--nostek-teal-dark),
+		6px 6px 0 var(--nostek-teal-dark);
+}
+
+/* Heading: solid rule over dotted rule on both sides */
+.is-style-divider {
+	display: flex;
+	align-items: center;
+	gap: 1.1rem;
+	color: var(--nostek-teal-dark);
+	font-size: var(--wp--preset--font-size--x-large);
+	text-align: center;
+}
+.is-style-divider::before,
+.is-style-divider::after {
+	content: "";
+	flex: 1;
+	height: 9px;
+	border-top: 3px solid currentColor;
+	border-bottom: 3px dotted currentColor;
+}
+
+/* Paragraph: red ribbon (breadcrumb / tagline) */
+.is-style-ribbon {
+	position: relative;
+	z-index: 0;
+	display: block;
+	width: fit-content;
+	max-width: calc(100% - 64px);
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding: 0.55rem 3rem 0.7rem;
+	background: var(--nostek-red) var(--nostek-spray);
+	color: var(--nostek-cream);
+	font-family: var(--wp--preset--font-family--script);
+	font-size: clamp(1.5rem, 4vw, 2rem);
+	line-height: 1;
+	text-align: center;
+}
+.is-style-ribbon::before,
+.is-style-ribbon::after {
+	content: "";
+	position: absolute;
+	top: -14px;
+	z-index: -1;
+	width: 44px;
+	height: 100%;
+	background: var(--nostek-red-dark) var(--nostek-spray);
+}
+.is-style-ribbon::before {
+	left: -30px;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 22% 50%);
+}
+.is-style-ribbon::after {
+	right: -30px;
+	clip-path: polygon(0 0, 100% 0, 78% 50%, 100% 100%, 0 100%);
+}
+.is-style-ribbon a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Paragraph: small uppercase label above titles */
+.is-style-kicker {
+	color: var(--nostek-red-dark);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 0.95rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+/* Group: double frame (banner box) */
+.is-style-frame {
+	position: relative;
+	border: 3px solid var(--nostek-ink);
+	padding: 5px !important;
+}
+.is-style-frame > * {
+	margin-block: 0;
+}
+.is-style-frame::after {
+	content: "";
+	position: absolute;
+	inset: 5px;
+	border: 1px solid var(--nostek-ink);
+	pointer-events: none;
+}
+
+/* Group: colored band with the spray speckle */
+.is-style-band,
+.is-style-info,
+.is-style-info-success,
+.is-style-info-error,
+.is-style-info-warning {
+	background-image: var(--nostek-spray);
+	color: var(--nostek-cream);
+}
+.is-style-band {
+	background-color: var(--nostek-red);
+}
+.is-style-band :where(h1, h2, h3, h4, p, a) {
+	color: inherit;
+}
+
+/* Group: compact info boxes */
+.is-style-info,
+.is-style-info-success,
+.is-style-info-error,
+.is-style-info-warning {
+	position: relative;
+	padding: 0.6rem 1rem 0.6rem 3.6rem !important;
+	background-color: var(--wp--preset--color--blue);
+	font-size: 0.875rem;
+}
+.is-style-info-success { background-color: var(--wp--preset--color--green); }
+.is-style-info-error { background-color: var(--nostek-red); }
+.is-style-info-warning { background-color: var(--wp--preset--color--mustard); }
+.is-style-info::before,
+.is-style-info-success::before,
+.is-style-info-error::before,
+.is-style-info-warning::before {
+	position: absolute;
+	inset: 0 auto 0 0;
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	background: rgb(0 0 0 / 0.16);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.35rem;
+	font-weight: 800;
+}
+.is-style-info::before { content: "i"; }
+.is-style-info-success::before { content: "\2713"; }
+.is-style-info-error::before { content: "\2715"; }
+.is-style-info-warning::before { content: "!"; }
+.is-style-info > :first-child,
+.is-style-info-success > :first-child,
+.is-style-info-error > :first-child,
+.is-style-info-warning > :first-child {
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.1rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+.is-style-info > *,
+.is-style-info-success > *,
+.is-style-info-error > *,
+.is-style-info-warning > * {
+	margin-block: 0.1rem;
+	color: inherit;
+}
+
+/* Group: sunburst backdrop for page title areas */
+.is-style-sunburst {
+	background:
+		var(--nostek-noise),
+		repeating-conic-gradient(from 0deg at 50% 60%, rgb(255 255 255 / 0.55) 0deg 5deg, transparent 5deg 15deg),
+		var(--wp--preset--color--paper-2);
+	overflow: hidden;
+}
+
+/* Button: ruled text button for bands */
+.wp-block-button.is-style-ruled .wp-block-button__link {
+	background: transparent;
+	color: currentColor;
+	border-top: 3px solid currentColor;
+	border-bottom: 3px solid currentColor;
+	padding: 0.25rem 1.1rem;
+}
+.wp-block-button.is-style-ruled .wp-block-button__link::before,
+.wp-block-button.is-style-ruled .wp-block-button__link::after {
+	content: "\2022";
+	margin: 0 0.6rem;
+}
+
+/* Details: accordion rows */
+.wp-block-details.is-style-accordion {
+	background: var(--wp--preset--color--paper-2) var(--nostek-noise);
+	margin-block: 3px !important;
+}
+.wp-block-details.is-style-accordion summary {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	padding: 0.85rem 1.1rem;
+	cursor: pointer;
+	list-style: none;
+	color: var(--nostek-teal-dark);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+.wp-block-details.is-style-accordion summary::-webkit-details-marker {
+	display: none;
+}
+.wp-block-details.is-style-accordion summary::before {
+	content: "+";
+	width: 1rem;
+	font-size: 1.75rem;
+	font-weight: 400;
+	line-height: 1;
+}
+.wp-block-details.is-style-accordion[open] summary::before {
+	content: "\2013";
+	color: var(--nostek-red);
+}
+.wp-block-details.is-style-accordion > :not(summary) {
+	padding: 0 1.1rem 1rem 3.1rem;
+	font-size: 0.95rem;
+}
+
+/* Image: sepia treatment without duotone presets */
+.wp-block-image.is-style-sepia img {
+	filter: sepia(0.35) contrast(1.05);
+}
+
+/* Focus visibility */
+:where(a, button, summary):focus-visible {
+	outline: 2px solid var(--nostek-red);
+	outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+	.is-style-divider {
+		font-size: var(--wp--preset--font-size--large);
+	}
+}
+
+/* Long post titles: keep the 3D look but at a readable size */
+.wp-block-post-title.is-style-title-3d {
+	font-size: clamp(2.5rem, 6vw, 4.5rem);
+	line-height: 1;
+	text-shadow:
+		1px 1px 0 var(--nostek-teal-dark),
+		2px 2px 0 var(--nostek-teal-dark),
+		3px 3px 0 var(--nostek-teal-dark),
+		4px 4px 0 var(--nostek-teal-dark);
+}
+
+/* Footer link lists */
+footer .wp-block-categories-list {
+	padding-left: 0;
+	list-style: none;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.1rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+footer a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@media (max-width: 600px) {
+	.is-style-ribbon {
+		padding: 0.5rem 1.5rem 0.6rem;
+		font-size: 1.35rem;
+	}
+}
