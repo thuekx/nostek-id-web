@@ -48,7 +48,7 @@ See [`examples/article.json`](examples/article.json).
 
 - Once an article is published, the agent can no longer change it; edits go through an editor.
 - An unknown category, Topic or tag fails the run before anything is written.
-- Test new agents against `https://staging.nostek.id` first.
+- Test new agents against `https://staging.nostek.id` first: Actions → **Agent publish test** sends `site/agent-test-article.json` as the agent (secrets `STAGING_AGENT_USER`, `STAGING_AGENT_APP_PASSWORD`). Expect `PASS create post: … status=pending`; a second run prints `PASS update post` for the same id. Delete the test article afterwards.
 
 ## Raw REST (for agents that do not run the tool)
 

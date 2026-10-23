@@ -1,0 +1,10 @@
+{
+  "slug": "agent-test-staging",
+  "title": "Agent test: staging only",
+  "excerpt": "Test article sent by the Agent publish test workflow. Not for production.",
+  "content": "<!-- wp:paragraph -->\n<p>This article checks that an agent account can send a Journal article to staging. It lands as Pending Review; delete it after the check.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Checklist</h2>\n<!-- /wp:heading -->\n\n<!-- wp:list -->\n<ul class=\"wp-block-list\"><li>Category News</li><li>Topic AI</li><li>Status Pending Review</li></ul>\n<!-- /wp:list -->",
+  "category": "news",
+  "topics": ["ai"],
+  "tags": [],
+  "status": "pending"
+}

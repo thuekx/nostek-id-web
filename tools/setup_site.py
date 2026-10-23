@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Create the site's base pages and reading settings over the REST API.
+"""Create the site's terms, base pages and reading settings over the REST API.
 
-Reads site/pages.json. Pages that already exist (same slug) are left as they
-are, so editors' changes are never overwritten. Then sets Settings > Reading:
-a static front page and the Journal as the posts page. Standard library only.
+Reads site/pages.json. Journal categories and Topics that already exist (same
+slug) and pages that already exist are left as they are, so editors' changes
+are never overwritten. Then sets Settings > Reading: a static front page and
+the Journal as the posts page. Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
 Administrator (reading settings need manage_options):
@@ -13,7 +14,7 @@ Administrator (reading settings need manage_options):
 
 Usage:
   setup_site.py                 # dry run: show what would change
-  setup_site.py --apply         # create missing pages, set reading settings
+  setup_site.py --apply         # create missing terms and pages, set reading settings
 """
 import argparse
 import json
@@ -26,6 +27,9 @@ from publish_article import WP, Fail  # noqa: E402
 
 SPEC = pathlib.Path(__file__).resolve().parent.parent / "site" / "pages.json"
 
+# spec key -> (REST base, label in output)
+TERMS = {"categories": ("categories", "category"), "topics": ("topic", "topic")}
+
 
 def load_spec(path):
     try:
@@ -36,7 +40,32 @@ def load_spec(path):
     for key in ("front_page", "posts_page"):
         if spec.get(key) not in slugs:
             raise Fail(f"'{key}' must name one of the pages: {slugs}")
+    for key in TERMS:
+        for t in spec.get(key, []):
+            if not all(t.get(f) for f in ("slug", "name")):
+                raise Fail(f"every entry in '{key}' needs a slug and a name: {t}")
     return spec
+
+
+def ensure_terms(wp, spec, apply):
+    changes = 0
+    for key, (rest_base, label) in TERMS.items():
+        for t in spec.get(key, []):
+            found = wp.call("GET", rest_base, {"slug": t["slug"], "_fields": "id"})
+            if found:
+                print(f"SKIP {label} '{t['slug']}' exists (id={found[0]['id']})")
+                continue
+            changes += 1
+            if not apply:
+                print(f"PLAN create {label} '{t['slug']}'")
+                continue
+            res = wp.call("POST", rest_base, body={
+                "slug": t["slug"], "name": t["name"], "description": t.get("description", ""),
+            })
+            if res["slug"] != t["slug"]:
+                raise Fail(f"{label} '{t['slug']}' was created as '{res['slug']}'")
+            print(f"PASS create {label} '{t['slug']}' id={res['id']}")
+    return changes
 
 
 def main():
@@ -56,8 +85,8 @@ def main():
         # Fails early with HTTP 401/403 when the user is not an Administrator.
         settings = wp.call("GET", "settings", {"_fields": "show_on_front,page_on_front,page_for_posts"})
 
+        changes = ensure_terms(wp, spec, args.apply)
         ids = {}
-        changes = 0
         for page in spec["pages"]:
             found = wp.call("GET", "pages", {
                 "slug": page["slug"], "status": "publish,draft,pending,private,future",
