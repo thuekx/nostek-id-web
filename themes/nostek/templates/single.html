@@ -1,0 +1,35 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+	<!-- wp:template-part {"slug":"page-title","align":"full"} /-->
+	<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"}} -->
+	<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40)">
+		<!-- wp:post-terms {"term":"topic","className":"is-style-kicker"} /-->
+		<!-- wp:post-date /-->
+		<!-- wp:post-author-name {"isLink":true} /-->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:post-featured-image {"align":"wide"} /-->
+	<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+	<!-- wp:post-terms {"term":"post_tag","prefix":"Tags: "} /-->
+	<!-- wp:heading {"className":"is-style-divider"} -->
+	<h2 class="wp-block-heading is-style-divider">Baca Juga</h2>
+	<!-- /wp:heading -->
+	<!-- wp:pattern {"slug":"nostek/post-grid"} /-->
+	<!-- wp:comments -->
+	<div class="wp-block-comments">
+		<!-- wp:comments-title /-->
+		<!-- wp:comment-template -->
+			<!-- wp:comment-author-name /-->
+			<!-- wp:comment-date /-->
+			<!-- wp:comment-content /-->
+			<!-- wp:comment-reply-link /-->
+		<!-- /wp:comment-template -->
+		<!-- wp:post-comments-form /-->
+	</div>
+	<!-- /wp:comments -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
