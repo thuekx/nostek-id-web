@@ -88,8 +88,12 @@ class WP:
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.loads(r.read() or b"null")
         except urllib.error.HTTPError as e:
-            detail = e.read().decode(errors="replace")[:300]
-            raise Fail(f"{method} {path} -> HTTP {e.code}: {detail}")
+            body = e.read().decode(errors="replace")
+            if body.lstrip().startswith("<"):
+                # WordPress answers in JSON; an HTML page comes from the web
+                # server or its firewall (e.g. ModSecurity) before WordPress.
+                raise Fail(f"{method} {path} -> HTTP {e.code} from the web server/firewall, not WordPress (HTML error page)")
+            raise Fail(f"{method} {path} -> HTTP {e.code}: {body[:300]}")
         except urllib.error.URLError as e:
             raise Fail(f"{method} {path} -> {e.reason}")
 

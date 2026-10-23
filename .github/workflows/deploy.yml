@@ -21,10 +21,10 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # pinned: ubuntu-latest moves to 26.04
     environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Pick target
         id: target
@@ -51,7 +51,7 @@ jobs:
 
       - name: Upload theme
         if: steps.target.outputs.ready == 'yes'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_USER || secrets.FTP_STAGING_USER }}
@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload plugin
         if: steps.target.outputs.ready == 'yes'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ github.ref_name == 'production' && secrets.FTP_PRODUCTION_USER || secrets.FTP_STAGING_USER }}
