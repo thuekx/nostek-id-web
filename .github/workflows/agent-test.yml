@@ -1,0 +1,52 @@
+name: Agent publish test
+
+# Sends site/agent-test-article.json to STAGING as the agent account with
+# tools/publish_article.py, to prove an agent user can write Journal articles
+# (they land as Pending Review). Run it from the Actions tab (Run workflow).
+# Dry run unless "apply" is ticked. Running it again updates the same article.
+# Secrets (Settings > Secrets and variables > Actions):
+#   STAGING_AGENT_USER          the agent's staging username (role Nostek Agent)
+#   STAGING_AGENT_APP_PASSWORD  that user's Application Password
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write to staging (unticked = dry run)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-test
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04  # pinned: ubuntu-latest moves to 26.04
+    environment: staging
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run publish_article.py on staging.nostek.id
+        env:
+          REF: ${{ github.ref_name }}
+          APPLY: ${{ inputs.apply }}
+          NOSTEK_WP_URL: https://staging.nostek.id
+          NOSTEK_WP_USER: ${{ secrets.STAGING_AGENT_USER }}
+          NOSTEK_WP_APP_PASSWORD: ${{ secrets.STAGING_AGENT_APP_PASSWORD }}
+        run: |
+          if [ "$REF" != "main" ]; then
+            echo "REFUSE: run this from main (got $REF); nothing done"
+            exit 1
+          fi
+          if [ -z "$NOSTEK_WP_USER" ] || [ -z "$NOSTEK_WP_APP_PASSWORD" ]; then
+            echo "FAIL: secrets STAGING_AGENT_USER / STAGING_AGENT_APP_PASSWORD are not set; nothing done"
+            exit 1
+          fi
+          if [ "$APPLY" = "true" ]; then
+            python3 tools/publish_article.py site/agent-test-article.json --apply
+          else
+            python3 tools/publish_article.py site/agent-test-article.json
+          fi

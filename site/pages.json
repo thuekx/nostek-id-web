@@ -32,5 +32,69 @@
     }
   ],
   "front_page": "home",
-  "posts_page": "journal"
+  "posts_page": "journal",
+  "categories": [
+    {
+      "slug": "news",
+      "name": "News",
+      "description": "Short, timely technology news."
+    },
+    {
+      "slug": "insights",
+      "name": "Insights",
+      "description": "Analysis and opinion on where technology is going."
+    },
+    {
+      "slug": "guides-tutorials",
+      "name": "Guides & Tutorials",
+      "description": "Step-by-step how-tos you can follow."
+    },
+    {
+      "slug": "reviews",
+      "name": "Reviews",
+      "description": "Hands-on reviews of products and services."
+    },
+    {
+      "slug": "founders-note",
+      "name": "Founder's Note",
+      "description": "Notes from the founder of Nostek ID."
+    }
+  ],
+  "topics": [
+    {
+      "slug": "ai",
+      "name": "AI",
+      "description": "Artificial intelligence, machine learning and AI tools."
+    },
+    {
+      "slug": "cybersecurity",
+      "name": "Cybersecurity",
+      "description": "Security threats, defence and privacy."
+    },
+    {
+      "slug": "cloud-infrastructure",
+      "name": "Cloud & Infrastructure",
+      "description": "Cloud platforms, servers, backup and operations."
+    },
+    {
+      "slug": "networking",
+      "name": "Networking",
+      "description": "Networks, connectivity and internet infrastructure."
+    },
+    {
+      "slug": "gadget-hardware",
+      "name": "Gadget & Hardware",
+      "description": "Devices, components and hardware."
+    },
+    {
+      "slug": "software-applications",
+      "name": "Software & Applications",
+      "description": "Software, apps and productivity tools."
+    },
+    {
+      "slug": "digital-business",
+      "name": "Digital Business",
+      "description": "Technology for running and growing a business."
+    }
+  ]
 }

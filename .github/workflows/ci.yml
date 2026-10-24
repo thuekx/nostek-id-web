@@ -27,7 +27,7 @@ jobs:
 
       - name: JSON files are valid
         run: |
-          find themes plugins -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool > /dev/null
+          find themes plugins site -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool > /dev/null
 
       - name: Python tools compile
         run: python3 -m py_compile tools/*.py bin/*.py
