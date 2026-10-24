@@ -32,6 +32,7 @@ jobs:
         env:
           REF: ${{ github.ref_name }}
           APPLY: ${{ inputs.apply }}
+          PYTHONUNBUFFERED: "1"  # keep stdout and stderr lines in order in the log
           NOSTEK_WP_URL: https://staging.nostek.id
           NOSTEK_WP_USER: ${{ secrets.STAGING_WP_USER }}
           NOSTEK_WP_APP_PASSWORD: ${{ secrets.STAGING_WP_APP_PASSWORD }}

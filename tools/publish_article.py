@@ -65,6 +65,21 @@ def load_article(path):
     return a
 
 
+def wp_error(body):
+    """Short text for a WordPress JSON error; a PHP fatal error keeps its message, file and line."""
+    try:
+        err = json.loads(body)
+    except ValueError:
+        return body[:300]
+    if not isinstance(err, dict):
+        return body[:300]
+    text = f"{err.get('code', '')}: {re.sub(r'<[^>]+>', ' ', str(err.get('message', ''))).strip()[:200]}"
+    fatal = (err.get("data") or {}).get("error") if isinstance(err.get("data"), dict) else None
+    if isinstance(fatal, dict) and fatal.get("message"):
+        text += f" | PHP: {str(fatal['message'])[:600]} (in {fatal.get('file', '?')}:{fatal.get('line', '?')})"
+    return text
+
+
 class WP:
     def __init__(self, base, user, password):
         self.base = base.rstrip("/") + "/wp-json/wp/v2/"
@@ -93,7 +108,7 @@ class WP:
                 # WordPress answers in JSON; an HTML page comes from the web
                 # server or its firewall (e.g. ModSecurity) before WordPress.
                 raise Fail(f"{method} {path} -> HTTP {e.code} from the web server/firewall, not WordPress (HTML error page)")
-            raise Fail(f"{method} {path} -> HTTP {e.code}: {body[:300]}")
+            raise Fail(f"{method} {path} -> HTTP {e.code}: {wp_error(body)}")
         except urllib.error.URLError as e:
             raise Fail(f"{method} {path} -> {e.reason}")
 
