@@ -8,8 +8,8 @@ WordPress core, uploads, third-party plugins, the database and all credentials s
 | Path | What |
 |---|---|
 | `themes/nostek/` | Block theme: `theme.json` (colors, fonts, spacing), templates, parts, patterns, `assets/css/retro.css` (textures, 3D title, ribbon, frames) |
-| `plugins/nostek-core/` | Site structure that must survive a theme change: Topics taxonomy, breadcrumb block, Topics list block |
-| `tools/publish_article.py` | Publishes an article JSON over the REST API (see `docs/content-api.md`) |
+| `plugins/nostek-core/` | Site structure that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent and publisher roles, SEO head tags, staging noindex, consent-gated GA4 (`docs/seo-analytics.md`) |
+| `tools/publish_article.py` | Publishes an article JSON over the REST API (see `docs/content-api.md`); `tools/pending_posts.py` lists an agent's posts waiting for review |
 | `.github/workflows/ci.yml` | PHP 8.1 lint, JSON, Python tools, block markup, gitleaks |
 | `.github/workflows/deploy.yml` | Uploads theme + plugin over FTPS: `main` to staging, `production` to live |
 

@@ -2,11 +2,12 @@
   "slug": "backup-restore-dulu-baru-percaya",
   "title": "Backup yang Benar: Restore Dulu, Baru Percaya",
   "excerpt": "Kenapa file backup belum berarti aman sampai satu restore pernah berhasil.",
+  "meta_description": "File backup belum berarti aman. Uji restore dulu: langkah sederhana memastikan backup server benar-benar bisa dipakai saat dibutuhkan.",
   "content": "<!-- wp:paragraph -->\n<p>Paragraf pembuka.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Langkah pertama</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Isi bagian ini.</p>\n<!-- /wp:paragraph -->",
   "category": "guides-tutorials",
   "topics": ["cloud-infrastructure"],
   "tags": [],
-  "featured_image": "cover.jpg",
+  "featured_image": "cover.webp",
   "featured_image_alt": "Rak server dengan lampu indikator hijau",
   "status": "pending"
 }

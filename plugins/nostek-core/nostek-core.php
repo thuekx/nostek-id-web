@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Nostek Core
- * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks.
- * Version: 0.1.1
+ * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent roles, SEO head tags, consent-gated analytics.
+ * Version: 0.2.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.1.1' );
+define( 'NOSTEK_CORE_VERSION', '0.2.0' );
+
+require_once __DIR__ . '/includes/settings.php';
+require_once __DIR__ . '/includes/seo.php';
+require_once __DIR__ . '/includes/analytics.php';
+require_once __DIR__ . '/includes/media.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -73,19 +78,41 @@ add_action( 'init', 'nostek_core_register_roles' );
  * To let a trusted agent publish, change that user's role to Author.
  */
 function nostek_core_register_roles() {
-	if ( get_role( 'nostek_agent' ) ) {
-		return;
+	if ( ! get_role( 'nostek_agent' ) ) {
+		add_role(
+			'nostek_agent',
+			__( 'Nostek Agent', 'nostek-core' ),
+			array(
+				'read'         => true,
+				'edit_posts'   => true,
+				'delete_posts' => true,
+				'upload_files' => true,
+			)
+		);
 	}
-	add_role(
-		'nostek_agent',
-		__( 'Nostek Agent', 'nostek-core' ),
-		array(
-			'read'         => true,
-			'edit_posts'   => true,
-			'delete_posts' => true,
-			'upload_files' => true,
-		)
-	);
+
+	/*
+	 * "Nostek Publisher": one account whose Application Password only the
+	 * owner-approval tool holds. It publishes a Pending Review article after
+	 * the owner approved it, and can fix or unpublish an article on the
+	 * owner's word. No users, plugins, themes, settings, pages or deleting
+	 * other people's work.
+	 */
+	if ( ! get_role( 'nostek_publisher' ) ) {
+		add_role(
+			'nostek_publisher',
+			__( 'Nostek Publisher', 'nostek-core' ),
+			array(
+				'read'                 => true,
+				'edit_posts'           => true,
+				'edit_others_posts'    => true,
+				'edit_published_posts' => true,
+				'publish_posts'        => true,
+				'read_private_posts'   => true,
+				'upload_files'         => true,
+			)
+		);
+	}
 }
 
 add_action( 'init', 'nostek_core_register_source_id' );
