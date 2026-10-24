@@ -7,3 +7,5 @@
 | 2026-10-23 | Staging on `staging.nostek.id` (Softaculous staging). | P4-01 |
 | 2026-10-23 | Launch content moves once with Softaculous "Push to Live"; after launch, content is written directly in production and only code flows through Git. | P4-01 |
 | 2026-10-23 | Host has no shell access: deploy via GitHub Actions over FTPS with one FTP account per site, each limited to that site's `wp-content`. `main` -> staging, `production` -> live. | P4-01 |
+| 2026-10-24 | SEO head tags, robots/sitemap, staging noindex and consent-gated GA4 live in Nostek Core; no third-party SEO plugin. Analytics IDs are settings, never in git; nothing loads off the live host. | WEB-08 |
+| 2026-10-24 | Publishing after owner approval: one `publisher-nostek` account (role Nostek Publisher: publish and edit posts, nothing else), used only by the approval tool. Agents stay on Nostek Agent (Pending Review). | WEB-08 |

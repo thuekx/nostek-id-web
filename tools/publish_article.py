@@ -54,6 +54,9 @@ def load_article(path):
         a.setdefault(key, [])
         if not isinstance(a[key], list) or not all(isinstance(x, str) for x in a[key]):
             raise Fail(f"'{key}' must be a list of slugs")
+    md = a.get("meta_description", "")
+    if not isinstance(md, str) or len(md) > 160:
+        raise Fail("meta_description must be a string of at most 160 characters")
     img = a.get("featured_image")
     if img:
         img_path = (p.parent / img).resolve()
@@ -148,6 +151,8 @@ def main():
         }
         if a.get("date"):
             post["date"] = a["date"]
+        if "meta_description" in a:
+            post["meta"]["nostek_meta_description"] = a["meta_description"]
         existing = wp.post_by_source_id(a["slug"])
         action = f"update post {existing['id']}" if existing else "create post"
 
