@@ -5,7 +5,8 @@ Keeps: the pages in site/pages.json, the pages listed under "keep_pages"
 (WooCommerce and privacy pages) and every post that carries the post meta
 nostek_source_id (articles sent with publish_article.py). Everything else of
 the chosen types goes to the Trash, never deleted for good: WordPress keeps
-it there for 30 days and Trash > Restore brings it back. Media files are
+it there for 30 days and Trash > Restore brings it back. An item that fails
+is reported and skipped; the run then ends with FAIL. Media files are
 never touched (they have no Trash). Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
@@ -105,17 +106,31 @@ def main():
                 doomed.append((t, it))
             print(f"SCAN {t}: {len(items)} found, {kept} kept, {len(items) - kept} to Trash")
 
+        failed = 0
         for k, (t, it) in enumerate(doomed, 1):
             title = (it.get("title") or {}).get("raw") or (it.get("title") or {}).get("rendered") or ""
             line = f"{t[:-1]} id={it['id']} slug={it['slug']} status={it['status']} title={title[:60]!r}"
             if not args.apply:
                 print(f"PLAN trash {line}")
                 continue
-            res = wp.call("DELETE", f"{TYPES[t]}/{it['id']}")
+            # One item failing (e.g. a PHP error in an old plugin's trash hook)
+            # does not stop the rest: each item only moves to the Trash.
+            try:
+                res = wp.call("DELETE", f"{TYPES[t]}/{it['id']}")
+            except Fail as e:
+                failed += 1
+                print(f"FAIL {k}/{len(doomed)} trash {line}: {e}")
+                continue
             if res.get("status") != "trash":
-                raise Fail(f"{line} was not moved to the Trash (status={res.get('status')!r}); stopped")
+                failed += 1
+                print(f"FAIL {k}/{len(doomed)} trash {line}: not moved to the Trash (status={res.get('status')!r})")
+                continue
             print(f"PROGRESS {k}/{len(doomed)} trashed {line}")
 
+        if failed:
+            print(f"FAIL moved {len(doomed) - failed} of {len(doomed)} item(s) to the Trash on "
+                  f"{env['NOSTEK_WP_URL']}; {failed} failed (see the FAIL lines above)")
+            return 1
         mode = "PASS" if args.apply else "DRY RUN ok:"
         verb = "moved" if args.apply else "would move"
         print(f"{mode} {verb} {len(doomed)} item(s) to the Trash on {env['NOSTEK_WP_URL']}")
