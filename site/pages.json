@@ -33,6 +33,14 @@
   ],
   "front_page": "home",
   "posts_page": "journal",
+  "keep_pages": [
+    "shop",
+    "cart",
+    "checkout",
+    "my-account",
+    "privacy-policy",
+    "refund_returns"
+  ],
   "categories": [
     {
       "slug": "news",

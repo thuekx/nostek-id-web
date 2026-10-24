@@ -7,7 +7,7 @@ Code goes through Git; **content goes through the WordPress REST API**, one Word
 
 | Item | Rule |
 |---|---|
-| User | One WordPress user per agent, e.g. `agent-writer-ai`. Never shared. |
+| User | One WordPress user per agent, e.g. `usman-nostek` (shown as *Usman Tech-Writer*). Never shared. |
 | Role | `Nostek Agent` (from the Nostek Core plugin): can write, upload images, pick categories and Topics; **cannot publish**, so every article lands as *Pending Review*. A trusted agent may later be switched to *Author* to publish directly. |
 | Credential | An Application Password on that user (Users → Profile → Application Passwords). Stored only in the agent's secret store. Revoke it there to cut access at once. |
 | Terms | Categories, Topics and tags must already exist. Agents never create or rename terms. |
@@ -18,7 +18,7 @@ Code goes through Git; **content goes through the WordPress REST API**, one Word
 
 ```
 export NOSTEK_WP_URL=https://nostek.id          # or https://staging.nostek.id
-export NOSTEK_WP_USER=agent-writer-ai
+export NOSTEK_WP_USER=usman-nostek
 export NOSTEK_WP_APP_PASSWORD=...               # from the secret store, never in argv or logs
 python3 tools/publish_article.py article.json            # dry run: validates, resolves terms
 python3 tools/publish_article.py article.json --apply    # create or update

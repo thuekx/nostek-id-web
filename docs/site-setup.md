@@ -42,3 +42,9 @@ python3 tools/setup_site.py --apply    # PASS lines
 - If a slug is held by a page in the Trash, the run stops with `FAIL … was created as '<slug>-2'`: empty the Trash or rename that page, then run again.
 - cPanel Directory Privacy (HTTP basic auth) and Application Passwords both use the `Authorization` header, so the REST API (this tool and `publish_article.py`) cannot log in while Directory Privacy protects the site. Keep staging private with the under-construction plugin instead, or lift Directory Privacy for the run.
 - ModSecurity on the host can block REST requests whose body holds block markup: the run then stops with `FAIL … from the web server/firewall, not WordPress (HTML error page)`. On staging, switch ModSecurity off for `staging.nostek.id` (cPanel → ModSecurity).
+
+## Demo content cleanup (staging)
+
+`tools/cleanup_demo.py` (Actions → **Demo cleanup**, same secrets as Site setup) moves the old theme's demo posts, pages and WooCommerce products on staging to the **Trash**; nothing is deleted for good (Trash → Restore, 30 days). It keeps the pages in `site/pages.json`, the pages under `keep_pages` (`shop`, `cart`, `checkout`, `my-account`, `privacy-policy`, `refund_returns`) and every post sent with `publish_article.py` (post meta `nostek_source_id`). Media is never touched. It refuses to run against `nostek.id`.
+
+Dry run first (`SCAN` and `PLAN trash …` lines, last line `DRY RUN ok: would move N item(s)`), then *apply* (`PROGRESS k/N trashed …`, last line `PASS moved N item(s)`). Choose `posts,pages` to leave products until the Market module.
