@@ -116,11 +116,20 @@ def main():
             # One item failing (e.g. a PHP error in an old plugin's trash hook)
             # does not stop the rest: each item only moves to the Trash.
             try:
-                res = wp.call("DELETE", f"{TYPES[t]}/{it['id']}")
+                # _fields keeps WordPress from rendering the content in its
+                # answer: old theme shortcodes crash when the theme is gone.
+                res = wp.call("DELETE", f"{TYPES[t]}/{it['id']}", {"_fields": "id,status"})
             except Fail as e:
-                failed += 1
-                print(f"FAIL {k}/{len(doomed)} trash {line}: {e}")
-                continue
+                # The item can be in the Trash even when the answer failed.
+                try:
+                    res = wp.call("GET", f"{TYPES[t]}/{it['id']}", {"context": "edit", "_fields": "id,status"})
+                except Fail:
+                    res = {}
+                if res.get("status") != "trash":
+                    failed += 1
+                    print(f"FAIL {k}/{len(doomed)} trash {line}: {e}")
+                    continue
+                print(f"WARN {k}/{len(doomed)} {line}: in the Trash, but WordPress answered with an error: {e}")
             if res.get("status") != "trash":
                 failed += 1
                 print(f"FAIL {k}/{len(doomed)} trash {line}: not moved to the Trash (status={res.get('status')!r})")
