@@ -25,7 +25,11 @@ The host has no shell access, so deploys go over FTPS from GitHub Actions.
 ## Design
 
 Retro editorial look recreated from scratch (no VintWood code or assets): Barlow Condensed (display), Merriweather (body), Yellowtail (ribbon script), all SIL OFL fonts bundled in `themes/nostek/assets/fonts/`.
-Block styles editors can pick: Retro 3D heading, Section divider, Ribbon, Kicker, Double frame, Spray band, Info/Success/Error/Warning box, Sunburst, Ruled button, Accordion, Sepia image.
+Block styles editors can pick: Retro 3D heading, Section divider, Ribbon, Kicker, Double frame, Spray band, Info/Success/Error/Warning box, Sunburst, Slider, Carousel, Ruled button, Accordion, Sepia image.
+
+Motion layer (`assets/js/motion.js` + `assets/css/motion.css`, no library, about 8 KB gzipped): sticky header that compacts on scroll, mega menu for Journal and Topics (core Navigation submenus with link descriptions), hero slider of the latest articles, page banner slider, "Baca Juga" carousel, news ticker, scroll reveal, card hover effects, slowly turning sunburst, back-to-top button and reading progress bar.
+Every feature enhances server-rendered markup: without JavaScript sliders are swipeable rows and all content stays readable and indexable. Visitors with *reduce motion* get no autoplay, ticker or reveal.
+Patterns: `nostek/hero-slider` (latest posts), `nostek/banner-slider` (hand-made slides for pages), `nostek/post-carousel`, `nostek/news-ticker`. Any Group block with the *Slider* or *Carousel* style becomes one (slides = its direct children, or the posts of a Query Loop inside it).
 
 ## Content model
 
