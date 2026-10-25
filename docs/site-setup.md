@@ -8,7 +8,7 @@ The header and footer menus are part of the theme (`themes/nostek/parts/header.h
 | Home | `home` | Static front page; its layout comes from the theme template `front-page`, the page text is not shown |
 | Journal | `journal` | Posts page (all articles, newest first) |
 | Topics | `topics` | Lists every Topic (`nostek/topics-list` block); each Topic lives at `/topics/<slug>/` |
-| Services, Market, About | `services`, `market`, `about` | Placeholder pages until their content is written |
+| Services, Market, About | `services`, `market`, `about` | Banner slider on top; Market also shows the newest WooCommerce products as a carousel |
 
 The same run creates the Journal categories and the Topics listed in `site/pages.json` (agents never create terms):
 
@@ -39,6 +39,7 @@ python3 tools/setup_site.py --apply    # PASS lines
 ```
 
 - A term or page whose slug already exists is left untouched (`SKIP`), so running it again is safe.
+- Exception: a page entry may list its earlier placeholder texts under `replaces`. When the live page still holds exactly one of them (nobody edited it), the run swaps in the new content (`PLAN/PASS update page …`). A page edited in wp-admin is never touched. This is how Services, Market and About got their banner sliders (WEB-12).
 - If a slug is held by a page in the Trash, the run stops with `FAIL … was created as '<slug>-2'`: empty the Trash or rename that page, then run again.
 - cPanel Directory Privacy (HTTP basic auth) and Application Passwords both use the `Authorization` header, so the REST API (this tool and `publish_article.py`) cannot log in while Directory Privacy protects the site. Keep staging private with the under-construction plugin instead, or lift Directory Privacy for the run.
 - ModSecurity on the host can block REST requests whose body holds block markup: the run then stops with `FAIL … from the web server/firewall, not WordPress (HTML error page)`. On staging, switch ModSecurity off for `staging.nostek.id` (cPanel → ModSecurity).

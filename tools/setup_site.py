@@ -3,7 +3,9 @@
 
 Reads site/pages.json. Journal categories and Topics that already exist (same
 slug) and pages that already exist are left as they are, so editors' changes
-are never overwritten. Then sets Settings > Reading: a static front page and
+are never overwritten. The one exception: a page whose spec lists earlier
+placeholder texts under "replaces" gets the new content when its current
+content is still exactly one of those placeholders (nobody has edited it). Then sets Settings > Reading: a static front page and
 the Journal as the posts page. Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
@@ -68,6 +70,24 @@ def ensure_terms(wp, spec, apply):
     return changes
 
 
+def refresh_page(wp, page, current, apply):
+    """Swap an untouched placeholder page for its new content. True when it changes."""
+    pid = current["id"]
+    raw = (current.get("content") or {}).get("raw", "").strip()
+    if raw == page["content"].strip():
+        print(f"SKIP page '{page['slug']}' up to date (id={pid})")
+        return False
+    if raw not in [r.strip() for r in page.get("replaces", [])]:
+        print(f"SKIP page '{page['slug']}' exists (id={pid}, {current['status']})")
+        return False
+    if not apply:
+        print(f"PLAN update page '{page['slug']}' id={pid} (placeholder -> new content)")
+        return True
+    wp.call("POST", f"pages/{pid}", body={"content": page["content"]})
+    print(f"PASS update page '{page['slug']}' id={pid} (placeholder -> new content)")
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--apply", action="store_true", help="write to WordPress (default: dry run)")
@@ -90,11 +110,12 @@ def main():
         for page in spec["pages"]:
             found = wp.call("GET", "pages", {
                 "slug": page["slug"], "status": "publish,draft,pending,private,future",
-                "context": "edit", "_fields": "id,status",
+                "context": "edit", "_fields": "id,status,content",
             })
             if found:
                 ids[page["slug"]] = found[0]["id"]
-                print(f"SKIP page '{page['slug']}' exists (id={found[0]['id']}, {found[0]['status']})")
+                if refresh_page(wp, page, found[0], args.apply):
+                    changes += 1
                 continue
             changes += 1
             if not args.apply:
