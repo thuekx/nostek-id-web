@@ -1,11 +1,27 @@
-<!-- wp:group {"tagName":"header","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}},"border":{"bottom":{"color":"var:preset|color|teal-dark","width":"3px","style":"solid"}}},"layout":{"type":"constrained","contentSize":"1140px"}} -->
-<header class="wp-block-group" style="border-bottom-color:var(--wp--preset--color--teal-dark);border-bottom-style:solid;border-bottom-width:3px;padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30)">
+<!-- wp:group {"tagName":"header","className":"nk-header","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}},"border":{"bottom":{"color":"var:preset|color|teal-dark","width":"3px","style":"solid"}}},"layout":{"type":"constrained","contentSize":"1140px"}} -->
+<header class="wp-block-group nk-header" style="border-bottom-color:var(--wp--preset--color--teal-dark);border-bottom-style:solid;border-bottom-width:3px;padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30)">
 	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group">
 		<!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"800","textTransform":"uppercase","letterSpacing":"0.04em"},"elements":{"link":{"color":{"text":"var:preset|color|teal-dark"}}}},"fontSize":"x-large","fontFamily":"display"} /-->
-		<!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"right"}} -->
-			<!-- wp:navigation-link {"label":"Journal","url":"/journal/","kind":"custom","isTopLevelLink":true} /-->
-			<!-- wp:navigation-link {"label":"Topics","url":"/topics/","kind":"custom","isTopLevelLink":true} /-->
+		<!-- wp:navigation {"overlayMenu":"mobile","className":"nk-mega","layout":{"type":"flex","justifyContent":"right"}} -->
+			<!-- wp:navigation-submenu {"label":"Journal","url":"/journal/","kind":"custom"} -->
+				<!-- wp:navigation-link {"label": "Journal", "url": "/journal/", "kind": "custom", "description": "Semua artikel terbaru dari Nostek: berita, analisis, panduan dan review."} /-->
+				<!-- wp:navigation-link {"label": "News", "url": "/category/news/", "kind": "custom", "description": "Short, timely technology news."} /-->
+				<!-- wp:navigation-link {"label": "Insights", "url": "/category/insights/", "kind": "custom", "description": "Analysis and opinion on where technology is going."} /-->
+				<!-- wp:navigation-link {"label": "Guides & Tutorials", "url": "/category/guides-tutorials/", "kind": "custom", "description": "Step-by-step how-tos you can follow."} /-->
+				<!-- wp:navigation-link {"label": "Reviews", "url": "/category/reviews/", "kind": "custom", "description": "Hands-on reviews of products and services."} /-->
+				<!-- wp:navigation-link {"label": "Founder's Note", "url": "/category/founders-note/", "kind": "custom", "description": "Notes from the founder of Nostek ID."} /-->
+			<!-- /wp:navigation-submenu -->
+			<!-- wp:navigation-submenu {"label":"Topics","url":"/topics/","kind":"custom"} -->
+				<!-- wp:navigation-link {"label": "Topics", "url": "/topics/", "kind": "custom", "description": "Jelajahi Journal per topik teknologi."} /-->
+				<!-- wp:navigation-link {"label": "AI", "url": "/topics/ai/", "kind": "custom", "description": "Artificial intelligence, machine learning and AI tools."} /-->
+				<!-- wp:navigation-link {"label": "Cybersecurity", "url": "/topics/cybersecurity/", "kind": "custom", "description": "Security threats, defence and privacy."} /-->
+				<!-- wp:navigation-link {"label": "Cloud & Infrastructure", "url": "/topics/cloud-infrastructure/", "kind": "custom", "description": "Cloud platforms, servers, backup and operations."} /-->
+				<!-- wp:navigation-link {"label": "Networking", "url": "/topics/networking/", "kind": "custom", "description": "Networks, connectivity and internet infrastructure."} /-->
+				<!-- wp:navigation-link {"label": "Gadget & Hardware", "url": "/topics/gadget-hardware/", "kind": "custom", "description": "Devices, components and hardware."} /-->
+				<!-- wp:navigation-link {"label": "Software & Applications", "url": "/topics/software-applications/", "kind": "custom", "description": "Software, apps and productivity tools."} /-->
+				<!-- wp:navigation-link {"label": "Digital Business", "url": "/topics/digital-business/", "kind": "custom", "description": "Technology for running and growing a business."} /-->
+			<!-- /wp:navigation-submenu -->
 			<!-- wp:navigation-link {"label":"Services","url":"/services/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"Market","url":"/market/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"About","url":"/about/","kind":"custom","isTopLevelLink":true} /-->

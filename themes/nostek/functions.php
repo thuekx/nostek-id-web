@@ -2,8 +2,9 @@
 /**
  * Nostek theme setup.
  *
- * Design tokens live in theme.json. This file only loads the retro layer
- * (textures, 3D title, ribbon, frames) and registers the block styles that
+ * Design tokens live in theme.json. This file loads the retro layer
+ * (textures, 3D title, ribbon, frames), the motion layer (sticky header,
+ * mega menu, sliders, ticker, reveal) and registers the block styles that
  * editors pick from the Styles panel.
  *
  * @package Nostek
@@ -30,6 +31,22 @@ function nostek_enqueue_styles() {
 		array(),
 		NOSTEK_THEME_VERSION
 	);
+	wp_enqueue_style(
+		'nostek-motion',
+		get_template_directory_uri() . '/assets/css/motion.css',
+		array( 'nostek-retro' ),
+		NOSTEK_THEME_VERSION
+	);
+	wp_enqueue_script(
+		'nostek-motion',
+		get_template_directory_uri() . '/assets/js/motion.js',
+		array(),
+		NOSTEK_THEME_VERSION,
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
 }
 
 add_action( 'init', 'nostek_register_block_styles' );
@@ -51,6 +68,8 @@ function nostek_register_block_styles() {
 			'info-error'   => __( 'Error box', 'nostek' ),
 			'info-warning' => __( 'Warning box', 'nostek' ),
 			'sunburst'     => __( 'Sunburst', 'nostek' ),
+			'slider'       => __( 'Slider', 'nostek' ),
+			'carousel'     => __( 'Carousel', 'nostek' ),
 		),
 		'core/button'    => array(
 			'ruled' => __( 'Ruled', 'nostek' ),
@@ -79,4 +98,16 @@ function nostek_register_block_styles() {
 add_action( 'init', 'nostek_register_pattern_categories' );
 function nostek_register_pattern_categories() {
 	register_block_pattern_category( 'nostek', array( 'label' => __( 'Nostek', 'nostek' ) ) );
+}
+
+/*
+ * "Baca Juga" carousel (pattern nostek/post-carousel, queryId 32): leave out
+ * the article the visitor is reading.
+ */
+add_filter( 'query_loop_block_query_vars', 'nostek_carousel_exclude_current', 10, 2 );
+function nostek_carousel_exclude_current( $query, $block ) {
+	if ( 32 === (int) ( $block->context['queryId'] ?? 0 ) && is_singular() ) {
+		$query['post__not_in'] = array_merge( (array) ( $query['post__not_in'] ?? array() ), array( get_queried_object_id() ) );
+	}
+	return $query;
 }
