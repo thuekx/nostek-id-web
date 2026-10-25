@@ -21,6 +21,10 @@ function nostek_setup() {
 	add_theme_support( 'editor-styles' );
 	add_editor_style( 'assets/css/retro.css' );
 	load_theme_textdomain( 'nostek', get_template_directory() . '/languages' );
+	add_theme_support( 'woocommerce' );
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
 }
 
 add_action( 'wp_enqueue_scripts', 'nostek_enqueue_styles' );
@@ -37,6 +41,14 @@ function nostek_enqueue_styles() {
 		array( 'nostek-retro' ),
 		NOSTEK_THEME_VERSION
 	);
+	if ( class_exists( 'WooCommerce' ) ) {
+		wp_enqueue_style(
+			'nostek-shop',
+			get_template_directory_uri() . '/assets/css/shop.css',
+			array( 'nostek-motion' ),
+			NOSTEK_THEME_VERSION
+		);
+	}
 	wp_enqueue_script(
 		'nostek-motion',
 		get_template_directory_uri() . '/assets/js/motion.js',

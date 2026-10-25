@@ -1,0 +1,293 @@
+/*
+ * Nostek shop layer: WooCommerce in the retro look.
+ * Loaded only while WooCommerce is active. Product cards get the double
+ * frame, sale badges become red stamps, prices use the display face.
+ */
+
+/* ---------- Product cards (block grid and classic loop) ---------- */
+.wc-block-product-template > .wc-block-product,
+.woocommerce ul.products li.product {
+	position: relative;
+	padding: 0.6rem 0.6rem 1rem !important;
+	border: 3px solid var(--nostek-ink);
+	background: var(--nostek-cream) var(--nostek-noise);
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.wc-block-product-template > .wc-block-product:hover,
+.woocommerce ul.products li.product:hover {
+	transform: translate(-3px, -3px);
+	box-shadow: 6px 6px 0 var(--nostek-teal-dark);
+}
+.wc-block-components-product-image,
+.woocommerce ul.products li.product a img {
+	overflow: hidden;
+	margin-bottom: 0.75rem !important;
+	border: 2px solid var(--nostek-ink);
+}
+.wc-block-components-product-image img,
+.woocommerce ul.products li.product a img {
+	filter: sepia(0.3) contrast(1.05);
+	transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.4s ease;
+}
+.wc-block-product:hover .wc-block-components-product-image img,
+.woocommerce ul.products li.product:hover a img {
+	transform: scale(1.06);
+	filter: none;
+}
+.wc-block-product .wp-block-post-title,
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+	margin: 0.25rem 0 0.35rem;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.2rem !important;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1.15;
+	text-transform: uppercase;
+}
+.wc-block-product .wp-block-post-title a {
+	color: var(--nostek-teal-dark);
+	text-decoration: none;
+}
+.wc-block-product .wp-block-post-title a:hover {
+	color: var(--nostek-red);
+}
+
+/* ---------- Prices ---------- */
+.wc-block-components-product-price,
+.woocommerce .price,
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+	color: var(--nostek-ink) !important;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.25rem !important;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+}
+.wc-block-components-product-price del,
+.woocommerce .price del {
+	color: var(--nostek-teal);
+	font-size: 0.85em;
+	font-weight: 400;
+	opacity: 0.8;
+}
+.wc-block-components-product-price ins,
+.woocommerce .price ins {
+	color: var(--nostek-red-dark);
+	text-decoration: none;
+}
+.woocommerce div.product p.price {
+	font-size: 2rem !important;
+}
+
+/* ---------- Sale badge: red stamp ---------- */
+.wc-block-components-product-sale-badge,
+.woocommerce span.onsale {
+	top: 0.5rem !important;
+	right: 0.5rem !important;
+	left: auto !important;
+	min-width: 0;
+	min-height: 0;
+	margin: 0 !important;
+	padding: 0.25rem 0.6rem !important;
+	border: 2px solid var(--nostek-cream) !important;
+	border-radius: 0 !important;
+	background: var(--nostek-red) var(--nostek-spray) !important;
+	box-shadow: 3px 3px 0 var(--nostek-ink);
+	color: var(--nostek-cream) !important;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 0.85rem !important;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	line-height: 1.2 !important;
+	text-transform: uppercase;
+	transform: rotate(-4deg);
+}
+
+/* ---------- Buttons ---------- */
+.wc-block-components-product-button .wp-block-button__link,
+.wc-block-components-product-button__button,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.wc-block-components-button:not(.is-link) {
+	border: 0;
+	border-radius: 0;
+	background: var(--nostek-teal);
+	color: var(--nostek-cream);
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.wc-block-components-product-button .wp-block-button__link:hover,
+.wc-block-components-product-button__button:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.wc-block-components-button:not(.is-link):hover {
+	background: var(--nostek-red);
+	color: var(--nostek-cream);
+	transform: translate(-3px, -3px);
+	box-shadow: 4px 4px 0 var(--nostek-ink);
+}
+.woocommerce button.button.alt,
+.woocommerce a.button.alt,
+.wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button {
+	background: var(--nostek-red) var(--nostek-spray) !important;
+	color: var(--nostek-cream) !important;
+}
+
+/* ---------- Shop bar, breadcrumbs ribbon, pagination ---------- */
+.nk-shop-bar {
+	align-items: center;
+	margin-top: var(--wp--preset--spacing--40) !important;
+	padding: 0.5rem 0;
+	border-top: 3px solid var(--nostek-ink);
+	border-bottom: 1px dotted var(--nostek-ink);
+	font-family: var(--wp--preset--font-family--display);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+.nk-shop-bar select,
+.woocommerce .woocommerce-ordering select {
+	padding: 0.35rem 0.6rem;
+	border: 2px solid var(--nostek-ink);
+	border-radius: 0;
+	background: var(--nostek-cream);
+	font-family: var(--wp--preset--font-family--display);
+	letter-spacing: 0.04em;
+}
+.woocommerce .is-style-ribbon,
+.wc-block-breadcrumbs.is-style-ribbon {
+	font-size: clamp(1.25rem, 3vw, 1.6rem);
+}
+.woocommerce .is-style-ribbon a,
+.wc-block-breadcrumbs.is-style-ribbon a {
+	color: inherit;
+	text-decoration: none;
+}
+.wp-block-query-pagination a,
+.wp-block-query-pagination .current {
+	display: inline-block;
+	min-width: 2.25rem;
+	padding: 0.25rem 0.6rem;
+	border: 2px solid var(--nostek-ink);
+	color: var(--nostek-ink);
+	font-family: var(--wp--preset--font-family--display);
+	text-align: center;
+	text-decoration: none;
+}
+.wp-block-query-pagination .current {
+	background: var(--nostek-red);
+	border-color: var(--nostek-red);
+	color: var(--nostek-cream);
+}
+
+/* ---------- Single product ---------- */
+.woocommerce div.product .woocommerce-product-gallery {
+	border: 3px solid var(--nostek-ink);
+	box-shadow: 8px 8px 0 var(--nostek-teal-dark);
+}
+.woocommerce div.product .product_title {
+	color: var(--nostek-teal);
+	text-shadow:
+		1px 1px 0 var(--nostek-teal-dark),
+		2px 2px 0 var(--nostek-teal-dark),
+		3px 3px 0 var(--nostek-teal-dark);
+}
+.woocommerce div.product form.cart .qty {
+	height: 100%;
+	min-height: 3rem;
+	border: 2px solid var(--nostek-ink);
+	border-radius: 0;
+	background: var(--nostek-cream);
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+	padding: 0;
+	border-bottom: 3px solid var(--nostek-ink);
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li,
+.wc-tabs li {
+	margin: 0 0.25rem 0 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li a,
+.wc-tabs li a {
+	padding: 0.5rem 1rem !important;
+	color: var(--nostek-teal-dark) !important;
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a,
+.wc-tabs li.active a {
+	background: var(--nostek-red) var(--nostek-spray);
+	color: var(--nostek-cream) !important;
+}
+
+/* ---------- Mini cart in the header ---------- */
+.nk-mini-cart .wc-block-mini-cart__button {
+	padding: 0.35rem 0.5rem;
+	border: 2px solid var(--nostek-teal-dark);
+	color: var(--nostek-teal-dark);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+.nk-mini-cart .wc-block-mini-cart__button:hover {
+	background: var(--nostek-teal-dark);
+	color: var(--nostek-cream);
+}
+.nk-mini-cart .wc-block-mini-cart__badge {
+	background: var(--nostek-red);
+	color: var(--nostek-cream);
+}
+.nk-stuck .nk-mini-cart .wc-block-mini-cart__button {
+	padding: 0.2rem 0.4rem;
+}
+
+/* ---------- Notices, cart and checkout ---------- */
+.woocommerce-message,
+.woocommerce-info,
+.wc-block-components-notice-banner {
+	border: 0 !important;
+	border-left: 6px solid var(--nostek-teal) !important;
+	border-radius: 0 !important;
+	background: var(--nostek-cream) !important;
+}
+.wc-block-cart,
+.wc-block-checkout {
+	padding: var(--wp--preset--spacing--40);
+	border: 3px solid var(--nostek-ink);
+	background: var(--nostek-cream) var(--nostek-noise);
+}
+.wc-block-components-text-input input,
+.wc-block-components-combobox .wc-block-components-combobox-control input,
+.wc-blocks-components-select .wc-blocks-components-select__select {
+	border: 2px solid var(--nostek-ink) !important;
+	border-radius: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wc-block-components-product-sale-badge,
+	.woocommerce span.onsale {
+		transform: none;
+	}
+}
+
+/* Header: menu stays right, the cart sits after it */
+.nk-header .wp-block-navigation {
+	margin-left: auto;
+}
+.nk-header .nk-mini-cart {
+	margin-left: 1rem;
+}
+
+/* Cards keep their frame inside the carousel step */
+.is-style-carousel .wc-block-product-template > .wc-block-product {
+	box-sizing: border-box;
+}
+.wc-block-breadcrumbs.is-style-ribbon {
+	font-size: clamp(1.25rem, 3vw, 1.6rem) !important;
+}

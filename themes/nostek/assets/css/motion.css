@@ -249,6 +249,7 @@ main > .wp-block-template-part:first-child,
 .is-style-carousel:not(.nk-slider--on),
 .is-style-slider .wp-block-post-template,
 .is-style-carousel .wp-block-post-template,
+.is-style-carousel .wc-block-product-template,
 .nk-slider__track {
 	position: relative;
 	display: flex !important;
@@ -265,6 +266,7 @@ main > .wp-block-template-part:first-child,
 .is-style-carousel:not(.nk-slider--on)::-webkit-scrollbar,
 .is-style-slider .wp-block-post-template::-webkit-scrollbar,
 .is-style-carousel .wp-block-post-template::-webkit-scrollbar,
+.is-style-carousel .wc-block-product-template::-webkit-scrollbar,
 .nk-slider__track::-webkit-scrollbar {
 	display: none;
 }
@@ -276,26 +278,33 @@ main > .wp-block-template-part:first-child,
 	margin: 0 !important;
 	scroll-snap-align: start;
 }
-.is-style-slider:not(.nk-slider--on) > .wp-block-query {
-	display: contents;
-}
 .is-style-slider,
 .is-style-carousel {
 	position: relative;
 }
 .is-style-slider .wp-block-query,
-.is-style-carousel .wp-block-query {
+.is-style-carousel .wp-block-query,
+.is-style-carousel .wp-block-woocommerce-product-collection {
 	margin: 0;
+}
+/* A group around a query is only the frame; the post list is the track */
+.is-style-slider:has(.wp-block-post-template, .wc-block-product-template),
+.is-style-carousel:has(.wp-block-post-template, .wc-block-product-template) {
+	display: block !important;
+	overflow: visible;
 }
 
 /* Carousel: several cards per view */
 .is-style-carousel .wp-block-post-template,
+.is-style-carousel .wc-block-product-template,
 .is-style-carousel .nk-slider__track,
 .is-style-carousel:not(.nk-slider--on) {
+	grid-template-columns: none !important;
 	gap: var(--wp--preset--spacing--40, 1.5rem);
 	padding-bottom: 0.5rem;
 }
 .is-style-carousel .wp-block-post-template > *,
+.is-style-carousel .wc-block-product-template > *,
 .is-style-carousel .nk-slider__track > *,
 .is-style-carousel:not(.nk-slider--on) > * {
 	flex: 0 0 calc((100% - 2 * var(--wp--preset--spacing--40, 1.5rem)) / 3);
@@ -372,8 +381,8 @@ main > .wp-block-template-part:first-child,
 }
 .nk-slider__dot[aria-current="true"] {
 	width: 3.5rem;
-	background: var(--nostek-red);
-	border-color: var(--nostek-red);
+	background: var(--nostek-cream);
+	box-shadow: 2px 2px 0 var(--nostek-ink);
 }
 
 /* Hero slides: cover with the featured image, text block on a paper card */
@@ -681,6 +690,7 @@ main .is-style-frame:hover {
 		right: 0;
 	}
 	.is-style-carousel .wp-block-post-template > *,
+	.is-style-carousel .wc-block-product-template > *,
 	.is-style-carousel .nk-slider__track > *,
 	.is-style-carousel:not(.nk-slider--on) > * {
 		flex-basis: 82%;

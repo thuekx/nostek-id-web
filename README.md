@@ -29,6 +29,7 @@ Block styles editors can pick: Retro 3D heading, Section divider, Ribbon, Kicker
 
 Motion layer (`assets/js/motion.js` + `assets/css/motion.css`, no library, about 8 KB gzipped): sticky header that compacts on scroll, mega menu for Journal and Topics (core Navigation submenus with link descriptions), hero slider of the latest articles, page banner slider, "Baca Juga" carousel, news ticker, scroll reveal, card hover effects, slowly turning sunburst, back-to-top button and reading progress bar.
 Every feature enhances server-rendered markup: without JavaScript sliders are swipeable rows and all content stays readable and indexable. Visitors with *reduce motion* get no autoplay, ticker or reveal.
+WooCommerce (when active): `assets/css/shop.css` gives products the retro look (framed cards, red sale stamp, display-face prices), `templates/archive-product.html` puts the shop under the sunburst title, and the header carries the mini cart. Plugin map from the old site: [docs/plugin-map.md](docs/plugin-map.md).
 Patterns: `nostek/hero-slider` (latest posts), `nostek/banner-slider` (hand-made slides for pages), `nostek/post-carousel`, `nostek/news-ticker`. Any Group block with the *Slider* or *Carousel* style becomes one (slides = its direct children, or the posts of a Query Loop inside it).
 
 ## Content model

@@ -81,7 +81,7 @@
 	/* Sliders (one slide per view, autoplay) and carousels (several cards per view). */
 	function slider( el ) {
 		var isCarousel = el.classList.contains( 'is-style-carousel' );
-		var track = el.querySelector( '.wp-block-post-template' );
+		var track = el.querySelector( '.wp-block-post-template, .wc-block-product-template' );
 		if ( ! track ) {
 			track = make( 'div', 'nk-slider__track' );
 			while ( el.firstChild ) {
@@ -256,6 +256,8 @@
 	if ( ! reduce && hasIO ) {
 		var targets = [
 			'main .wp-block-post-template > li',
+			'main .wc-block-product-template > li',
+			'main ul.products > li',
 			'main .is-style-divider',
 			'main .is-style-frame',
 			'main .is-style-band',
