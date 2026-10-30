@@ -3,14 +3,19 @@
 <!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
 <main class="wp-block-group">
 	<!-- wp:template-part {"slug":"archive-title","align":"full"} /-->
-	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"align":"wide"} -->
-	<div class="wp-block-query alignwide">
-		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
-			<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/10","className":"is-style-sepia"} /-->
-			<!-- wp:post-terms {"term":"topic","className":"is-style-kicker"} /-->
-			<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"large","style":{"elements":{"link":{"color":{"text":"var:preset|color|ink"}}}}} /-->
-			<!-- wp:post-excerpt {"excerptLength":22,"fontSize":"small"} /-->
-			<!-- wp:post-date /-->
+	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"align":"wide","className":"nk-cards"} -->
+	<div class="wp-block-query alignwide nk-cards">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":4,"minimumColumnWidth":"15rem"}} -->
+			<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/10","className":"nk-halftone"} /-->
+			<!-- wp:post-terms {"term":"category","className":"nk-badge"} /-->
+			<!-- wp:post-title {"level":3,"isLink":true} /-->
+			<!-- wp:post-excerpt {"excerptLength":20} /-->
+			<!-- wp:group {"className":"nk-card__meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+			<div class="wp-block-group nk-card__meta">
+				<!-- wp:post-date /-->
+				<!-- wp:read-more {"content":"Baca artikel"} /-->
+			</div>
+			<!-- /wp:group -->
 		<!-- /wp:post-template -->
 		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
 			<!-- wp:query-pagination-previous /-->
