@@ -6,8 +6,8 @@
  * Description: A running strip of the latest Journal titles. Pauses on hover; static for visitors who prefer reduced motion.
  */
 ?>
-<!-- wp:group {"align":"wide","className":"nk-ticker","style":{"spacing":{"padding":{"top":"0","bottom":"0"},"margin":{"top":"0"}}},"layout":{"type":"default"}} -->
-<div class="wp-block-group alignwide nk-ticker" style="margin-top:0;padding-top:0;padding-bottom:0">
+<!-- wp:group {"align":"full","className":"nk-ticker","style":{"spacing":{"padding":{"top":"0","bottom":"0"},"margin":{"top":"0"}}},"layout":{"type":"default"}} -->
+<div class="wp-block-group alignfull nk-ticker" style="margin-top:0;padding-top:0;padding-bottom:0">
 	<!-- wp:paragraph {"className":"nk-ticker__label"} -->
 	<p class="nk-ticker__label">Terkini</p>
 	<!-- /wp:paragraph -->
