@@ -264,7 +264,7 @@
 		},
 		"layout": {
 			"contentSize": "720px",
-			"wideSize": "1140px"
+			"wideSize": "80rem"
 		},
 		"border": {
 			"radius": false

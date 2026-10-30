@@ -391,7 +391,7 @@ main > .wp-block-template-part:first-child,
 	overflow: hidden;
 }
 .nk-hero .wp-block-cover__inner-container {
-	max-width: 1140px;
+	max-width: 80rem;
 	margin-inline: auto;
 	padding-inline: clamp(1rem, 5vw, 4rem);
 	padding-bottom: 2.5rem;
