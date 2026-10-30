@@ -10,8 +10,8 @@
 <div class="wp-block-group alignwide is-style-frame nk-brand-hero" style="margin-top:var(--wp--preset--spacing--40)">
 	<!-- wp:columns {"verticalAlignment":"center"} -->
 	<div class="wp-block-columns are-vertically-aligned-center">
-		<!-- wp:column {"verticalAlignment":"center","width":"48%"} -->
-		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:48%">
+		<!-- wp:column {"verticalAlignment":"center","width":"42%"} -->
+		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:42%">
 			<!-- wp:heading {"level":1,"className":"is-style-title-3d nk-brand-hero__title"} -->
 			<h1 class="wp-block-heading is-style-title-3d nk-brand-hero__title"><?php echo esc_html_x( 'Nostek ID: Teknologi, Pengalaman & Perspektif', 'brand hero title', 'nostek' ); ?></h1>
 			<!-- /wp:heading -->
@@ -27,15 +27,15 @@
 			<!-- /wp:buttons -->
 		</div>
 		<!-- /wp:column -->
-		<!-- wp:column {"verticalAlignment":"center","width":"40%"} -->
-		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:40%">
+		<!-- wp:column {"verticalAlignment":"center","width":"48%"} -->
+		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:48%">
 			<!-- wp:image {"sizeSlug":"full","className":"nk-brand-hero__art"} -->
 			<figure class="wp-block-image size-full nk-brand-hero__art"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/brand/hero-art.webp' ) ); ?>" alt="<?php echo esc_attr_x( 'Kolase retro: huruf N Nostek, komputer jadul dan gedung bergaya cetak halftone', 'brand hero image alt', 'nostek' ); ?>" width="704" height="434" fetchpriority="high"/></figure>
 			<!-- /wp:image -->
 		</div>
 		<!-- /wp:column -->
-		<!-- wp:column {"verticalAlignment":"top","width":"12%","className":"nk-brand-hero__side"} -->
-		<div class="wp-block-column is-vertically-aligned-top nk-brand-hero__side" style="flex-basis:12%">
+		<!-- wp:column {"verticalAlignment":"top","width":"10%","className":"nk-brand-hero__side"} -->
+		<div class="wp-block-column is-vertically-aligned-top nk-brand-hero__side" style="flex-basis:10%">
 			<!-- wp:list {"className":"nk-brand-hero__tags"} -->
 			<ul class="wp-block-list nk-brand-hero__tags">
 				<!-- wp:list-item --><li><?php echo esc_html_x( 'Teknologi', 'brand hero side', 'nostek' ); ?></li><!-- /wp:list-item -->

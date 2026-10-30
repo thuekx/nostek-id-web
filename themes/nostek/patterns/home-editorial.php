@@ -48,7 +48,7 @@
 <h2 class="wp-block-heading is-style-divider">Topics</h2>
 <!-- /wp:heading -->
 
-<!-- wp:nostek/topics-list /-->
+<!-- wp:nostek/topics-list {"align":"wide"} /-->
 
 <!-- wp:pattern {"slug":"nostek/cta-band"} /-->
 
