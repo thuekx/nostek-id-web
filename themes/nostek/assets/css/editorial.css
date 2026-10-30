@@ -137,13 +137,29 @@ footer .nk-brand__link {
 	margin: 0;
 	padding: clamp(1rem, 3vw, 2.25rem);
 }
+/* Hero headline: a short, light teal step instead of the full dark
+   extrusion, so the condensed letters stay apart and readable. */
 .nk-brand-hero__title.is-style-title-3d {
-	margin: 0;
+	margin: 0 0 0.75rem;
 	color: var(--wp--preset--color--ink);
-	font-size: clamp(2.4rem, 4.6vw, 4.25rem);
-	line-height: 0.95;
+	font-size: clamp(2.2rem, 4.4vw, 4rem);
+	font-weight: 700;
+	line-height: 1.02;
+	letter-spacing: 0.035em;
 	overflow-wrap: normal;
 	hyphens: manual;
+	text-shadow:
+		1px 1px 0 var(--wp--preset--color--teal),
+		2px 2px 0 var(--wp--preset--color--teal),
+		3px 3px 0 var(--wp--preset--color--teal);
+}
+/* Breathing room between the hero box and the Terkini ticker */
+.nk-brand-hero {
+	margin-bottom: var(--wp--preset--spacing--40) !important;
+}
+.nk-brand-hero + .nk-ticker,
+.nk-brand-hero ~ .nk-ticker {
+	margin-top: var(--wp--preset--spacing--40) !important;
 }
 .nk-brand-hero__lede {
 	font-family: var(--wp--preset--font-family--mono);
@@ -360,11 +376,6 @@ footer .nk-brand__link {
 }
 :root[data-mode="dark"] .nk-brand-hero__title.is-style-title-3d {
 	color: var(--wp--preset--color--ink);
-	text-shadow:
-		1px 1px 0 var(--wp--preset--color--teal),
-		2px 2px 0 var(--wp--preset--color--teal),
-		3px 3px 0 var(--wp--preset--color--teal),
-		4px 4px 0 var(--wp--preset--color--teal);
 }
 :root[data-mode="dark"] :where(.nk-ticker, .nk-slider__arrow, .woocommerce ul.products li.product, .wc-block-checkout, .woocommerce div.product form.cart .qty, .woocommerce .woocommerce-ordering select) {
 	background-color: var(--nk-surface) !important;
@@ -403,6 +414,39 @@ footer .nk-brand__link {
 	background:
 		radial-gradient(circle at 50% 50%, rgb(0 0 0 / 0.4) 0.9px, transparent 1.3px) 0 0 / 4px 4px,
 		linear-gradient(rgb(77 122 110 / 0.25), rgb(224 68 42 / 0.08));
+}
+
+@media (max-width: 600px) {
+	.nk-brand-hero__title.is-style-title-3d {
+		font-size: clamp(2rem, 9.5vw, 2.6rem);
+		letter-spacing: 0.04em;
+		text-shadow:
+			1px 1px 0 var(--wp--preset--color--teal),
+			2px 2px 0 var(--wp--preset--color--teal);
+	}
+	.nk-header > .wp-block-group {
+		flex-wrap: nowrap !important;
+		gap: 0.25rem;
+	}
+	.nk-header .nk-brand {
+		margin-right: auto;
+	}
+	.nk-brand__link {
+		gap: 0.45rem;
+	}
+	.nk-brand__mark {
+		height: 2.1rem !important;
+	}
+	.nk-brand__word {
+		font-size: 1.55rem;
+	}
+	.nk-tools {
+		gap: 0;
+	}
+	.nk-tools .wp-block-search__button,
+	.nk-mode {
+		width: 2.2rem;
+	}
 }
 
 @media (max-width: 781px) {
