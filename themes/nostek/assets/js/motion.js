@@ -15,6 +15,22 @@
 
 	root.classList.add( 'nk-js' );
 
+	/* Dark mode switch: <html data-mode> is set in <head>; keep the pick. */
+	each( '.nk-mode', function ( btn ) {
+		function sync() {
+			btn.setAttribute( 'aria-pressed', root.getAttribute( 'data-mode' ) === 'dark' ? 'true' : 'false' );
+		}
+		sync();
+		btn.addEventListener( 'click', function () {
+			var mode = root.getAttribute( 'data-mode' ) === 'dark' ? 'light' : 'dark';
+			root.setAttribute( 'data-mode', mode );
+			try {
+				window.localStorage.setItem( 'nostek-mode', mode );
+			} catch ( e ) {}
+			sync();
+		} );
+	} );
+
 	function each( selector, fn, scope ) {
 		Array.prototype.forEach.call( ( scope || document ).querySelectorAll( selector ), fn );
 	}

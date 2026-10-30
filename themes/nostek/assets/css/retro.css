@@ -35,9 +35,7 @@ body,
 		1px 1px 0 var(--nostek-teal-dark),
 		2px 2px 0 var(--nostek-teal-dark),
 		3px 3px 0 var(--nostek-teal-dark),
-		4px 4px 0 var(--nostek-teal-dark),
-		5px 5px 0 var(--nostek-teal-dark),
-		6px 6px 0 var(--nostek-teal-dark);
+		4px 4px 0 var(--nostek-teal-dark);
 }
 
 /* Heading: solid rule over dotted rule on both sides */
