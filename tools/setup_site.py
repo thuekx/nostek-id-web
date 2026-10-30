@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Create the site's terms, base pages and reading settings over the REST API.
 
-Reads site/pages.json. Journal categories and Topics that already exist (same
-slug) and pages that already exist are left as they are, so editors' changes
+Reads site/pages.json. Journal categories, Topics, WooCommerce product
+categories that already exist (same slug) and pages that already exist are
+left as they are, so editors' changes
 are never overwritten. The one exception: a page whose spec lists earlier
 placeholder texts under "replaces" gets the new content when its current
-content is still exactly one of those placeholders (nobody has edited it). Then sets Settings > Reading: a static front page and
-the Journal as the posts page. Standard library only.
+content is still exactly one of those placeholders (nobody has edited it).
+A page or term with "parent" is created under that parent (listed earlier in
+the file), so /sell/faq/ and /support/faq/ cannot be mixed up. Product
+categories are skipped with a WARN when WooCommerce is not active. Then sets
+Settings > Reading: a static front page and the Journal as the posts page.
+Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
 Administrator (reading settings need manage_options):
@@ -30,7 +35,11 @@ from publish_article import WP, Fail  # noqa: E402
 SPEC = pathlib.Path(__file__).resolve().parent.parent / "site" / "pages.json"
 
 # spec key -> (REST base, label in output)
-TERMS = {"categories": ("categories", "category"), "topics": ("topic", "topic")}
+TERMS = {
+    "categories": ("categories", "category"),
+    "topics": ("topic", "topic"),
+    "product_categories": ("product_cat", "product category"),
+}
 
 
 def load_spec(path):
@@ -39,6 +48,9 @@ def load_spec(path):
     except (OSError, json.JSONDecodeError) as e:
         raise Fail(f"cannot read {path}: {e}")
     slugs = [p["slug"] for p in spec["pages"]]
+    for i, p in enumerate(spec["pages"]):
+        if p.get("parent") and p["parent"] not in slugs[:i]:
+            raise Fail(f"page '{p['slug']}': parent '{p['parent']}' must be listed before it")
     for key in ("front_page", "posts_page"):
         if spec.get(key) not in slugs:
             raise Fail(f"'{key}' must name one of the pages: {slugs}")
@@ -52,20 +64,35 @@ def load_spec(path):
 def ensure_terms(wp, spec, apply):
     changes = 0
     for key, (rest_base, label) in TERMS.items():
-        for t in spec.get(key, []):
+        terms = spec.get(key, [])
+        if not terms:
+            continue
+        if key == "product_categories":
+            try:
+                wp.call("GET", rest_base, {"per_page": 1, "_fields": "id"})
+            except Fail as e:
+                print(f"WARN {label}: skipped, WooCommerce taxonomy not reachable ({e})")
+                continue
+        ids = {}
+        for t in terms:
             found = wp.call("GET", rest_base, {"slug": t["slug"], "_fields": "id"})
             if found:
+                ids[t["slug"]] = found[0]["id"]
                 print(f"SKIP {label} '{t['slug']}' exists (id={found[0]['id']})")
                 continue
             changes += 1
             if not apply:
-                print(f"PLAN create {label} '{t['slug']}'")
+                print(f"PLAN create {label} '{t['slug']}'" + (f" under '{t['parent']}'" if t.get("parent") else ""))
                 continue
-            res = wp.call("POST", rest_base, body={
-                "slug": t["slug"], "name": t["name"], "description": t.get("description", ""),
-            })
+            body = {"slug": t["slug"], "name": t["name"], "description": t.get("description", "")}
+            if t.get("parent"):
+                if t["parent"] not in ids:
+                    raise Fail(f"{label} '{t['slug']}': parent '{t['parent']}' not found")
+                body["parent"] = ids[t["parent"]]
+            res = wp.call("POST", rest_base, body=body)
             if res["slug"] != t["slug"]:
                 raise Fail(f"{label} '{t['slug']}' was created as '{res['slug']}'")
+            ids[t["slug"]] = res["id"]
             print(f"PASS create {label} '{t['slug']}' id={res['id']}")
     return changes
 
@@ -108,10 +135,19 @@ def main():
         changes = ensure_terms(wp, spec, args.apply)
         ids = {}
         for page in spec["pages"]:
-            found = wp.call("GET", "pages", {
+            parent = page.get("parent")
+            if parent and parent not in ids:
+                # Parent is only planned (dry run): the child is new too.
+                changes += 1
+                print(f"PLAN create page '{parent}/{page['slug']}'")
+                continue
+            query = {
                 "slug": page["slug"], "status": "publish,draft,pending,private,future",
                 "context": "edit", "_fields": "id,status,content",
-            })
+            }
+            if parent:
+                query["parent"] = ids[parent]
+            found = wp.call("GET", "pages", query)
             if found:
                 ids[page["slug"]] = found[0]["id"]
                 if refresh_page(wp, page, found[0], args.apply):
@@ -121,9 +157,10 @@ def main():
             if not args.apply:
                 print(f"PLAN create page '{page['slug']}'")
                 continue
-            res = wp.call("POST", "pages", body={
-                "slug": page["slug"], "title": page["title"], "content": page["content"], "status": "publish",
-            })
+            body = {"slug": page["slug"], "title": page["title"], "content": page["content"], "status": "publish"}
+            if parent:
+                body["parent"] = ids[parent]
+            res = wp.call("POST", "pages", body=body)
             if res["slug"] != page["slug"]:
                 raise Fail(f"page '{page['slug']}' was created as '{res['slug']}' (slug taken, e.g. by a page in Trash)")
             ids[page["slug"]] = res["id"]

@@ -268,6 +268,31 @@
 		list.classList.add( 'is-running' );
 	} );
 
+	/* Tabbed mega menu (Market): the group under the pointer or focus shows its tiles. */
+	each( '.nk-tabs > .wp-block-navigation__submenu-container', function ( panel ) {
+		var tabs = Array.prototype.filter.call( panel.children, function ( li ) {
+			return li.classList.contains( 'has-child' );
+		} );
+		function open( tab ) {
+			tabs.forEach( function ( t ) {
+				t.classList.toggle( 'is-tab-open', t === tab );
+			} );
+		}
+		tabs.forEach( function ( tab ) {
+			var link = tab.querySelector( '.wp-block-navigation-item__content' );
+			( link || tab ).addEventListener( 'mouseenter', function () {
+				open( tab );
+			} );
+			tab.addEventListener( 'focusin', function () {
+				open( tab );
+			} );
+		} );
+		if ( tabs.length ) {
+			open( tabs[ 0 ] );
+			panel.classList.add( 'nk-tabs-on' );
+		}
+	} );
+
 	/* Scroll reveal: only for blocks below the fold, so the first paint never waits. */
 	if ( ! reduce && hasIO ) {
 		var targets = [
