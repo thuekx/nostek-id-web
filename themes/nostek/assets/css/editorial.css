@@ -49,10 +49,10 @@
 .nk-brand__word span {
 	color: var(--wp--preset--color--red);
 }
-.nk-stuck .nk-brand__mark {
+.nk-stuck .nk-header .nk-brand__mark {
 	height: 2.25rem;
 }
-.nk-stuck .nk-brand__word {
+.nk-stuck .nk-header .nk-brand__word {
 	font-size: 1.6rem;
 }
 .nk-header {
@@ -102,6 +102,18 @@
 
 footer .nk-brand__link {
 	color: var(--wp--preset--color--cream);
+}
+/* On the teal-dark footer the N mark sits on a cream tile (like the
+   squircle app icon) so its teal faces stay visible. */
+footer .nk-brand__mark {
+	box-sizing: content-box;
+	padding: 0.35rem;
+	border: 2px solid var(--wp--preset--color--cream);
+	border-radius: 0.6rem;
+	background: var(--wp--preset--color--paper);
+}
+:root[data-mode="dark"] footer .nk-brand__mark {
+	background: #efe9de;
 }
 
 /* Active nav item: teal double underline (hover keeps the red rule) */
