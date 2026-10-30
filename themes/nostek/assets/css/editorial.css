@@ -362,6 +362,21 @@ footer .nk-brand__mark {
 	margin: 0 !important;
 }
 
+/* Ticker titles centred on the strip's middle line (WEB-18) */
+.nk-ticker > .wp-block-query {
+	display: flex;
+	align-items: center;
+}
+.nk-ticker .wp-block-post-template,
+.nk-ticker .wp-block-post-template > li {
+	align-items: center;
+	height: 100%;
+}
+.nk-ticker .wp-block-post-title {
+	line-height: 1.2;
+	margin-block: 0 !important;
+}
+
 /* Ticker label: script ribbon with a notched tail */
 .nk-ticker > .nk-ticker__label {
 	position: relative;
