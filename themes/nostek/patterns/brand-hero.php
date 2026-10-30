@@ -30,7 +30,7 @@
 		<!-- wp:column {"verticalAlignment":"center","width":"48%"} -->
 		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:48%">
 			<!-- wp:image {"sizeSlug":"full","className":"nk-brand-hero__art"} -->
-			<figure class="wp-block-image size-full nk-brand-hero__art"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/brand/hero-art.webp' ) ); ?>" alt="<?php echo esc_attr_x( 'Kolase retro: huruf N Nostek, komputer jadul dan gedung bergaya cetak halftone', 'brand hero image alt', 'nostek' ); ?>" width="704" height="434" fetchpriority="high"/></figure>
+			<figure class="wp-block-image size-full nk-brand-hero__art"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/brand/hero-wide.webp' ) ); ?>" alt="<?php echo esc_attr_x( 'Kolase retro: huruf N Nostek, komputer jadul dan gedung bergaya cetak halftone', 'brand hero image alt', 'nostek' ); ?>" width="1994" height="789" fetchpriority="high"/></figure>
 			<!-- /wp:image -->
 		</div>
 		<!-- /wp:column -->

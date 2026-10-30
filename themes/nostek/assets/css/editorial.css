@@ -532,3 +532,228 @@ footer .nk-brand__mark {
 	aspect-ratio: 704 / 434;
 	object-fit: cover;
 }
+
+/* ---------- Brand hero slider (pattern nostek/brand-hero-slider) ----------
+   Edge-to-edge slides: collage art fills the width, a paper fade on the
+   left carries the framed caption. Animation per active slide: the art
+   prints in (wipe + grey to colour), then a slow zoom; the caption rises
+   line by line; the active dot fills while the slide is on screen. */
+.nk-stage {
+	border-bottom: 3px solid var(--wp--preset--color--ink);
+	background: var(--wp--preset--color--paper);
+}
+.nk-stage .wp-block-cover {
+	min-height: clamp(30rem, 40vw, 48rem) !important;
+	padding: 0;
+	overflow: hidden;
+}
+.nk-stage .wp-block-cover::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: linear-gradient(90deg,
+		var(--wp--preset--color--paper) 0%,
+		color-mix(in srgb, var(--wp--preset--color--paper) 94%, transparent) 26%,
+		color-mix(in srgb, var(--wp--preset--color--paper) 0%, transparent) 52%);
+	pointer-events: none;
+}
+.nk-stage .wp-block-cover__image-background {
+	filter: none;
+}
+.nk-stage .wp-block-cover__inner-container {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 80rem;
+	padding-block: 3rem 4rem;
+}
+.nk-stage__card {
+	max-width: 34rem;
+	padding: clamp(1.25rem, 2.5vw, 2rem);
+	border: 6px double var(--wp--preset--color--ink);
+	background: color-mix(in srgb, var(--wp--preset--color--paper) 88%, transparent);
+	color: var(--wp--preset--color--ink);
+	backdrop-filter: blur(2px);
+}
+.nk-stage__card > * {
+	margin-block: 0 0.9rem;
+}
+.nk-stage__card > :last-child {
+	margin-bottom: 0;
+}
+.nk-stage__kicker {
+	color: var(--wp--preset--color--red);
+	font-family: var(--wp--preset--font-family--script);
+	font-size: clamp(1.4rem, 2vw, 1.9rem);
+	line-height: 1;
+}
+.nk-hero .nk-stage__title.is-style-title-3d {
+	color: var(--wp--preset--color--ink);
+	font-size: clamp(2.3rem, 4.2vw, 4.25rem);
+	font-weight: 700;
+	line-height: 1.02;
+	letter-spacing: 0.035em;
+	text-shadow:
+		1px 1px 0 var(--wp--preset--color--teal),
+		2px 2px 0 var(--wp--preset--color--teal),
+		3px 3px 0 var(--wp--preset--color--teal);
+}
+.nk-stage__lede {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 1rem;
+	line-height: 1.6;
+}
+.nk-stage .nk-slider__dots {
+	justify-content: flex-start;
+	left: max(1rem, calc((100% - 80rem) / 2 + clamp(1rem, 5vw, 4rem)));
+	bottom: 1.4rem;
+}
+.nk-stage .nk-slider__dot {
+	position: relative;
+	overflow: hidden;
+	border-color: var(--wp--preset--color--ink);
+}
+.nk-stage .nk-slider__dot[aria-current="true"] {
+	width: 4.5rem;
+	background: var(--wp--preset--color--cream);
+}
+.nk-stage .nk-slider__dot[aria-current="true"]::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--wp--preset--color--red);
+	transform-origin: left;
+	animation: nk-dot-fill 6.5s linear both;
+}
+.nk-stage:hover .nk-slider__dot[aria-current="true"]::after {
+	animation-play-state: paused;
+}
+@keyframes nk-dot-fill {
+	from {
+		transform: scaleX(0);
+	}
+}
+
+/* Portrait art (poster slide): whole poster on the right on wide screens */
+@media (min-width: 782px) {
+	.nk-stage__slide--poster .wp-block-cover__image-background {
+		left: auto !important;
+		width: min(48%, 40rem) !important;
+		right: max(0px, calc((100% - 80rem) / 2)) !important;
+		object-fit: contain !important;
+		object-position: 100% 50% !important;
+	}
+	.nk-stage__slide--poster::before {
+		background: none;
+	}
+}
+
+/* Arrows: a pair at the bottom right, clear of the caption */
+.nk-stage .nk-slider__arrow {
+	top: auto;
+	bottom: 1.25rem;
+	margin-top: 0;
+}
+.nk-stage .nk-slider__arrow--prev {
+	left: auto;
+	right: max(4.75rem, calc((100% - 80rem) / 2 + 4.75rem));
+}
+.nk-stage .nk-slider__arrow--next {
+	right: max(1.25rem, calc((100% - 80rem) / 2 + 1.25rem));
+}
+
+/* Active slide animation */
+.nk-stage.nk-slider--on .is-active .wp-block-cover__image-background {
+	animation:
+		nk-print 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+		nk-kenburns 14s ease-out both;
+}
+@keyframes nk-print {
+	from {
+		clip-path: inset(0 0 0 100%);
+		filter: grayscale(1) contrast(1.35);
+	}
+	55% {
+		filter: grayscale(0.7) contrast(1.15);
+	}
+	to {
+		clip-path: inset(0 0 0 0);
+		filter: none;
+	}
+}
+.nk-stage.nk-slider--on .is-active .nk-stage__card {
+	animation: nk-card-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes nk-card-in {
+	from {
+		opacity: 0;
+		transform: translateX(-2.5rem);
+	}
+}
+.nk-stage.nk-slider--on .is-active .nk-stage__card > * {
+	animation: nk-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.nk-stage.nk-slider--on .is-active .nk-stage__card > :nth-child(1) { animation-delay: 0.25s; }
+.nk-stage.nk-slider--on .is-active .nk-stage__card > :nth-child(2) { animation-delay: 0.35s; }
+.nk-stage.nk-slider--on .is-active .nk-stage__card > :nth-child(3) { animation-delay: 0.5s; }
+.nk-stage.nk-slider--on .is-active .nk-stage__card > :nth-child(n+4) { animation-delay: 0.65s; }
+.nk-stage.nk-slider--on .is-active .nk-stage__title {
+	animation: nk-rise 0.7s 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both, nk-extrude 0.5s 1s ease-out both;
+}
+@keyframes nk-extrude {
+	from {
+		text-shadow: none;
+		transform: translate(3px, 3px);
+	}
+}
+
+/* Hero slider sits flush under the header; ticker follows edge to edge */
+.nk-stage + .nk-ticker,
+.nk-stage ~ .nk-ticker {
+	margin-top: 0 !important;
+	border-top: 0;
+}
+
+@media (max-width: 781px) {
+	.nk-stage .wp-block-cover {
+		align-items: flex-end;
+		min-height: min(52rem, calc(100svh - 4rem)) !important;
+	}
+	.nk-stage .wp-block-cover::before {
+		background: linear-gradient(0deg,
+			var(--wp--preset--color--paper) 0%,
+			color-mix(in srgb, var(--wp--preset--color--paper) 92%, transparent) 40%,
+			color-mix(in srgb, var(--wp--preset--color--paper) 0%, transparent) 62%);
+	}
+	/* Portrait art on phones for the brand slide (browsers without
+	   content-on-img keep the wide art, centred on the N). */
+	.nk-stage__slide--brand .wp-block-cover__image-background {
+		content: url("../img/brand/hero-portrait.webp");
+		object-position: 50% 30% !important;
+	}
+	.nk-stage .wp-block-cover__inner-container {
+		padding-block: 2rem 3.5rem;
+	}
+	.nk-stage__card {
+		max-width: none;
+		padding: 1rem 1.1rem;
+		border-width: 4px;
+	}
+	.nk-hero .nk-stage__title.is-style-title-3d {
+		font-size: clamp(1.9rem, 8.5vw, 2.5rem);
+		text-shadow:
+			1px 1px 0 var(--wp--preset--color--teal),
+			2px 2px 0 var(--wp--preset--color--teal);
+	}
+	.nk-stage__lede {
+		font-size: 0.9rem;
+	}
+	.nk-stage .nk-slider__dots {
+		left: 1rem;
+		bottom: 1rem;
+	}
+	.nk-stage.nk-slider--on .is-active .nk-stage__card {
+		animation-name: nk-rise;
+	}
+}

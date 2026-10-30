@@ -3,10 +3,10 @@
  * Title: Homepage (editorial-first)
  * Slug: nostek/home-editorial
  * Categories: nostek
- * Description: Brand hero and news ticker, the latest articles as journal cards, a slider of highlights, then Topics, Services and Market.
+ * Description: Full-width brand hero slider and news ticker, the latest articles as journal cards, a slider of highlights, then Topics, Services and Market.
  */
 ?>
-<!-- wp:pattern {"slug":"nostek/brand-hero"} /-->
+<!-- wp:pattern {"slug":"nostek/brand-hero-slider"} /-->
 
 <!-- wp:pattern {"slug":"nostek/news-ticker"} /-->
 
