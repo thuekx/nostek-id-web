@@ -870,3 +870,14 @@ footer .nk-brand__mark {
 		text-shadow: 1px 1px 0 var(--wp--preset--color--teal);
 	}
 }
+
+/* Founder's Note band title: signature script like the Terkini label */
+h2.nk-script-title {
+	font-family: var(--wp--preset--font-family--script) !important;
+	font-size: clamp(2.6rem, 4.5vw, 3.8rem) !important;
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 1;
+	text-transform: none;
+	text-shadow: 2px 2px 0 var(--wp--preset--color--red-dark);
+}
