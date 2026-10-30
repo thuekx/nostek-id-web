@@ -850,3 +850,23 @@ footer .nk-brand__mark {
 	border-left-color: var(--nostek-red);
 	box-shadow: 4px 4px 0 #000;
 }
+
+/* WEB-19: hero headline in Merriweather Bold, sentence case, as in the
+   dark-mode brand mock-up; a short teal step keeps the print depth */
+.nk-hero .nk-stage__title.is-style-title-3d {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: clamp(2.1rem, 3.5vw, 3.6rem);
+	font-weight: 700;
+	line-height: 1.14;
+	letter-spacing: 0;
+	text-transform: none;
+	text-shadow:
+		1px 1px 0 var(--wp--preset--color--teal),
+		2px 2px 0 var(--wp--preset--color--teal);
+}
+@media (max-width: 781px) {
+	.nk-hero .nk-stage__title.is-style-title-3d {
+		font-size: clamp(1.7rem, 7vw, 2.2rem);
+		text-shadow: 1px 1px 0 var(--wp--preset--color--teal);
+	}
+}
