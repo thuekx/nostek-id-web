@@ -388,10 +388,11 @@ footer .nk-brand__mark {
 /* ---------- Web dark mode ---------- */
 :root[data-mode="dark"] {
 	color-scheme: dark;
-	--wp--preset--color--paper: #2f2f2d;
-	--wp--preset--color--paper-2: #262624;
-	--wp--preset--color--ink: #efe9de;
-	--nk-surface: #3a3a37;
+	--wp--preset--color--paper: #2a2825;
+	--wp--preset--color--paper-2: #22201d;
+	--wp--preset--color--ink: #e6dfd0;
+	--nk-surface: #34312c;
+	--nostek-noise: url("../img/paper-print-dark.svg");
 	--nk-rule: #6fa595;
 	--nk-heading: var(--nk-glow);
 }
@@ -771,4 +772,81 @@ footer .nk-brand__mark {
 	.nk-stage.nk-slider--on .is-active .nk-stage__card {
 		animation-name: nk-rise;
 	}
+}
+
+/* ---------- WEB-19: vintage print paper ----------
+   Mottled, grainy stock instead of a flat fill: light = dull cream,
+   dark = dusty black with pale specks. One SVG each (no bitmap). */
+:root {
+	--nostek-noise: url("../img/paper-print.svg");
+}
+
+/* ---------- WEB-19: mega menu tiles of equal size ---------- */
+@media (min-width: 782px) {
+	.nk-mega .has-child > .wp-block-navigation__submenu-container {
+		--nk-rows: 3;
+		grid-template-rows: repeat(var(--nk-rows), 1fr);
+		gap: 0.6rem 0.75rem;
+		align-items: stretch;
+	}
+	.nk-mega .has-child > .wp-block-navigation__submenu-container:not(:has(> li:nth-child(6))) {
+		--nk-rows: 2;
+	}
+	.nk-mega .has-child > .wp-block-navigation__submenu-container:has(> li:nth-child(8)) {
+		--nk-rows: 4;
+	}
+	.nk-mega .has-child > .wp-block-navigation__submenu-container:has(> li:nth-child(10)) {
+		--nk-rows: 5;
+	}
+	.nk-mega .has-child > .wp-block-navigation__submenu-container:has(> li:nth-child(12)) {
+		--nk-rows: 6;
+	}
+	.nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item {
+		display: flex;
+		align-items: stretch;
+		margin-bottom: 0;
+		background: transparent !important;
+	}
+	.nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:first-child {
+		grid-row: 1 / -1;
+		margin-right: 0.75rem;
+	}
+	.nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:not(:first-child) > .wp-block-navigation-item__content {
+		box-sizing: border-box;
+		width: 100%;
+		justify-content: center;
+		padding: 0.85rem 1rem 0.85rem 1.1rem !important;
+		background: var(--nk-surface) var(--nostek-noise);
+		border: 1px solid color-mix(in srgb, var(--nostek-teal-dark) 35%, transparent);
+		border-left: 3px solid transparent;
+		box-shadow: 0 0 0 transparent;
+		transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+	}
+	.nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:not(:first-child) > .wp-block-navigation-item__content:hover,
+	.nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:not(:first-child) > .wp-block-navigation-item__content:focus-visible {
+		background-color: var(--wp--preset--color--paper-2);
+		border-color: var(--nostek-teal-dark);
+		border-left-color: var(--nostek-red);
+		box-shadow: 4px 4px 0 var(--nostek-teal-dark);
+		transform: translate(-2px, -2px);
+	}
+}
+
+/* Founder's Note: signature script, like the Terkini label */
+.nk-mega a[href*="founders-note"] .wp-block-navigation-item__label {
+	font-family: var(--wp--preset--font-family--script);
+	font-size: 1.55rem;
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 1.05;
+	text-transform: none;
+}
+:root[data-mode="dark"] .nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:not(:first-child) > .wp-block-navigation-item__content {
+	border-color: color-mix(in srgb, var(--nk-rule) 35%, transparent);
+	border-left-color: transparent;
+}
+:root[data-mode="dark"] .nk-mega .wp-block-navigation__submenu-container > .wp-block-navigation-item:not(:first-child) > .wp-block-navigation-item__content:hover {
+	border-color: var(--nk-rule);
+	border-left-color: var(--nostek-red);
+	box-shadow: 4px 4px 0 #000;
 }
