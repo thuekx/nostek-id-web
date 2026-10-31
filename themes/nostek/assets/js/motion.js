@@ -268,6 +268,48 @@
 		list.classList.add( 'is-running' );
 	} );
 
+	/* Desktop mega menu opens on click, not hover (owner 2026-10-31): a click on
+	   a top item (link or chevron) toggles its panel; a click outside or Esc
+	   closes it. In the mobile overlay the links keep working as links. */
+	each( 'nav.nk-mega', function ( nav ) {
+		var items = Array.prototype.slice.call( nav.querySelectorAll( '.wp-block-navigation__container > .has-child' ) );
+		function close( keep ) {
+			items.forEach( function ( li ) {
+				if ( li !== keep ) {
+					li.classList.remove( 'nk-open' );
+				}
+			} );
+		}
+		items.forEach( function ( li ) {
+			Array.prototype.forEach.call( li.children, function ( el ) {
+				if ( ! el.matches( '.wp-block-navigation-item__content, .wp-block-navigation-submenu__toggle' ) ) {
+					return;
+				}
+				el.addEventListener( 'click', function ( e ) {
+					if ( li.closest( '.is-menu-open' ) ) {
+						return;
+					}
+					e.preventDefault();
+					close( li );
+					li.classList.toggle( 'nk-open' );
+				} );
+			} );
+		} );
+		document.addEventListener( 'click', function ( e ) {
+			if ( ! nav.contains( e.target ) ) {
+				close();
+			}
+		} );
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' === e.key ) {
+				close();
+			}
+		} );
+		if ( items.length ) {
+			nav.classList.add( 'nk-click' );
+		}
+	} );
+
 	/* Tabbed mega menu (Market): the group under the pointer or focus shows its tiles. */
 	each( '.nk-tabs > .wp-block-navigation__submenu-container', function ( panel ) {
 		var tabs = Array.prototype.filter.call( panel.children, function ( li ) {
