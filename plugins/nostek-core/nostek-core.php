@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.2.0
+ * Version: 0.2.1
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.2.0' );
+define( 'NOSTEK_CORE_VERSION', '0.2.1' );
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/seo.php';
@@ -131,6 +131,27 @@ function nostek_core_register_source_id() {
 			'show_in_rest'  => true,
 			'auth_callback' => static function () {
 				return current_user_can( 'edit_posts' );
+			},
+		)
+	);
+}
+
+add_action( 'init', 'nostek_core_register_mirror_state' );
+/**
+ * Staging only: what tools/mirror_content.py last copied from production
+ * ("<production modified time>|<production media id>"), so an unchanged
+ * article is skipped and its image is not uploaded twice.
+ */
+function nostek_core_register_mirror_state() {
+	register_post_meta(
+		'post',
+		'nostek_mirror_state',
+		array(
+			'type'          => 'string',
+			'single'        => true,
+			'show_in_rest'  => true,
+			'auth_callback' => static function () {
+				return current_user_can( 'edit_others_posts' );
 			},
 		)
 	);
