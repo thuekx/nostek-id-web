@@ -991,7 +991,9 @@ h2.nk-script-title {
 		border: 0 !important;
 		box-shadow: none !important;
 		opacity: 1 !important;
-		visibility: visible !important;
+		/* inherit, not visible: a visible child of the hidden Market panel
+		   still catches the pointer and opens Market from other menus */
+		visibility: inherit !important;
 		overflow: visible !important;
 		transform: none !important;
 	}
