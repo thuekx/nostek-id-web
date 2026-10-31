@@ -38,6 +38,212 @@
       "replaces": [
         "<!-- wp:paragraph -->\n<p>About Nostek ID: coming soon.</p>\n<!-- /wp:paragraph -->"
       ]
+    },
+    {
+      "slug": "photography",
+      "title": "Photography",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Foto produk, acara, dan korporat dengan sentuhan editorial.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "services"
+    },
+    {
+      "slug": "videography",
+      "title": "Videography",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Video profil, liputan acara, dan konten promosi yang bercerita.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "services"
+    },
+    {
+      "slug": "it-managed-services",
+      "title": "IT Managed Services",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pengelolaan IT harian, pemantauan, dan dukungan teknis untuk bisnis Anda.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "services"
+    },
+    {
+      "slug": "network-infrastructure",
+      "title": "Network & Infrastructure",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Rancang, pasang, dan rawat jaringan serta server yang andal.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "services"
+    },
+    {
+      "slug": "nostek-ai",
+      "title": "Nostek AI",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">From knowledge to solution: asisten AI yang mengubah pengetahuan tim menjadi solusi.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "services"
+    },
+    {
+      "slug": "sell",
+      "title": "Sell With Nostek",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Jual perangkat dan koleksi Anda lewat Nostek: jual putus, titip jual, trade-in, sampai pelepasan aset perusahaan.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "jual-putus",
+      "title": "Jual Putus",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Jual langsung ke Nostek, dibayar cepat setelah barang dicek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "titip-jual",
+      "title": "Titip Jual",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Titipkan barang, kami bantu foto, pasarkan, dan kirim.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "trade-in",
+      "title": "Trade-in",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Tukar perangkat lama dengan potongan belanja di Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "jual-koleksi",
+      "title": "Jual Koleksi",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Lepas koleksi dalam jumlah besar dengan penilaian yang adil.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "corporate-disposal",
+      "title": "Corporate Disposal",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pelepasan aset IT perusahaan yang rapi, aman, dan terdokumentasi.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "cara-kerja",
+      "title": "Cara Kerja",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Alur menjual di Nostek, dari pengajuan sampai pembayaran.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "panduan-kondisi",
+      "title": "Panduan Kondisi",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Standar penilaian kondisi barang agar harga transparan.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "estimasi",
+      "title": "Dapatkan Estimasi",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kirim detail barang dan dapatkan perkiraan harga.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "status",
+      "title": "Status Submission",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pantau proses penilaian dan penjualan barang Anda.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "faq",
+      "title": "FAQ",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Jawaban untuk pertanyaan yang paling sering diajukan penjual.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "sell"
+    },
+    {
+      "slug": "support",
+      "title": "Help Center",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pusat bantuan untuk belanja, pembayaran, dan layanan Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "payment",
+      "title": "Payment",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Metode pembayaran yang tersedia dan cara konfirmasinya.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "shipping",
+      "title": "Shipping",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kurir, ongkos kirim, estimasi waktu, dan cara kami mengemas barang.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "warranty",
+      "title": "Warranty",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Cakupan garansi, masa berlaku, dan cara mengajukan klaim.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "returns",
+      "title": "Returns",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Syarat pengembalian barang dan langkah pengajuannya.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "order-tracking",
+      "title": "Order Tracking",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Lacak status pesanan Anda dengan nomor order.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "request",
+      "title": "Request Support",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kirim permintaan bantuan ke tim Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "support"
+    },
+    {
+      "slug": "legal",
+      "title": "Legal",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kebijakan dan perjanjian yang berlaku di Nostek ID dan Nostek Market.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "terms",
+      "title": "Terms & Conditions",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Syarat dan ketentuan penggunaan situs dan layanan Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "marketplace-policy",
+      "title": "Marketplace Policy",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Aturan main jual beli di Nostek Market.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "seller-agreement",
+      "title": "Seller Agreement",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Perjanjian untuk penjual dan penitip barang.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "authenticity-policy",
+      "title": "Authenticity Policy",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Cara kami memeriksa keaslian barang yang dijual.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "prohibited-items",
+      "title": "Prohibited Items",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Daftar barang yang tidak boleh dijual di Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "dispute-policy",
+      "title": "Dispute Policy",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Cara kami menengahi sengketa antara pembeli dan penjual.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
+      "parent": "legal"
+    },
+    {
+      "slug": "nostek-ai",
+      "title": "Nostek AI",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">From knowledge to solution. Layanan AI Nostek untuk tim dan bisnis.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "portal",
+      "title": "Portal",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pintu masuk ke layanan Nostek AI untuk pelanggan.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-ai"
+    },
+    {
+      "slug": "console",
+      "title": "Console",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kelola agen, akses, dan pemakaian Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-ai"
+    },
+    {
+      "slug": "knowledge-base",
+      "title": "Knowledge Base",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Artikel bantuan dan dokumentasi Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-ai"
+    },
+    {
+      "slug": "ticket",
+      "title": "Ticket",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Buka dan pantau tiket dukungan Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-ai"
     }
   ],
   "front_page": "home",
@@ -75,6 +281,16 @@
       "slug": "founders-note",
       "name": "Founder's Note",
       "description": "Notes from the founder of Nostek ID."
+    },
+    {
+      "slug": "retro-stories",
+      "name": "Retro Stories",
+      "description": "Kisah di balik perangkat lawas yang pernah mengubah zaman."
+    },
+    {
+      "slug": "price-index",
+      "name": "Price Index",
+      "description": "Pantauan harga pasar perangkat bekas, NOS, dan barang koleksi."
     }
   ],
   "topics": [
@@ -112,6 +328,81 @@
       "slug": "digital-business",
       "name": "Digital Business",
       "description": "Technology for running and growing a business."
+    }
+  ],
+  "product_categories": [
+    {
+      "slug": "games-consoles",
+      "name": "Games & Consoles",
+      "description": "Konsol, kaset, dan aksesori gaming dari berbagai era."
+    },
+    {
+      "slug": "phones-tablets",
+      "name": "Phones & Tablets",
+      "description": "Ponsel dan tablet bekas maupun NOS yang sudah dicek."
+    },
+    {
+      "slug": "computers-laptops",
+      "name": "Computers & Laptops",
+      "description": "PC dan laptop, dari mesin klasik sampai yang siap kerja."
+    },
+    {
+      "slug": "audio-media",
+      "name": "Audio & Media",
+      "description": "Walkman, pemutar kaset, CD, piringan hitam, dan perangkat audio."
+    },
+    {
+      "slug": "cameras-creative-devices",
+      "name": "Cameras & Creative Devices",
+      "description": "Kamera film, kamera digital lawas, dan alat kreatif lainnya."
+    },
+    {
+      "slug": "vintage-fashion",
+      "name": "Vintage Fashion",
+      "description": "Jam tangan, kaus, dan aksesori bernuansa retro tech."
+    },
+    {
+      "slug": "design-collectibles",
+      "name": "Design & Collectibles",
+      "description": "Barang desain, poster, dan koleksi untuk para penggemar."
+    },
+    {
+      "slug": "parts-restoration",
+      "name": "Parts & Restoration",
+      "description": "Suku cadang dan bahan untuk menghidupkan lagi perangkat lama."
+    },
+    {
+      "slug": "nostek-certified",
+      "name": "Nostek Certified",
+      "description": "Sudah diperiksa, dibersihkan, dan bergaransi dari tim Nostek."
+    },
+    {
+      "slug": "collections",
+      "name": "Collections",
+      "description": "Kurasi koleksi bertema pilihan tim Nostek."
+    },
+    {
+      "slug": "nostek-digital",
+      "name": "Nostek Digital",
+      "description": "Produk digital siap unduh."
+    },
+    {
+      "slug": "e-book",
+      "name": "E-Book",
+      "description": "Buku digital tentang teknologi, panduan praktis, dan cerita retro.",
+      "parent": "nostek-digital"
+    },
+    {
+      "slug": "template",
+      "name": "Template",
+      "description": "Template siap pakai untuk kerja, konten, dan bisnis.",
+      "parent": "nostek-digital"
+    },
+    {
+      "slug": "voltix",
+      "name": "Voltix",
+      "description": "Produk digital Voltix dari ekosistem Nostek.",
+      "parent": "nostek-digital"
     }
   ]
 }
