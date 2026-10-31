@@ -404,5 +404,12 @@
       "description": "Produk digital Voltix dari ekosistem Nostek.",
       "parent": "nostek-digital"
     }
-  ]
+  ],
+  "shop_settings": {
+    "woocommerce_currency": "IDR",
+    "woocommerce_currency_pos": "left_space",
+    "woocommerce_price_thousand_sep": ".",
+    "woocommerce_price_decimal_sep": ",",
+    "woocommerce_price_num_decimals": "0"
+  }
 }

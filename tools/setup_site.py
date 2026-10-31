@@ -10,7 +10,9 @@ content is still exactly one of those placeholders (nobody has edited it).
 A page or term with "parent" is created under that parent (listed earlier in
 the file), so /sell/faq/ and /support/faq/ cannot be mixed up. Product
 categories are skipped with a WARN when WooCommerce is not active. Then sets
-Settings > Reading: a static front page and the Journal as the posts page.
+Settings > Reading: a static front page and the Journal as the posts page, and
+the WooCommerce store settings listed under "shop_settings" (Rupiah, Indonesian
+number format) through wc/v3; those are skipped with a WARN without WooCommerce.
 Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
@@ -95,6 +97,34 @@ def ensure_terms(wp, spec, apply):
             ids[t["slug"]] = res["id"]
             print(f"PASS create {label} '{t['slug']}' id={res['id']}")
     return changes
+
+
+def ensure_shop_settings(wp, spec, apply):
+    want = spec.get("shop_settings", {})
+    if not want:
+        return 0
+    site = wp.base.split("/wp-json/")[0]
+    wc = WP(site, "", "")
+    wc.base, wc.auth = site + "/wp-json/wc/v3/", wp.auth
+    try:
+        have = {s["id"]: s.get("value") for s in wc.call("GET", "settings/general")}
+    except Fail as e:
+        print(f"WARN shop settings: skipped, WooCommerce REST not reachable ({e})")
+        return 0
+    diff = {k: v for k, v in want.items() if have.get(k) != v}
+    if not diff:
+        print("SKIP shop settings already set")
+        return 0
+    if not apply:
+        print(f"PLAN shop settings {json.dumps(diff)}")
+        return 1
+    body = {"update": [{"id": k, "value": v} for k, v in diff.items()]}
+    res = wc.call("POST", "settings/general/batch", body=body)
+    bad = [u for u in res.get("update", []) if "error" in u]
+    if bad:
+        raise Fail(f"shop settings not saved: {json.dumps(bad)}")
+    print(f"PASS shop settings {json.dumps(diff)}")
+    return 1
 
 
 def refresh_page(wp, page, current, apply):
@@ -182,6 +212,8 @@ def main():
             changes += 1
             wp.call("POST", "settings", body=diff)
             print(f"PASS reading settings {json.dumps(diff)}")
+
+        changes += ensure_shop_settings(wp, spec, args.apply)
 
         mode = "PASS" if args.apply else "DRY RUN ok:"
         print(f"{mode} {changes} change(s) on {env['NOSTEK_WP_URL']}")

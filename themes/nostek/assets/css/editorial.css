@@ -31,9 +31,11 @@
 	color: var(--nk-heading);
 	text-decoration: none;
 }
-.nk-brand__mark {
+.nk-brand img.nk-brand__mark {
+	/* img.class beats WooCommerce's .woocommerce-page img {height:auto} */
 	display: block;
 	width: auto;
+	max-width: none;
 	height: 3rem;
 	border: 0;
 	transition: height 0.3s ease;
@@ -482,7 +484,7 @@ footer .nk-brand__mark {
 		padding-left: 0;
 		border-left: 0;
 	}
-	.nk-brand__mark {
+	.nk-brand img.nk-brand__mark {
 		height: 2.4rem;
 	}
 	.nk-brand-hero__side {
