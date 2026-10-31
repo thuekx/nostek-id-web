@@ -1101,3 +1101,30 @@ footer .nk-footer-links .wp-block-navigation-item__content:hover {
 .nk-mega .is-menu-open .nk-tabs .wp-block-navigation-submenu__toggle {
 	display: none;
 }
+
+/* ---------- WEB-24: desktop mega menu opens on click ----------
+   Owner 2026-10-31: hover only underlines; a click on Journal, Topics,
+   Services or Market opens its panel (motion.js adds .nk-click to the nav
+   and .nk-open to the item). Without JS the core hover menu still works.
+   The mobile overlay keeps its own list. */
+.nk-mega.nk-click .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-container {
+	visibility: hidden !important;
+	opacity: 0 !important;
+	transform: translate(-50%, 12px) !important;
+	transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s !important;
+}
+.nk-mega.nk-click .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container > .has-child.nk-open > .wp-block-navigation__submenu-container {
+	visibility: visible !important;
+	opacity: 1 !important;
+	height: auto !important;
+	min-width: 200px;
+	overflow: visible !important;
+	transform: translate(-50%, 0) !important;
+	transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s !important;
+}
+.nk-mega.nk-click .wp-block-navigation__container > .has-child.nk-open > .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--red);
+}
+.nk-mega.nk-click .wp-block-navigation__container > .has-child.nk-open > .wp-block-navigation-submenu__toggle svg {
+	transform: rotate(180deg);
+}
