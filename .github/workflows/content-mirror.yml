@@ -1,0 +1,55 @@
+name: Content mirror
+
+# Keeps STAGING comparable with production (owner decision PUB-1, 2026-10-31):
+# published Journal articles on nostek.id are copied ONE WAY to staging.nostek.id,
+# and the staging-only fixture articles in site/fixtures stay published.
+# Production is only read through its public REST API: no production secret here.
+# Nightly at 02:00 WIB writes to staging; Run workflow is a dry run unless "apply" is ticked.
+# Secrets (environment "staging"): STAGING_WP_USER, STAGING_WP_APP_PASSWORD (staging Administrator).
+on:
+  schedule:
+    - cron: "0 19 * * *"  # 02:00 WIB
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write to staging (unticked = dry run)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-24.04  # pinned: ubuntu-latest moves to 26.04
+    environment: staging
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Mirror production articles to staging.nostek.id
+        env:
+          REF: ${{ github.ref_name }}
+          APPLY: ${{ github.event_name == 'schedule' || inputs.apply }}
+          PYTHONUNBUFFERED: "1"
+          NOSTEK_PROD_URL: https://nostek.id
+          NOSTEK_WP_URL: https://staging.nostek.id
+          NOSTEK_WP_USER: ${{ secrets.STAGING_WP_USER }}
+          NOSTEK_WP_APP_PASSWORD: ${{ secrets.STAGING_WP_APP_PASSWORD }}
+        run: |
+          if [ "$REF" != "main" ]; then
+            echo "REFUSE: run this from main (got $REF); nothing done"
+            exit 1
+          fi
+          if [ -z "$NOSTEK_WP_USER" ] || [ -z "$NOSTEK_WP_APP_PASSWORD" ]; then
+            echo "FAIL: secrets STAGING_WP_USER / STAGING_WP_APP_PASSWORD are not set; nothing done"
+            exit 1
+          fi
+          if [ "$APPLY" = "true" ]; then
+            python3 tools/mirror_content.py --apply --prune --fixtures site/fixtures
+          else
+            python3 tools/mirror_content.py --prune --fixtures site/fixtures
+          fi

@@ -35,6 +35,8 @@ jobs:
       - name: Block markup comments are balanced
         run: python3 bin/check-blocks.py
 
+      - name: Content mirror tool (offline test)
+        run: python3 tools/test_mirror_content.py
 
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v3
