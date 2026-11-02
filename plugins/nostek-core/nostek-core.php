@@ -158,6 +158,27 @@ function nostek_core_register_source_id() {
 	}
 }
 
+add_action( 'init', 'nostek_core_register_mirror_state' );
+/**
+ * Staging only: what tools/mirror_content.py last copied from production
+ * ("<production modified time>|<production media id>"), so an unchanged
+ * article is skipped and its image is not uploaded twice.
+ */
+function nostek_core_register_mirror_state() {
+	register_post_meta(
+		'post',
+		'nostek_mirror_state',
+		array(
+			'type'          => 'string',
+			'single'        => true,
+			'show_in_rest'  => true,
+			'auth_callback' => static function () {
+				return current_user_can( 'edit_others_posts' );
+			},
+		)
+	);
+}
+
 add_filter( 'rest_post_query', 'nostek_core_rest_filter_source_id', 10, 2 );
 add_filter( 'rest_page_query', 'nostek_core_rest_filter_source_id', 10, 2 );
 /**
