@@ -1,0 +1,9 @@
+{
+  "slug": "fixture-judul-panjang",
+  "title": "Fixture: judul yang sangat panjang untuk menguji kartu artikel, breadcrumb, judul halaman dan potongan teks di layar HP kecil",
+  "excerpt": "Ringkasan yang juga cukup panjang untuk melihat bagaimana kartu artikel memotong teks di grid Journal, slider Sorotan dan arsip kategori di mode terang maupun gelap.",
+  "content": "<!-- wp:paragraph -->\n<p>Isi singkat. Artikel ini menguji judul panjang tanpa gambar unggulan.</p>\n<!-- /wp:paragraph -->",
+  "category": "insights",
+  "topics": [],
+  "tags": []
+}

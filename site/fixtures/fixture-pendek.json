@@ -1,0 +1,13 @@
+{
+  "slug": "fixture-pendek",
+  "title": "Fixture: pendek",
+  "excerpt": "Pendek.",
+  "content": "<!-- wp:paragraph -->\n<p>Satu paragraf.</p>\n<!-- /wp:paragraph -->",
+  "category": "news",
+  "topics": [
+    "ai"
+  ],
+  "tags": [],
+  "featured_image": "fixture-cover.webp",
+  "featured_image_alt": "Ilustrasi retro tech Nostek (fixture)"
+}

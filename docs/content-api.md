@@ -98,3 +98,24 @@ Design choice: **one publisher account**, not a person clicking in wp-admin, so 
 4. Corrections or an unpublish on the owner's word: `POST /posts/<id>` with the change, or `{"status": "draft"}`.
 
 The publisher's Application Password lives only in the approval tool's secret store. The owner can still publish by hand in wp-admin at any time; both paths give the same result.
+
+## Staging mirror (owner decision PUB-1, 2026-10-31)
+
+Articles are written for **production** (Pending Review → owner Approve). Theme, plugin and menu changes still go
+staging first. To keep staging comparable, `tools/mirror_content.py` copies production's published Journal articles
+**one way** to staging, and keeps the staging-only fixture articles in `site/fixtures/` published.
+
+| Item | Rule |
+|---|---|
+| Production access | read only, public REST API, no credential |
+| Staging access | `STAGING_WP_USER` / `STAGING_WP_APP_PASSWORD` (Administrator), environment `staging` |
+| What is copied | posts in a Journal section (news, insights, guides-tutorials, reviews, founders-note, retro-stories, price-index) published on/after 2026-11-01 (`MIRROR_SINCE`) |
+| Identity | staging post meta `nostek_source_id` = `mirror-<production id>`; `nostek_mirror_state` = production modified time + image id, so unchanged articles are skipped and images are uploaded once |
+| Removed on production | `--prune` moves the staging copy to the Trash (only `mirror-…` posts; nothing written on staging is touched) |
+| Content | production's rendered HTML; inline images keep their production / media-server URLs |
+| Fixtures | `site/fixtures/fixture-*.json` (publish_article format): every block style, a very long title, a short post |
+| When | Actions → **Content mirror**: nightly 02:00 WIB (writes), Run workflow = dry run unless *apply* is ticked |
+| Output | one line per change, then `RESULT PASS created=… updated=… unchanged=… trashed=… skipped=… warn=…` or `RESULT FAIL …` |
+
+The tool refuses to run when the target is not a `staging.` host or equals the production URL.
+Offline test: `python3 tools/test_mirror_content.py` (CI runs it).
