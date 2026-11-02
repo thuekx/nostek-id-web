@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.2.1
+ * Version: 0.3.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,12 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.2.1' );
+define( 'NOSTEK_CORE_VERSION', '0.3.0' );
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/seo.php';
 require_once __DIR__ . '/includes/analytics.php';
 require_once __DIR__ . '/includes/media.php';
+require_once __DIR__ . '/includes/menus.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -73,45 +74,64 @@ function nostek_core_register_topics() {
 
 add_action( 'init', 'nostek_core_register_roles' );
 /**
- * "Nostek Agent": for virtual-team writers. Can write, upload images and pick
- * Topics, but cannot publish, so every article lands as Pending Review.
- * To let a trusted agent publish, change that user's role to Author.
+ * Capabilities of the two virtual-team roles. Bump NOSTEK_CORE_ROLES_VERSION
+ * whenever a list changes: existing sites then get the new caps once.
+ *
+ * "Nostek Agent": writes articles and pages, uploads images, picks Topics;
+ * cannot publish, so everything lands as Pending Review.
+ *
+ * "Nostek Publisher": one account whose Application Password only the
+ * owner-approval tool holds. It publishes a Pending Review article or page
+ * after the owner approved it, and can fix or unpublish one on the owner's
+ * word. No users, plugins, themes, settings, terms or deleting other
+ * people's work.
+ *
+ * @return array<string, array{0: string, 1: string[]}>
  */
-function nostek_core_register_roles() {
-	if ( ! get_role( 'nostek_agent' ) ) {
-		add_role(
-			'nostek_agent',
+function nostek_core_role_caps() {
+	return array(
+		'nostek_agent'     => array(
 			__( 'Nostek Agent', 'nostek-core' ),
-			array(
-				'read'         => true,
-				'edit_posts'   => true,
-				'delete_posts' => true,
-				'upload_files' => true,
-			)
-		);
-	}
-
-	/*
-	 * "Nostek Publisher": one account whose Application Password only the
-	 * owner-approval tool holds. It publishes a Pending Review article after
-	 * the owner approved it, and can fix or unpublish an article on the
-	 * owner's word. No users, plugins, themes, settings, pages or deleting
-	 * other people's work.
-	 */
-	if ( ! get_role( 'nostek_publisher' ) ) {
-		add_role(
-			'nostek_publisher',
+			array( 'read', 'edit_posts', 'delete_posts', 'edit_pages', 'delete_pages', 'upload_files' ),
+		),
+		'nostek_publisher' => array(
 			__( 'Nostek Publisher', 'nostek-core' ),
 			array(
-				'read'                 => true,
-				'edit_posts'           => true,
-				'edit_others_posts'    => true,
-				'edit_published_posts' => true,
-				'publish_posts'        => true,
-				'read_private_posts'   => true,
-				'upload_files'         => true,
-			)
-		);
+				'read',
+				'upload_files',
+				'edit_posts',
+				'edit_others_posts',
+				'edit_published_posts',
+				'publish_posts',
+				'read_private_posts',
+				'edit_pages',
+				'edit_others_pages',
+				'edit_published_pages',
+				'publish_pages',
+				'read_private_pages',
+			),
+		),
+	);
+}
+
+const NOSTEK_CORE_ROLES_VERSION = 2;
+
+function nostek_core_register_roles() {
+	$stored = (int) get_option( 'nostek_core_roles_version', 0 );
+	foreach ( nostek_core_role_caps() as $slug => $def ) {
+		$role = get_role( $slug );
+		if ( ! $role ) {
+			add_role( $slug, $def[0], array_fill_keys( $def[1], true ) );
+		} elseif ( $stored < NOSTEK_CORE_ROLES_VERSION ) {
+			// Only adds: a cap the owner removed by hand on purpose comes back
+			// with a version bump, never silently on every request.
+			foreach ( $def[1] as $cap ) {
+				$role->add_cap( $cap );
+			}
+		}
+	}
+	if ( $stored < NOSTEK_CORE_ROLES_VERSION ) {
+		update_option( 'nostek_core_roles_version', NOSTEK_CORE_ROLES_VERSION );
 	}
 }
 
@@ -122,18 +142,20 @@ add_action( 'init', 'nostek_core_register_source_id' );
  * users who cannot publish, so the slug cannot serve as that id.
  */
 function nostek_core_register_source_id() {
-	register_post_meta(
-		'post',
-		'nostek_source_id',
-		array(
-			'type'          => 'string',
-			'single'        => true,
-			'show_in_rest'  => true,
-			'auth_callback' => static function () {
-				return current_user_can( 'edit_posts' );
-			},
-		)
-	);
+	foreach ( array( 'post', 'page' ) as $type ) {
+		register_post_meta(
+			$type,
+			'nostek_source_id',
+			array(
+				'type'          => 'string',
+				'single'        => true,
+				'show_in_rest'  => true,
+				'auth_callback' => static function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
 }
 
 add_action( 'init', 'nostek_core_register_mirror_state' );
@@ -158,8 +180,9 @@ function nostek_core_register_mirror_state() {
 }
 
 add_filter( 'rest_post_query', 'nostek_core_rest_filter_source_id', 10, 2 );
+add_filter( 'rest_page_query', 'nostek_core_rest_filter_source_id', 10, 2 );
 /**
- * Allows GET /wp/v2/posts?nostek_source_id=<id> for users who can edit posts.
+ * Allows GET /wp/v2/posts?nostek_source_id=<id> (and /pages) for users who can edit posts.
  *
  * @param array           $args    WP_Query arguments.
  * @param WP_REST_Request $request REST request.
