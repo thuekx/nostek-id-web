@@ -11,7 +11,7 @@ Code goes through Git; **content goes through the WordPress REST API**, one Word
 | Role | `Nostek Agent` (from the Nostek Core plugin): can write articles and pages, upload images, pick categories and Topics; **cannot publish**, so everything lands as *Pending Review*. |
 | Publisher | One account `publisher-nostek` with role `Nostek Publisher`, used only by the owner-approval tool, only after the owner approved an article or page (see *Publishing* below). |
 | Credential | An Application Password on that user (Users → Profile → Application Passwords), created by the owner. Stored only in the agent's secret store, entered through a hidden prompt, never in chat, git or argv. Revoke it there to cut access at once. |
-| Terms | Categories, Topics and tags must already exist. Agents never create or rename terms. |
+| Terms | Categories, Topics and tags must already exist. Agents never create or rename terms; Nostek Core 0.3.1+ refuses a new tag over REST from anyone who is not an editor. |
 
 ### What each role can do
 
@@ -62,7 +62,7 @@ See [`examples/article.json`](examples/article.json).
 | `meta_description` | no | Search snippet, at most 160 characters (post meta `nostek_meta_description`). Left out = the stored value is kept. |
 | `category` | yes | One Journal section slug: `news`, `insights`, `guides-tutorials`, `reviews`, `founders-note`. |
 | `topics` | no | Topic slugs, e.g. `ai`, `cybersecurity`, `cloud-infrastructure`, `networking`. |
-| `tags` | no | Existing tag slugs. |
+| `tags` | no | 1-3 existing tag slugs from the starter list in `site/pages.json` (`tags`), e.g. `fotografi`, `kamera-lawas`, `harga-pasar`. Agents cannot create tags (403 `nostek_no_new_terms`). |
 | `featured_image` | no | Path relative to the JSON file, WebP preferred (1600 px wide or more for link previews). Uploaded on create; on update only when `"replace_featured_image": true`. |
 | `featured_image_alt` | with image | Describes the image for screen readers and SEO. |
 | `status` | no | `pending` (default), `draft`, or for Author-role agents `publish` / `future`. |
@@ -136,6 +136,10 @@ Reference behaviour for any tool that uploads images (A's tool follows it):
 Every run uploads a new item; re-running does not replace an earlier upload.
 
 Authentication: HTTP Basic with the username and Application Password.
+
+### Slugs of Pending Review posts and pages
+
+WordPress drops the `slug` a user without publish rights sends for a Pending Review post or page, and on publish it would build the slug from the title. Nostek Core 0.3.1+ keeps the agent's slug: a `slug` sent with an unpublished post is stored in post meta `nostek_slug` (readable in `meta`, also writable directly), and on the **first** publish that slug is used (made unique with `-2` if another post already has it). So the publisher still sends exactly `{"status": "publish"}`. A publisher that sends its own `slug` wins. While pending, `slug` in the REST answer is empty; read `meta.nostek_slug` instead.
 
 ## Publishing (owner approval)
 

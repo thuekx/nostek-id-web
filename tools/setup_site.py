@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create the site's terms, base pages and reading settings over the REST API.
 
-Reads site/pages.json. Journal categories, Topics, WooCommerce product
+Reads site/pages.json. Journal categories, Topics, tags, WooCommerce product
 categories that already exist (same slug) and pages that already exist are
 left as they are, so editors' changes
 are never overwritten. The one exception: a page whose spec lists earlier
@@ -40,6 +40,7 @@ SPEC = pathlib.Path(__file__).resolve().parent.parent / "site" / "pages.json"
 TERMS = {
     "categories": ("categories", "category"),
     "topics": ("topic", "topic"),
+    "tags": ("tags", "tag"),
     "product_categories": ("product_cat", "product category"),
 }
 
