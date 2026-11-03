@@ -330,6 +330,88 @@
       "description": "Technology for running and growing a business."
     }
   ],
+  "tags": [
+    {
+      "slug": "fotografi",
+      "name": "Fotografi"
+    },
+    {
+      "slug": "videografi",
+      "name": "Videografi"
+    },
+    {
+      "slug": "lighting",
+      "name": "Lighting"
+    },
+    {
+      "slug": "produksi-konten",
+      "name": "Produksi Konten"
+    },
+    {
+      "slug": "strategi-konten",
+      "name": "Strategi Konten"
+    },
+    {
+      "slug": "behind-the-scenes",
+      "name": "Behind the Scenes"
+    },
+    {
+      "slug": "portofolio",
+      "name": "Portofolio"
+    },
+    {
+      "slug": "konsol",
+      "name": "Konsol"
+    },
+    {
+      "slug": "game-retro",
+      "name": "Game Retro"
+    },
+    {
+      "slug": "komputer-lawas",
+      "name": "Komputer Lawas"
+    },
+    {
+      "slug": "kamera-lawas",
+      "name": "Kamera Lawas"
+    },
+    {
+      "slug": "audio-vintage",
+      "name": "Audio Vintage"
+    },
+    {
+      "slug": "ponsel-lawas",
+      "name": "Ponsel Lawas"
+    },
+    {
+      "slug": "suku-cadang",
+      "name": "Suku Cadang"
+    },
+    {
+      "slug": "restorasi",
+      "name": "Restorasi"
+    },
+    {
+      "slug": "koleksi",
+      "name": "Koleksi"
+    },
+    {
+      "slug": "harga-pasar",
+      "name": "Harga Pasar"
+    },
+    {
+      "slug": "perbandingan",
+      "name": "Perbandingan"
+    },
+    {
+      "slug": "panduan-pemula",
+      "name": "Panduan Pemula"
+    },
+    {
+      "slug": "wawancara",
+      "name": "Wawancara"
+    }
+  ],
   "product_categories": [
     {
       "slug": "games-consoles",

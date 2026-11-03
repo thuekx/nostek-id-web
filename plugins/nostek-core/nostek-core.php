@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.3.0
+ * Version: 0.3.1
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,13 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.3.0' );
+define( 'NOSTEK_CORE_VERSION', '0.3.1' );
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/seo.php';
 require_once __DIR__ . '/includes/analytics.php';
 require_once __DIR__ . '/includes/media.php';
 require_once __DIR__ . '/includes/menus.php';
+require_once __DIR__ . '/includes/slugs.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -70,6 +71,44 @@ function nostek_core_register_topics() {
 			),
 		)
 	);
+}
+
+add_filter( 'register_taxonomy_args', 'nostek_core_tag_caps', 10, 2 );
+/**
+ * Core lets anyone who can edit posts create tags. Here tags follow the same
+ * rule as categories and Topics: editors create them, writers (and the
+ * virtual-team agents) only pick existing ones.
+ *
+ * @param array  $args     Taxonomy arguments.
+ * @param string $taxonomy Taxonomy name.
+ * @return array
+ */
+function nostek_core_tag_caps( $args, $taxonomy ) {
+	if ( 'post_tag' === $taxonomy ) {
+		$args['capabilities'] = array(
+			'manage_terms' => 'manage_categories',
+			'edit_terms'   => 'manage_categories',
+			'delete_terms' => 'manage_categories',
+			'assign_terms' => 'edit_posts',
+		);
+	}
+	return $args;
+}
+
+add_filter( 'pre_insert_term', 'nostek_core_block_tag_create', 10, 2 );
+/**
+ * The REST API lets anyone who may assign tags also create new ones, so the
+ * capability above is not enough for /wp/v2/tags.
+ *
+ * @param string|WP_Error $term     Term name.
+ * @param string          $taxonomy Taxonomy name.
+ * @return string|WP_Error
+ */
+function nostek_core_block_tag_create( $term, $taxonomy ) {
+	if ( 'post_tag' === $taxonomy && defined( 'REST_REQUEST' ) && REST_REQUEST && ! current_user_can( 'manage_categories' ) ) {
+		return new WP_Error( 'nostek_no_new_terms', __( 'Pick an existing tag; only editors create tags.', 'nostek-core' ), array( 'status' => 403 ) );
+	}
+	return $term;
 }
 
 add_action( 'init', 'nostek_core_register_roles' );
