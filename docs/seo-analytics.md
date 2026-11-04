@@ -39,7 +39,7 @@ Search and 404 pages get no extra tags (core already marks search results `noind
 | Meta Pixel ID | digits; **loads only when "Load the Meta Pixel" is ticked** (owner approval first) | `NOSTEK_META_PIXEL_ID` |
 | Organization name | JSON-LD name, default `Nostek` | |
 | Logo URL | square PNG/WebP, at least 512 px, from the Media Library; empty = Site Icon | |
-| Social profiles | one URL per line, e.g. `https://www.instagram.com/nostek.id/`; becomes `sameAs` | |
+| Social profiles | one URL per line; becomes `sameAs`. Nostek ID (2026-11-03): `https://www.facebook.com/profile.php?id=61595801279866`, `https://www.instagram.com/nostekid/`, `https://youtube.com/@NostekID` (the footer icons use the same list, in `themes/nostek/parts/footer.html`) | |
 
 Invalid IDs are refused with a notice and not stored. These are public IDs, not secrets, but they still stay out of git so staging and production can differ.
 Softaculous "Push to Live" copies the database, so a value set on staging arrives on production too; on staging it never loads anything.

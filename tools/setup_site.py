@@ -78,10 +78,20 @@ def ensure_terms(wp, spec, apply):
                 continue
         ids = {}
         for t in terms:
-            found = wp.call("GET", rest_base, {"slug": t["slug"], "_fields": "id"})
+            found = wp.call("GET", rest_base, {"slug": t["slug"], "_fields": "id,description"})
             if found:
-                ids[t["slug"]] = found[0]["id"]
-                print(f"SKIP {label} '{t['slug']}' exists (id={found[0]['id']})")
+                tid = found[0]["id"]
+                ids[t["slug"]] = tid
+                # Only an empty description is filled in; one edited in wp-admin is kept.
+                if t.get("description") and not found[0].get("description"):
+                    changes += 1
+                    if not apply:
+                        print(f"PLAN describe {label} '{t['slug']}' (id={tid})")
+                        continue
+                    wp.call("POST", f"{rest_base}/{tid}", body={"description": t["description"]})
+                    print(f"PASS describe {label} '{t['slug']}' id={tid}")
+                    continue
+                print(f"SKIP {label} '{t['slug']}' exists (id={tid})")
                 continue
             changes += 1
             if not apply:
