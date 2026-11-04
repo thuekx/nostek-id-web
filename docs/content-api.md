@@ -62,7 +62,7 @@ See [`examples/article.json`](examples/article.json).
 | `meta_description` | no | Search snippet, at most 160 characters (post meta `nostek_meta_description`). Left out = the stored value is kept. |
 | `category` | yes | One Journal section slug: `news`, `insights`, `guides-tutorials`, `reviews`, `founders-note`. |
 | `topics` | no | Topic slugs, e.g. `ai`, `cybersecurity`, `cloud-infrastructure`, `networking`. |
-| `tags` | no | 1-3 existing tag slugs from the starter list in `site/pages.json` (`tags`), e.g. `fotografi`, `kamera-lawas`, `harga-pasar`. Agents cannot create tags (403 `nostek_no_new_terms`). |
+| `tags` | no | 1-3 existing tag slugs from the list in `site/pages.json` (`tags`, 65 since WEB-28), e.g. `fotografi`, `kamera-lawas`, `harga-pasar`, `backup`. Each tag's `description` says what it is for (`Use for: …`, the brief's sub-theme); `name` comes back HTML-escaped (`Kata Sandi &amp; 2FA`). Plain device tags (`game`, `komputer`, `ponsel-tablet`, `audio`, `kamera`) are for current devices, the `-lawas` / `-vintage` tags for old ones. Agents cannot create tags (403 `nostek_no_new_terms`); a new tag is an owner decision. |
 | `featured_image` | no | Path relative to the JSON file, WebP preferred (1600 px wide or more for link previews). Uploaded on create; on update only when `"replace_featured_image": true`. |
 | `featured_image_alt` | with image | Describes the image for screen readers and SEO. |
 | `status` | no | `pending` (default), `draft`, or for Author-role agents `publish` / `future`. |

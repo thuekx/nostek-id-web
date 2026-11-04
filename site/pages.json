@@ -333,83 +333,328 @@
   "tags": [
     {
       "slug": "fotografi",
-      "name": "Fotografi"
+      "name": "Fotografi",
+      "description": "Use for: Insights: Photography Tips"
     },
     {
       "slug": "videografi",
-      "name": "Videografi"
+      "name": "Videografi",
+      "description": "Use for: Insights: Videography Tips"
     },
     {
       "slug": "lighting",
-      "name": "Lighting"
+      "name": "Lighting",
+      "description": "Use for: Insights: Lighting Guide"
     },
     {
       "slug": "produksi-konten",
-      "name": "Produksi Konten"
+      "name": "Produksi Konten",
+      "description": "Use for: Insights: Production Guide"
     },
     {
       "slug": "strategi-konten",
-      "name": "Strategi Konten"
+      "name": "Strategi Konten",
+      "description": "Use for: Insights: Content Strategy"
     },
     {
       "slug": "behind-the-scenes",
-      "name": "Behind the Scenes"
+      "name": "Behind the Scenes",
+      "description": "Use for: Insights: Behind the Scenes"
     },
     {
       "slug": "portofolio",
-      "name": "Portofolio"
+      "name": "Portofolio",
+      "description": "Use for: Insights: Portfolio Stories"
     },
     {
       "slug": "konsol",
-      "name": "Konsol"
+      "name": "Konsol",
+      "description": "Use for: Games & Console; Price Index for consoles"
     },
     {
       "slug": "game-retro",
-      "name": "Game Retro"
+      "name": "Game Retro",
+      "description": "Use for: Retro Stories: old games"
     },
     {
       "slug": "komputer-lawas",
-      "name": "Komputer Lawas"
+      "name": "Komputer Lawas",
+      "description": "Use for: Retro Stories / Price Index: old computers"
     },
     {
       "slug": "kamera-lawas",
-      "name": "Kamera Lawas"
+      "name": "Kamera Lawas",
+      "description": "Use for: Retro Stories / Price Index: old cameras"
     },
     {
       "slug": "audio-vintage",
-      "name": "Audio Vintage"
+      "name": "Audio Vintage",
+      "description": "Use for: Retro Stories / Price Index: vintage audio"
     },
     {
       "slug": "ponsel-lawas",
-      "name": "Ponsel Lawas"
+      "name": "Ponsel Lawas",
+      "description": "Use for: Retro Stories / Price Index: old phones"
     },
     {
       "slug": "suku-cadang",
-      "name": "Suku Cadang"
+      "name": "Suku Cadang",
+      "description": "Use for: Guides & Tutorials: Parts Guide"
     },
     {
       "slug": "restorasi",
-      "name": "Restorasi"
+      "name": "Restorasi",
+      "description": "Use for: Guides & Tutorials: Restoration Story"
     },
     {
       "slug": "koleksi",
-      "name": "Koleksi"
+      "name": "Koleksi",
+      "description": "Use for: Collectible, Collection Stories; Price Index for collectibles"
     },
     {
       "slug": "harga-pasar",
-      "name": "Harga Pasar"
+      "name": "Harga Pasar",
+      "description": "Use for: Price Index: every price index article"
     },
     {
       "slug": "perbandingan",
-      "name": "Perbandingan"
+      "name": "Perbandingan",
+      "description": "Use for: Reviews: Product Comparison"
     },
     {
       "slug": "panduan-pemula",
-      "name": "Panduan Pemula"
+      "name": "Panduan Pemula",
+      "description": "Use for: Beginner guides on any topic"
     },
     {
       "slug": "wawancara",
-      "name": "Wawancara"
+      "name": "Wawancara",
+      "description": "Use for: Interviews, incl. Collector Interviews"
+    },
+    {
+      "slug": "backup",
+      "name": "Backup",
+      "description": "Use for: Cybersecurity: backup and restore"
+    },
+    {
+      "slug": "keamanan-data",
+      "name": "Keamanan Data",
+      "description": "Use for: Cybersecurity: data protection"
+    },
+    {
+      "slug": "ransomware",
+      "name": "Ransomware",
+      "description": "Use for: Cybersecurity: ransomware"
+    },
+    {
+      "slug": "kata-sandi",
+      "name": "Kata Sandi & 2FA",
+      "description": "Use for: Cybersecurity: passwords and two-factor login"
+    },
+    {
+      "slug": "privasi",
+      "name": "Privasi",
+      "description": "Use for: Cybersecurity: privacy"
+    },
+    {
+      "slug": "server",
+      "name": "Server",
+      "description": "Use for: Cloud & Infrastructure: servers"
+    },
+    {
+      "slug": "virtualisasi",
+      "name": "Virtualisasi",
+      "description": "Use for: Cloud & Infrastructure: virtualisation"
+    },
+    {
+      "slug": "penyimpanan",
+      "name": "Penyimpanan & NAS",
+      "description": "Use for: Cloud & Infrastructure: storage and NAS"
+    },
+    {
+      "slug": "homelab",
+      "name": "Homelab",
+      "description": "Use for: Cloud & Infrastructure: homelab"
+    },
+    {
+      "slug": "cloud",
+      "name": "Cloud",
+      "description": "Use for: Cloud & Infrastructure: cloud services"
+    },
+    {
+      "slug": "jaringan-kantor",
+      "name": "Jaringan Kantor",
+      "description": "Use for: Networking: office networks"
+    },
+    {
+      "slug": "wifi",
+      "name": "Wi-Fi",
+      "description": "Use for: Networking: Wi-Fi"
+    },
+    {
+      "slug": "router-switch",
+      "name": "Router & Switch",
+      "description": "Use for: Networking: routers and switches"
+    },
+    {
+      "slug": "vpn",
+      "name": "VPN",
+      "description": "Use for: Networking: VPN"
+    },
+    {
+      "slug": "ai-generatif",
+      "name": "AI Generatif",
+      "description": "Use for: AI: generative AI"
+    },
+    {
+      "slug": "otomasi",
+      "name": "Otomasi",
+      "description": "Use for: AI: automation"
+    },
+    {
+      "slug": "mini-pc",
+      "name": "Mini PC",
+      "description": "Use for: Gadget & Hardware: mini PCs"
+    },
+    {
+      "slug": "laptop",
+      "name": "Laptop",
+      "description": "Use for: Gadget & Hardware: laptops; Computer & Laptop guides"
+    },
+    {
+      "slug": "aksesoris",
+      "name": "Aksesoris",
+      "description": "Use for: Gadget & Hardware: accessories"
+    },
+    {
+      "slug": "open-source",
+      "name": "Open Source",
+      "description": "Use for: Software & Applications: open source"
+    },
+    {
+      "slug": "linux",
+      "name": "Linux",
+      "description": "Use for: Software & Applications: Linux"
+    },
+    {
+      "slug": "aplikasi-kantor",
+      "name": "Aplikasi Kantor",
+      "description": "Use for: Software & Applications: office apps"
+    },
+    {
+      "slug": "umkm",
+      "name": "UMKM",
+      "description": "Use for: Digital Business: small businesses"
+    },
+    {
+      "slug": "website-bisnis",
+      "name": "Website Bisnis",
+      "description": "Use for: Digital Business: business websites"
+    },
+    {
+      "slug": "pemasaran-digital",
+      "name": "Pemasaran Digital",
+      "description": "Use for: Digital Business: digital marketing"
+    },
+    {
+      "slug": "tren-teknologi",
+      "name": "Tren Teknologi",
+      "description": "Use for: News / Insights: technology trends"
+    },
+    {
+      "slug": "cerita-nostek",
+      "name": "Cerita Nostek",
+      "description": "Use for: Founder's Note: Nostek stories"
+    },
+    {
+      "slug": "editing",
+      "name": "Editing Foto & Video",
+      "description": "Use for: Insights: photo and video editing"
+    },
+    {
+      "slug": "game",
+      "name": "Game",
+      "description": "Use for: Games & Console: current games (old ones: game-retro)"
+    },
+    {
+      "slug": "komputer",
+      "name": "Komputer & PC",
+      "description": "Use for: Computer & Laptop: current computers (old ones: komputer-lawas)"
+    },
+    {
+      "slug": "ponsel-tablet",
+      "name": "Ponsel & Tablet",
+      "description": "Use for: Phone & Tablet: current devices (old ones: ponsel-lawas)"
+    },
+    {
+      "slug": "audio",
+      "name": "Audio",
+      "description": "Use for: Audio: current devices (old ones: audio-vintage)"
+    },
+    {
+      "slug": "kamera",
+      "name": "Kamera",
+      "description": "Use for: Camera: current cameras (old ones: kamera-lawas)"
+    },
+    {
+      "slug": "keaslian",
+      "name": "Cek Keaslian",
+      "description": "Use for: Guides & Tutorials: Authenticity"
+    },
+    {
+      "slug": "perbaikan",
+      "name": "Perbaikan",
+      "description": "Use for: Guides & Tutorials: Repair"
+    },
+    {
+      "slug": "perawatan-perangkat",
+      "name": "Perawatan Perangkat",
+      "description": "Use for: Guides & Tutorials: Device Maintenance"
+    },
+    {
+      "slug": "teardown",
+      "name": "Teardown",
+      "description": "Use for: Guides & Tutorials: Teardown"
+    },
+    {
+      "slug": "sebelum-sesudah",
+      "name": "Before & After",
+      "description": "Use for: Guides & Tutorials: Before & After"
+    },
+    {
+      "slug": "antar-generasi",
+      "name": "Perbandingan Generasi",
+      "description": "Use for: Reviews: Generation Comparison"
+    },
+    {
+      "slug": "panduan-membeli",
+      "name": "Panduan Membeli",
+      "description": "Use for: Reviews: Buying Comparison"
+    },
+    {
+      "slug": "lama-vs-baru",
+      "name": "Lama vs Baru",
+      "description": "Use for: Reviews: Old vs New Technology"
+    },
+    {
+      "slug": "kolektor",
+      "name": "Kolektor",
+      "description": "Use for: Retro Stories: Collector's Guide, Collector Interviews"
+    },
+    {
+      "slug": "sejarah-teknologi",
+      "name": "Sejarah Teknologi",
+      "description": "Use for: Retro Stories: History of Technology"
+    },
+    {
+      "slug": "nostalgia-indonesia",
+      "name": "Nostalgia Indonesia",
+      "description": "Use for: Retro Stories: Nostalgia Indonesia"
+    },
+    {
+      "slug": "harga-terbaru",
+      "name": "Harga Terbaru",
+      "description": "Use for: Price Index: latest prices"
     }
   ],
   "product_categories": [
