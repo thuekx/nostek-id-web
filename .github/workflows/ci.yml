@@ -38,6 +38,9 @@ jobs:
       - name: Content mirror tool (offline test)
         run: python3 tools/test_mirror_content.py
 
+      - name: Media URL filter (offline test)
+        run: php tools/test_media_urls.php
+
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v3
         env:
