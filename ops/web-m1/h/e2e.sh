@@ -53,6 +53,8 @@ check "VERIFY fails before backup proof (NEW-VM-BACKUP)" '[ $rc -ne 0 ] && grep 
 check "VERIFY media + resize + exposure lines pass" 'grep -q "PASS http://media.nostek.id/_nostek/canary.txt served" <<<"$out" && grep -q "PASS resize /i/…/w400 returns image/webp" <<<"$out" && grep -q "PASS S3 API refuses anonymous listing" <<<"$out" && grep -q "PASS free-form resize refused" <<<"$out" && grep -q "PASS media site refuses writes" <<<"$out" && grep -q "PASS no Garage/imgproxy port open" <<<"$out"'
 out="$(printf 'only two\n' | run BACKUP-SETUP --ack WEB-M1 --stdin)"; rc=$?
 check "BACKUP-SETUP rejects bad input" '[ $rc -ne 0 ] && grep -q "expected 4 values" <<<"$out"'
+out="$(printf '%s\n' "$W/restic-repo <fakekey> fakesecret fake-test-passphrase-0123" | run BACKUP-SETUP --ack WEB-M1 --stdin)"; rc=$?
+check "BACKUP-SETUP rejects < > placeholders (rev2)" '[ $rc -ne 0 ] && grep -q "without the < > brackets" <<<"$out" && [ ! -e "$NM_ROOT/etc/nostek-media/backup.env" ]'
 PASSPHRASE="fake-test-passphrase-$RANDOM-$RANDOM"
 out="$(printf '%s\n' "$W/restic-repo fakekey fakesecret $PASSPHRASE" | run BACKUP-SETUP --ack WEB-M1 --stdin)"; rc=$?
 check "BACKUP-SETUP stores target, no secret printed" '[ $rc -eq 0 ] && ! grep -q "$PASSPHRASE" <<<"$out" && [ "$(stat -c %a "$NM_ROOT/etc/nostek-media/restic.pass")" = 600 ]'
@@ -63,6 +65,8 @@ check "BACKUP shows progress" 'grep -q "PROGRESS backup" <<<"$out" && [ "$(grep 
 check "no proof container left" '[ -z "$(docker ps -aq --filter name=nm-proof)" ]'
 out="$(run VERIFY --ack WEB-M1 < /dev/null)"; rc=$?; echo "$out" | grep -E "^(FAIL|RESULT)"
 check "VERIFY passes after BACKUP" '[ $rc -eq 0 ] && grep -q "^RESULT VERIFY PASS fail=0" <<<"$out"'
+check "path-style URL /<bucket>/<key> serves the same object (rev2)" '[ "$(curl -s -H "Host: media.nostek.id" http://127.0.0.1:18080/media.nostek.id/_nostek/canary.txt | sha256sum | cut -d" " -f1)" = "$(cat "$NM_ROOT/etc/nostek-media/canary.sha256")" ]'
+check "backup.env read as data, not sourced (rev2)" '! grep -q "\. \"\$ETC/backup.env\"" "$PKG"'
 # re-APPLY is idempotent and keeps data
 out="$(run APPLY --ack WEB-M1 < /dev/null)"; rc=$?
 check "second APPLY passes and keeps the canary" '[ $rc -eq 0 ] && grep -q "layout already assigned" <<<"$out" && [ "$(curl -s -H "Host: media.nostek.id" http://127.0.0.1:18080/_nostek/canary.txt | sha256sum | cut -d" " -f1)" = "$(cat "$NM_ROOT/etc/nostek-media/canary.sha256")" ]'
@@ -72,5 +76,12 @@ check "broken image digest -> FAIL + rollback, previous stack running" '[ $rc -n
 out="$(run WPKEY --ack WEB-M1 < /dev/null)"
 check "WPKEY never writes the secret to stdout/stderr" '! grep -q "$SEC" <<<"$out"'
 unset SEC
+# rev2 upgrade path on a running rev1 install: Caddy must pick up the new Caddyfile
+git -C "$HERE" show 82a924c5ad36f0c75a592f67c6b9c1b5a72f7680:ops/web-m1/nostek-media-1.sh > "$W/rev1.sh"
+out="$(bash "$W/rev1.sh" APPLY --ack WEB-M1 < /dev/null 2>&1)"; rc=$?
+docker restart nostek-media-caddy-1 >/dev/null  # a rev1 host runs the rev1 Caddyfile
+check "rev1 APPLY (old Caddyfile) does not serve /<bucket>/<key>" '[ $rc -eq 0 ] && [ "$(curl -s -o /dev/null -w "%{http_code}" -H "Host: media.nostek.id" http://127.0.0.1:18080/media.nostek.id/_nostek/canary.txt)" != 200 ]'
+out="$(run APPLY --ack WEB-M1 < /dev/null)"; rc=$?
+check "rev2 APPLY over rev1 restarts caddy and serves /<bucket>/<key>" '[ $rc -eq 0 ] && grep -q "PASS caddy restarted with the new Caddyfile" <<<"$out" && [ "$(curl -s -H "Host: media.nostek.id" http://127.0.0.1:18080/media.nostek.id/_nostek/canary.txt | sha256sum | cut -d" " -f1)" = "$(cat "$NM_ROOT/etc/nostek-media/canary.sha256")" ]'
 echo "RESULT e2e $([ $OK -eq $N ] && echo PASS || echo FAIL) $OK/$N"
 [ $OK -eq $N ]

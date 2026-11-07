@@ -20,7 +20,7 @@ set -uo pipefail
 umask 077
 
 STEP="WEB-M1"
-REV="1"
+REV="2"
 EXPECTED_HOST="nostek-media"
 MEDIA_HOST="${NM_MEDIA_HOST:-media.nostek.id}"
 S3_HOST="${NM_S3_HOST:-s3-media.nostek.id}"
@@ -153,6 +153,8 @@ $site_media {
 	}
 	@write not method GET HEAD OPTIONS
 	route {
+		# rev2: the WordPress offload plugin (path style) writes /<bucket>/<key>; serve both forms
+		uri strip_prefix /$BUCKET
 		respond @write 405
 		handle_path /i/* {
 			header Cache-Control "public, max-age=31536000, immutable"
@@ -276,7 +278,7 @@ rollback() {
     [ -e "$ROLL_DIR/compose.yaml" ] && cp -a "$ROLL_DIR/compose.yaml" "$OPT/"
     [ -e "$ROLL_DIR/Caddyfile" ] && cp -a "$ROLL_DIR/Caddyfile" "$ETC/caddy/"
     [ -e "$ROLL_DIR/garage.toml" ] && cp -a "$ROLL_DIR/garage.toml" "$ETC/garage/"
-    [ -e "$OPT/compose.yaml" ] && compose up -d >/dev/null 2>&1 && say "ROLLBACK previous install started again"
+    [ -e "$OPT/compose.yaml" ] && compose up -d >/dev/null 2>&1 && compose restart caddy >/dev/null 2>&1 && say "ROLLBACK previous install started again"
   fi
   say "ROLLBACK done: new files moved aside to $failed (data under $SRV untouched)"
 }
@@ -331,6 +333,9 @@ apply() {
   done
   progress "6/9 start"
   step_or_rollback "containers started" compose up -d --remove-orphans
+  if [ -n "$ROLL_DIR" ] && ! cmp -s "$ROLL_DIR/Caddyfile" "$ETC/caddy/Caddyfile"; then # rev2: a file bind mount needs a restart
+    step_or_rollback "caddy restarted with the new Caddyfile" compose restart caddy
+  fi
   local _i; for _i in $(seq 1 30); do G status >/dev/null 2>&1 && break; sleep 1; done
   step_or_rollback "garage answers" G status
   progress "7/9 cluster layout"
@@ -361,12 +366,17 @@ apply() {
 # ---------------------------------------------------------------- BACKUP-SETUP
 backup_setup() {
   if [ "$STDIN" -ne 1 ]; then fail "BACKUP-SETUP reads one line from --stdin (see usage)"; result "no-stdin"; fi
-  local line repo kid ksec pass_ x
+  local line repo kid ksec pass_ x v
   IFS= read -r line || true
   read -r repo kid ksec pass_ x <<< "$line"
   if [ -z "${repo:-}" ] || [ -z "${kid:-}" ] || [ -z "${ksec:-}" ] || [ -z "${pass_:-}" ] || [ -n "${x:-}" ]; then
     fail "expected 4 values separated by spaces: <restic repo> <key id> <key secret> <restic passphrase>"; result "bad-input"
   fi
+  for v in "$repo" "$kid" "$ksec" "$pass_"; do
+    case "$v" in *[\<\>\"\'\`\$\\]*)
+      fail "a value contains < > quotes \$ or a backslash: replace the placeholders completely, without the < > brackets"; result "bad-input" ;;
+    esac
+  done
   case "$repo" in s3:*|b2:*|sftp:*|rest:*) ;; /*) [ -n "$ROOT" ] || { fail "a local path is not an off-site backup"; result "bad-repo"; } ;; *) fail "repo must start with s3:, b2:, sftp: or rest:"; result "bad-repo" ;; esac
   if [ "${#pass_}" -lt 16 ]; then fail "restic passphrase shorter than 16 characters"; result "weak-passphrase"; fi
   mkdir -p "$ETC"
@@ -404,7 +414,13 @@ EOF
 }
 
 # ---------------------------------------------------------------- BACKUP
-restic_env() { set -a; . "$ETC/backup.env"; set +a; export RESTIC_PASSWORD_FILE="$ETC/restic.pass"; }
+restic_env() { # rev2: read KEY=value lines, never source the file as shell
+  local k v
+  while IFS='=' read -r k v; do
+    case "$k" in RESTIC_REPOSITORY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|B2_ACCOUNT_ID|B2_ACCOUNT_KEY) export "$k=$v" ;; esac
+  done < "$ETC/backup.env"
+  export RESTIC_PASSWORD_FILE="$ETC/restic.pass"
+}
 backup() {
   [ -s "$ETC/backup.env" ] || { fail "no backup target: run BACKUP-SETUP first"; result "no-target"; }
   garage_up || { fail "garage is not running"; result "garage-down"; }
