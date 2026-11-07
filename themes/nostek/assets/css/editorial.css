@@ -1128,3 +1128,33 @@ footer .nk-footer-links .wp-block-navigation-item__content:hover {
 .nk-mega.nk-click .wp-block-navigation__container > .has-child.nk-open > .wp-block-navigation-submenu__toggle svg {
 	transform: rotate(180deg);
 }
+
+/* ---------- WEB-29: Topics cards in balanced rows ----------
+   Owner 2026-11-07: 7 topics left 2 lonely cards under a row of 5. Cards
+   now wrap 4 per row on desktop and the last row is centred (4 + 3); 2 and
+   1 per row on smaller screens, the last card centred too. */
+.nostek-topics {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+}
+.nostek-topics__item {
+	box-sizing: border-box;
+	flex: 0 1 calc((100% - 3rem) / 4);
+	min-width: 0;
+}
+.nostek-topics__name {
+	display: inline-block;
+	line-height: 1.15;
+}
+@media (max-width: 900px) {
+	.nostek-topics__item {
+		flex-basis: calc((100% - 1rem) / 2);
+	}
+}
+@media (max-width: 480px) {
+	.nostek-topics__item {
+		flex-basis: 100%;
+	}
+}
