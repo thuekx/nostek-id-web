@@ -217,33 +217,33 @@
       "parent": "legal"
     },
     {
-      "slug": "nostek-ai",
-      "title": "Nostek AI",
-      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">From knowledge to solution. Layanan AI Nostek untuk tim dan bisnis.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
+      "slug": "nostek-dev",
+      "title": "Nostek Dev",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Portal, dokumentasi, layanan bantuan, dan console untuk pengguna layanan Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->"
     },
     {
       "slug": "portal",
       "title": "Portal",
-      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pintu masuk ke layanan Nostek AI untuk pelanggan.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
-      "parent": "nostek-ai"
-    },
-    {
-      "slug": "console",
-      "title": "Console",
-      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kelola agen, akses, dan pemakaian Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
-      "parent": "nostek-ai"
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Pintu masuk ke layanan Nostek untuk pelanggan.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-dev"
     },
     {
       "slug": "knowledge-base",
       "title": "Knowledge Base",
-      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Artikel bantuan dan dokumentasi Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
-      "parent": "nostek-ai"
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Artikel bantuan dan dokumentasi layanan Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-dev"
     },
     {
-      "slug": "ticket",
-      "title": "Ticket",
-      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Buka dan pantau tiket dukungan Nostek AI.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
-      "parent": "nostek-ai"
+      "slug": "service-desk",
+      "title": "Service Desk",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Buka dan pantau permintaan bantuan untuk layanan Nostek.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-dev"
+    },
+    {
+      "slug": "console",
+      "title": "Console",
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Masuk ke Nostek Console untuk mengelola akses dan pemakaian layanan. Halaman login akan pindah ke console.nostek.dev.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Halaman ini sedang kami siapkan. Untuk sementara, hubungi tim Nostek lewat halaman Request Support.</p>\n<!-- /wp:paragraph -->",
+      "parent": "nostek-dev"
     }
   ],
   "front_page": "home",
