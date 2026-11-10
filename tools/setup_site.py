@@ -51,6 +51,10 @@ def load_spec(path):
     except (OSError, json.JSONDecodeError) as e:
         raise Fail(f"cannot read {path}: {e}")
     slugs = [p["slug"] for p in spec["pages"]]
+    dupes = sorted({s for s in slugs if slugs.count(s) > 1})
+    if dupes:
+        # Parents are looked up by slug, so a slug may appear only once.
+        raise Fail(f"page slugs must be unique in the file: {dupes}")
     for i, p in enumerate(spec["pages"]):
         if p.get("parent") and p["parent"] not in slugs[:i]:
             raise Fail(f"page '{p['slug']}': parent '{p['parent']}' must be listed before it")
@@ -186,8 +190,9 @@ def main():
                 "slug": page["slug"], "status": "publish,draft,pending,private,future",
                 "context": "edit", "_fields": "id,status,content",
             }
-            if parent:
-                query["parent"] = ids[parent]
+            # parent=0 for top-level pages, so /nostek-dev/ is never matched
+            # by a child page with the same slug elsewhere in the tree.
+            query["parent"] = ids[parent] if parent else 0
             found = wp.call("GET", "pages", query)
             if found:
                 ids[page["slug"]] = found[0]["id"]
