@@ -8,7 +8,8 @@ are never overwritten. The one exception: a page whose spec lists earlier
 placeholder texts under "replaces" gets the new content when its current
 content is still exactly one of those placeholders (nobody has edited it),
 or still holds old theme demo markup named under "replaces_markers" (e.g.
-WPBakery "[vc_row" shortcodes left from the VintWood demo).
+WPBakery "[vc_row" shortcodes left from the VintWood demo, or WordPress's
+own draft Privacy Policy). A replaced page is also published.
 A page or term with "parent" is created under that parent (listed earlier in
 the file), so /sell/faq/ and /support/faq/ cannot be mixed up. Product
 categories are skipped with a WARN when WooCommerce is not active. Then sets
@@ -187,16 +188,20 @@ def refresh_page(wp, page, current, apply):
     raw = (current.get("content") or {}).get("raw", "").strip()
     if raw == page["content"].strip():
         print(f"SKIP page '{page['slug']}' up to date (id={pid})")
+        if current["status"] != "publish":
+            print(f"WARN page '{page['slug']}' is {current['status']}, not public: publish it in wp-admin")
         return False
     demo = any(m in raw for m in page.get("replaces_markers", []))
     if not demo and raw not in [r.strip() for r in page.get("replaces", [])]:
         print(f"SKIP page '{page['slug']}' exists (id={pid}, {current['status']})")
+        if current["status"] != "publish":
+            print(f"WARN page '{page['slug']}' is {current['status']}, not public: publish it in wp-admin")
         return False
     if not apply:
-        print(f"PLAN update page '{page['slug']}' id={pid} ({'demo' if demo else 'placeholder'} -> new content)")
+        print(f"PLAN update page '{page['slug']}' id={pid} ({'old default' if demo else 'placeholder'} -> new content)")
         return True
-    wp.call("POST", f"pages/{pid}", body={"content": page["content"]})
-    print(f"PASS update page '{page['slug']}' id={pid} ({'demo' if demo else 'placeholder'} -> new content)")
+    wp.call("POST", f"pages/{pid}", body={"content": page["content"], "status": "publish"})
+    print(f"PASS update page '{page['slug']}' id={pid} ({'old default' if demo else 'placeholder'} -> new content)")
     return True
 
 
