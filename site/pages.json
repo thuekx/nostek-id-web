@@ -3,6 +3,7 @@
     {
       "slug": "home",
       "title": "Home",
+      "replaces_markers": ["[vc_row", "[cws_sc_"],
       "content": "<!-- wp:paragraph -->\n<p>The front page layout comes from the Nostek theme (template front-page). This text is not shown.</p>\n<!-- /wp:paragraph -->"
     },
     {
