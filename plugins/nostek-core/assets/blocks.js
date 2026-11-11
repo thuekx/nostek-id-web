@@ -4,7 +4,7 @@
 	var ServerSideRender = wp.serverSideRender;
 	var useBlockProps = wp.blockEditor.useBlockProps;
 
-	[ 'nostek/breadcrumb', 'nostek/topics-list' ].forEach( function ( name ) {
+	[ 'nostek/breadcrumb', 'nostek/topics-list', 'nostek/toc', 'nostek/related', 'nostek/share', 'nostek/author-box' ].forEach( function ( name ) {
 		wp.blocks.registerBlockType( name, {
 			apiVersion: 3,
 			edit: function () {

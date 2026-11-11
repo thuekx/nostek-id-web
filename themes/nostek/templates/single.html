@@ -12,8 +12,45 @@
 	</div>
 	<!-- /wp:group -->
 	<!-- wp:post-featured-image {"align":"wide","className":"nk-halftone nk-halftone--soft"} /-->
-	<!-- wp:post-content {"align":"full","layout":{"type":"constrained"}} /-->
-	<!-- wp:post-terms {"term":"post_tag","prefix":"Tags: "} /-->
+	<!-- wp:group {"align":"wide","className":"nk-article","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide nk-article">
+		<!-- wp:group {"tagName":"aside","className":"nk-rail nk-rail--left","layout":{"type":"default"}} -->
+		<aside class="wp-block-group nk-rail nk-rail--left">
+			<!-- wp:nostek/toc /-->
+			<!-- wp:nostek/share /-->
+		</aside>
+		<!-- /wp:group -->
+		<!-- wp:group {"className":"nk-article__body","layout":{"type":"default"}} -->
+		<div class="wp-block-group nk-article__body">
+			<!-- wp:post-content {"layout":{"type":"default"}} /-->
+			<!-- wp:post-terms {"term":"post_tag","prefix":"Tags: ","className":"nk-tags"} /-->
+			<!-- wp:nostek/author-box /-->
+		</div>
+		<!-- /wp:group -->
+		<!-- wp:group {"tagName":"aside","className":"nk-rail nk-rail--right","layout":{"type":"default"}} -->
+		<aside class="wp-block-group nk-rail nk-rail--right">
+			<!-- wp:nostek/related /-->
+			<!-- wp:group {"className":"nk-rail-cta","layout":{"type":"default"}} -->
+			<div class="wp-block-group nk-rail-cta">
+				<!-- wp:paragraph {"className":"nk-rail__title"} -->
+				<p class="nk-rail__title">Nostek Services</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph -->
+				<p>Butuh bantuan jaringan, IT managed services, foto atau video untuk bisnis? Tim Nostek siap bantu.</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:buttons -->
+				<div class="wp-block-buttons">
+					<!-- wp:button {"className":"is-style-offset"} -->
+					<div class="wp-block-button is-style-offset"><a class="wp-block-button__link wp-element-button" href="/services/">Lihat layanan</a></div>
+					<!-- /wp:button -->
+				</div>
+				<!-- /wp:buttons -->
+			</div>
+			<!-- /wp:group -->
+		</aside>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
 	<!-- wp:heading {"className":"is-style-divider"} -->
 	<h2 class="wp-block-heading is-style-divider">Baca Juga</h2>
 	<!-- /wp:heading -->

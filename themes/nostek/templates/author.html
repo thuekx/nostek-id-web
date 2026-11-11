@@ -1,0 +1,36 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+	<!-- wp:template-part {"slug":"archive-title","align":"full"} /-->
+	<!-- wp:nostek/author-box {"className":"nk-author-box--page"} /-->
+	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"align":"wide","className":"nk-cards"} -->
+	<div class="wp-block-query alignwide nk-cards">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":4,"minimumColumnWidth":"15rem"}} -->
+			<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/10","className":"nk-halftone"} /-->
+			<!-- wp:post-terms {"term":"category","className":"nk-badge"} /-->
+			<!-- wp:post-title {"level":3,"isLink":true} /-->
+			<!-- wp:post-excerpt {"excerptLength":20} /-->
+			<!-- wp:group {"className":"nk-card__meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+			<div class="wp-block-group nk-card__meta">
+				<!-- wp:post-date /-->
+				<!-- wp:read-more {"content":"Baca artikel"} /-->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+			<!-- wp:query-pagination-previous /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph {"align":"center"} -->
+			<p class="has-text-align-center">Belum ada artikel di sini.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
