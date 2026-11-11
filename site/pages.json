@@ -738,5 +738,97 @@
     "woocommerce_price_thousand_sep": ".",
     "woocommerce_price_decimal_sep": ",",
     "woocommerce_price_num_decimals": "0"
-  }
+  },
+  "menus": [
+    {
+      "slug": "footer-support",
+      "title": "Footer Support",
+      "items": [
+        {
+          "label": "Help Center",
+          "url": "/support/"
+        },
+        {
+          "label": "Payment",
+          "url": "/support/payment/"
+        },
+        {
+          "label": "Shipping",
+          "url": "/support/shipping/"
+        },
+        {
+          "label": "Warranty",
+          "url": "/support/warranty/"
+        },
+        {
+          "label": "Returns",
+          "url": "/support/returns/"
+        },
+        {
+          "label": "Order Tracking",
+          "url": "/support/order-tracking/"
+        },
+        {
+          "label": "Request Support",
+          "url": "/support/request/"
+        }
+      ]
+    },
+    {
+      "slug": "footer-nostek",
+      "title": "Footer Nostek",
+      "items": [
+        {
+          "label": "Terms & Conditions",
+          "url": "/legal/terms/"
+        },
+        {
+          "label": "Privacy Policy",
+          "url": "/privacy-policy/"
+        },
+        {
+          "label": "Marketplace Policy",
+          "url": "/legal/marketplace-policy/"
+        },
+        {
+          "label": "Seller Agreement",
+          "url": "/legal/seller-agreement/"
+        },
+        {
+          "label": "Authenticity Policy",
+          "url": "/legal/authenticity-policy/"
+        },
+        {
+          "label": "Prohibited Items",
+          "url": "/legal/prohibited-items/"
+        },
+        {
+          "label": "Dispute Policy",
+          "url": "/legal/dispute-policy/"
+        }
+      ]
+    },
+    {
+      "slug": "footer-nostek-dev",
+      "title": "Footer Nostek Dev",
+      "items": [
+        {
+          "label": "Portal",
+          "url": "/nostek-dev/portal/"
+        },
+        {
+          "label": "Knowledge Base",
+          "url": "/nostek-dev/knowledge-base/"
+        },
+        {
+          "label": "Service Desk",
+          "url": "/nostek-dev/service-desk/"
+        },
+        {
+          "label": "Console",
+          "url": "/nostek-dev/console/"
+        }
+      ]
+    }
+  ]
 }
