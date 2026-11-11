@@ -1278,6 +1278,8 @@ footer .nk-footer-links .wp-block-navigation-item__content:hover {
 	place-items: center;
 	width: 2.25rem;
 	height: 2.25rem;
+	padding: 0;
+	cursor: pointer;
 	border: 2px solid var(--wp--preset--color--ink);
 	background: var(--nk-surface);
 	box-shadow: 3px 3px 0 var(--wp--preset--color--ink);
@@ -1288,40 +1290,136 @@ footer .nk-footer-links .wp-block-navigation-item__content:hover {
 	text-decoration: none;
 	transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.nk-share__link:hover {
+.nk-share__link:hover,
+.nk-share__link:focus-visible {
 	transform: translate(-2px, -2px);
 	box-shadow: 5px 5px 0 var(--wp--preset--color--red);
+}
+.nk-share__link--whatsapp:hover { color: #1f8f4e !important; }
+.nk-share__link--facebook:hover { color: #1f5fbf !important; }
+.nk-share__link--linkedin:hover { color: #0a5c99 !important; }
+.nk-share__link--telegram:hover { color: #1d84b5 !important; }
+.nk-share__copy.is-done {
+	background: var(--wp--preset--color--teal);
+	color: var(--wp--preset--color--cream) !important;
+}
+.nk-icon {
+	display: block;
+	width: 1.15rem;
+	height: 1.15rem;
 }
 
 /* Tags + author box under the text */
 .nk-tags {
 	margin-top: var(--wp--preset--spacing--40) !important;
 }
-.nk-author {
+.nk-author-box {
 	margin-top: var(--wp--preset--spacing--40) !important;
-	padding: 1rem 1.25rem;
+	padding: 1.1rem 1.25rem 1.25rem;
 	border: 2px solid var(--wp--preset--color--ink);
 	border-left-width: 8px;
 	border-left-color: var(--wp--preset--color--teal);
 	background: var(--nk-surface) var(--nostek-noise);
+	box-shadow: 5px 5px 0 var(--wp--preset--color--ink);
 }
-.nk-author .wp-block-post-author {
-	align-items: flex-start;
-	gap: 1rem;
+.nk-author-box--page {
+	max-width: 720px;
+	margin: var(--wp--preset--spacing--40) auto !important;
 }
-.nk-author .wp-block-post-author__avatar img {
+.nk-author-box__main {
+	display: grid;
+	grid-template-columns: 5.5rem minmax(0, 1fr);
+	gap: 1.1rem;
+	align-items: start;
+}
+.nk-author-box__avatar {
+	width: 5.5rem;
+	height: 5.5rem;
+	padding: 0.35rem;
 	border: 2px solid var(--wp--preset--color--ink);
 	border-radius: 50%;
+	background: var(--wp--preset--color--paper);
+	object-fit: contain;
 }
-.nk-author .wp-block-post-author__name {
+.nk-author-box__text > * {
+	margin: 0;
+}
+.nk-author-box__name {
 	font-family: var(--wp--preset--font-family--display);
-	font-size: 1.3rem;
+	font-size: 1.5rem;
 	font-weight: 700;
+	line-height: 1.1;
 	text-transform: uppercase;
 }
-.nk-author .wp-block-post-author__bio {
-	margin-top: 0.25rem;
+.nk-author-box__name a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+.nk-author-box__role {
+	margin-top: 0.2rem !important;
+	color: var(--wp--preset--color--teal-dark);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 0.82rem;
+	letter-spacing: 0.04em;
+}
+.nk-author-box__bio {
+	margin-top: 0.6rem !important;
 	font-size: 0.92rem;
+	line-height: 1.55;
+}
+.nk-author-box__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-top: 0.75rem !important;
+	padding: 0;
+	list-style: none;
+}
+.nk-author-box__links li {
+	margin: 0;
+}
+.nk-author-box__social {
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border: 2px solid var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--ink) !important;
+}
+.nk-author-box__social:hover {
+	background: var(--wp--preset--color--ink);
+	color: var(--nk-surface) !important;
+}
+.nk-author-box__social .nk-icon {
+	width: 1rem;
+	height: 1rem;
+}
+.nk-author-box__more {
+	display: inline-block;
+	margin-top: 0.8rem;
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+@media (max-width: 480px) {
+	.nk-author-box__main {
+		grid-template-columns: 4rem minmax(0, 1fr);
+	}
+	.nk-author-box__avatar {
+		width: 4rem;
+		height: 4rem;
+	}
+}
+:root[data-mode="dark"] .nk-author-box {
+	box-shadow: 5px 5px 0 #000;
+}
+:root[data-mode="dark"] .nk-author-box__role {
+	color: var(--nk-glow);
+}
+:root[data-mode="dark"] .nk-author-box__name a {
+	color: var(--wp--preset--color--ink);
 }
 
 /* Related articles */
@@ -1435,6 +1533,16 @@ footer .nk-footer-links .wp-block-navigation-item__content:hover {
 	}
 	.nk-rail--right {
 		order: 0;
+	}
+	.nk-rail .nk-share ul {
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 0.4rem;
+	}
+	.nk-rail .nk-share__link {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
 	}
 	.nk-toc summary {
 		pointer-events: none;

@@ -401,4 +401,24 @@
 			}
 		} );
 	} );
+
+	/* Share: copy-link button (WEB-33), shown only when the clipboard API exists. */
+	if ( navigator.clipboard && window.isSecureContext ) {
+		each( '.nk-share__copy', function ( btn ) {
+			btn.parentNode.hidden = false;
+			btn.addEventListener( 'click', function () {
+				navigator.clipboard.writeText( btn.getAttribute( 'data-url' ) ).then( function () {
+					var label = btn.getAttribute( 'aria-label' );
+					btn.classList.add( 'is-done' );
+					btn.setAttribute( 'aria-label', btn.getAttribute( 'data-done' ) );
+					btn.title = btn.getAttribute( 'data-done' );
+					setTimeout( function () {
+						btn.classList.remove( 'is-done' );
+						btn.setAttribute( 'aria-label', label );
+						btn.title = label;
+					}, 2000 );
+				} );
+			} );
+		} );
+	}
 }() );

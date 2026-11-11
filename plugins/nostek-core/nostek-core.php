@@ -24,7 +24,9 @@ require_once __DIR__ . '/includes/analytics.php';
 require_once __DIR__ . '/includes/media.php';
 require_once __DIR__ . '/includes/menus.php';
 require_once __DIR__ . '/includes/slugs.php';
+require_once __DIR__ . '/includes/icons.php';
 require_once __DIR__ . '/includes/article.php';
+require_once __DIR__ . '/includes/author.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**

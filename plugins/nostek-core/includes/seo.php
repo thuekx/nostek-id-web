@@ -311,6 +311,22 @@ function nostek_core_schema( $canonical, $description, $image ) {
 		return array( '@context' => 'https://schema.org' ) + $org;
 	}
 	$crumbs = nostek_core_breadcrumb_schema( $canonical );
+	if ( is_author() ) {
+		$graph = array(
+			array(
+				'@type'      => 'ProfilePage',
+				'url'        => $canonical,
+				'mainEntity' => nostek_core_author_schema( (int) get_query_var( 'author' ) ),
+			),
+		);
+		if ( $crumbs ) {
+			$graph[] = $crumbs;
+		}
+		return array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+	}
 	if ( ! is_singular( 'post' ) ) {
 		return $crumbs ? array( '@context' => 'https://schema.org' ) + $crumbs : null;
 	}
@@ -323,11 +339,7 @@ function nostek_core_schema( $canonical, $description, $image ) {
 		'datePublished'    => get_post_time( 'c', true, $post ),
 		'dateModified'     => get_post_modified_time( 'c', true, $post ),
 		'mainEntityOfPage' => $canonical,
-		'author'           => array(
-			'@type' => 'Person',
-			'name'  => get_the_author_meta( 'display_name', (int) $post->post_author ),
-			'url'   => get_author_posts_url( (int) $post->post_author ),
-		),
+		'author'           => nostek_core_author_schema( (int) $post->post_author ),
 		'publisher'        => $org,
 		'inLanguage'       => 'id-ID',
 	);

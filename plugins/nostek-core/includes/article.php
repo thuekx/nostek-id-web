@@ -194,26 +194,36 @@ function nostek_core_render_share() {
 	if ( ! is_singular() ) {
 		return '';
 	}
-	$url   = rawurlencode( (string) wp_get_canonical_url( get_queried_object() ) );
-	$title = rawurlencode( html_entity_decode( wp_strip_all_tags( get_the_title( get_queried_object() ) ), ENT_QUOTES, 'UTF-8' ) );
-	$nets  = array(
-		array( 'wa', 'WhatsApp', 'https://wa.me/?text=' . $title . '%20' . $url ),
-		array( 'fb', 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' . $url ),
-		array( 'x', 'X', 'https://x.com/intent/post?url=' . $url . '&text=' . $title ),
-		array( 'in', 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' . $url ),
-		array( 'tg', 'Telegram', 'https://t.me/share/url?url=' . $url . '&text=' . $title ),
+	$canonical = (string) wp_get_canonical_url( get_queried_object() );
+	$url       = rawurlencode( $canonical );
+	$title     = rawurlencode( html_entity_decode( wp_strip_all_tags( get_the_title( get_queried_object() ) ), ENT_QUOTES, 'UTF-8' ) );
+	$nets      = array(
+		'whatsapp' => 'https://wa.me/?text=' . $title . '%20' . $url,
+		'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . $url,
+		'x'        => 'https://x.com/intent/post?url=' . $url . '&text=' . $title,
+		'linkedin' => 'https://www.linkedin.com/sharing/share-offsite/?url=' . $url,
+		'telegram' => 'https://t.me/share/url?url=' . $url . '&text=' . $title,
 	);
-	$links = '';
-	foreach ( $nets as $net ) {
+	$labels    = nostek_core_icon_paths();
+	$links     = '';
+	foreach ( $nets as $key => $href ) {
 		$links .= sprintf(
-			'<li><a class="nk-share__link nk-share__link--%1$s" href="%2$s" target="_blank" rel="noopener nofollow" aria-label="%3$s">%4$s</a></li>',
-			esc_attr( $net[0] ),
-			esc_url( $net[2] ),
+			'<li><a class="nk-share__link nk-share__link--%1$s" href="%2$s" target="_blank" rel="noopener nofollow" aria-label="%3$s" title="%3$s">%4$s</a></li>',
+			esc_attr( $key ),
+			esc_url( $href ),
 			/* translators: %s: social network name. */
-			esc_attr( sprintf( __( 'Bagikan ke %s', 'nostek-core' ), $net[1] ) ),
-			esc_html( strtoupper( $net[0] ) )
+			esc_attr( sprintf( __( 'Bagikan ke %s', 'nostek-core' ), $labels[ $key ][0] ) ),
+			nostek_core_icon( $key )
 		);
 	}
+	// Copy link: plain button, motion.js copies data-url (hidden without JS).
+	$links  .= sprintf(
+		'<li class="nk-share__copy-item" hidden><button type="button" class="nk-share__link nk-share__copy" data-url="%1$s" aria-label="%2$s" title="%2$s" data-done="%3$s">%4$s</button></li>',
+		esc_attr( $canonical ),
+		esc_attr__( 'Salin link artikel', 'nostek-core' ),
+		esc_attr__( 'Link tersalin', 'nostek-core' ),
+		nostek_core_icon( 'link' )
+	);
 	$wrapper = get_block_wrapper_attributes( array( 'class' => 'nk-share' ) );
 	return sprintf(
 		'<div %s><p class="nk-rail__title">%s</p><ul>%s</ul></div>',
