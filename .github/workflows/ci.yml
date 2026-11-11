@@ -35,6 +35,9 @@ jobs:
       - name: Block markup comments are balanced
         run: python3 bin/check-blocks.py
 
+      - name: Footer menus match site/pages.json
+        run: python3 bin/check-footer-menus.py
+
       - name: Content mirror tool (offline test)
         run: python3 tools/test_mirror_content.py
 

@@ -13,6 +13,9 @@ categories are skipped with a WARN when WooCommerce is not active. Then sets
 Settings > Reading: a static front page and the Journal as the posts page, and
 the WooCommerce store settings listed under "shop_settings" (Rupiah, Indonesian
 number format) through wc/v3; those are skipped with a WARN without WooCommerce.
+Footer menus listed under "menus" are created as Navigation menus
+(Appearance > Editor > Navigation) when no menu with that slug exists; an
+existing menu is never changed, so the owner's renames stay.
 Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
@@ -61,6 +64,11 @@ def load_spec(path):
     for key in ("front_page", "posts_page"):
         if spec.get(key) not in slugs:
             raise Fail(f"'{key}' must name one of the pages: {slugs}")
+    for m in spec.get("menus", []):
+        if not (m.get("slug") and m.get("title") and m.get("items")):
+            raise Fail(f"every menu needs a slug, a title and items: {m.get('slug')}")
+        if not all(i.get("label") and i.get("url") for i in m["items"]):
+            raise Fail(f"menu '{m['slug']}': every item needs a label and a url")
     for key in TERMS:
         for t in spec.get(key, []):
             if not all(t.get(f) for f in ("slug", "name")):
@@ -111,6 +119,35 @@ def ensure_terms(wp, spec, apply):
                 raise Fail(f"{label} '{t['slug']}' was created as '{res['slug']}'")
             ids[t["slug"]] = res["id"]
             print(f"PASS create {label} '{t['slug']}' id={res['id']}")
+    return changes
+
+
+def menu_content(items):
+    links = []
+    for i in items:
+        attrs = {"label": i["label"], "url": i["url"], "kind": "custom", "isTopLevelLink": True}
+        links.append(f"<!-- wp:navigation-link {json.dumps(attrs, ensure_ascii=False)} /-->")
+    return "\n".join(links)
+
+
+def ensure_menus(wp, spec, apply):
+    changes = 0
+    for m in spec.get("menus", []):
+        found = wp.call("GET", "navigation", {
+            "slug": m["slug"], "status": "publish,draft", "context": "edit", "_fields": "id,status"})
+        if found:
+            # Never overwritten: the owner edits these in the Site Editor.
+            print(f"SKIP menu '{m['slug']}' exists (id={found[0]['id']}, {found[0]['status']})")
+            continue
+        changes += 1
+        if not apply:
+            print(f"PLAN create menu '{m['slug']}' ({len(m['items'])} links)")
+            continue
+        body = {"slug": m["slug"], "title": m["title"], "status": "publish", "content": menu_content(m["items"])}
+        res = wp.call("POST", "navigation", body=body)
+        if res["slug"] != m["slug"]:
+            raise Fail(f"menu '{m['slug']}' was created as '{res['slug']}' (slug taken, e.g. by a menu in Trash)")
+        print(f"PASS create menu '{m['slug']}' id={res['id']}")
     return changes
 
 
@@ -229,6 +266,7 @@ def main():
             wp.call("POST", "settings", body=diff)
             print(f"PASS reading settings {json.dumps(diff)}")
 
+        changes += ensure_menus(wp, spec, args.apply)
         changes += ensure_shop_settings(wp, spec, args.apply)
 
         mode = "PASS" if args.apply else "DRY RUN ok:"

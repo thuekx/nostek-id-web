@@ -91,8 +91,9 @@ function nostek_core_find_navigation( $blocks, $depth ) {
  * @return array[]
  */
 function nostek_core_navigation_children( $nav ) {
-	if ( ! empty( $nav['attrs']['ref'] ) ) {
-		$post = get_post( (int) $nav['attrs']['ref'] );
+	$ref = ! empty( $nav['attrs']['ref'] ) ? (int) $nav['attrs']['ref'] : nostek_core_menu_ref( $nav['attrs'] );
+	if ( $ref ) {
+		$post = get_post( $ref );
 		if ( $post && 'wp_navigation' === $post->post_type && 'publish' === $post->post_status ) {
 			return parse_blocks( $post->post_content );
 		}
