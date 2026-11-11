@@ -47,6 +47,14 @@ function nostek_enqueue_styles() {
 		array( 'nostek-motion' ),
 		NOSTEK_THEME_VERSION
 	);
+	if ( is_singular() && ( comments_open() || get_comments_number() ) ) {
+		wp_enqueue_style(
+			'nostek-comments',
+			get_template_directory_uri() . '/assets/css/comments.css',
+			array( 'nostek-editorial' ),
+			NOSTEK_THEME_VERSION
+		);
+	}
 	if ( class_exists( 'WooCommerce' ) ) {
 		wp_enqueue_style(
 			'nostek-shop',
