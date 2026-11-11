@@ -3,7 +3,10 @@
     {
       "slug": "home",
       "title": "Home",
-      "replaces_markers": ["[vc_row", "[cws_sc_"],
+      "replaces_markers": [
+        "[vc_row",
+        "[cws_sc_"
+      ],
       "content": "<!-- wp:paragraph -->\n<p>The front page layout comes from the Nostek theme (template front-page). This text is not shown.</p>\n<!-- /wp:paragraph -->"
     },
     {
@@ -216,6 +219,14 @@
       "title": "Dispute Policy",
       "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Cara kami menengahi sengketa antara pembeli dan penjual.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah resmi halaman ini sedang disusun dan akan ditinjau sebelum berlaku.</p>\n<!-- /wp:paragraph -->",
       "parent": "legal"
+    },
+    {
+      "slug": "privacy-policy",
+      "title": "Privacy Policy",
+      "replaces_markers": [
+        "privacy-policy-tutorial"
+      ],
+      "content": "<!-- wp:paragraph {\"fontSize\":\"large\"} -->\n<p class=\"has-large-font-size\">Kebijakan ini menjelaskan data pribadi apa yang dikumpulkan Nostek ID, untuk apa data itu dipakai, dan apa hak Anda atas data tersebut.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Naskah ini adalah versi awal dan akan ditinjau sesuai Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) sebelum berlaku penuh.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Data yang kami kumpulkan</h2>\n<!-- /wp:heading -->\n\n<!-- wp:list -->\n<ul class=\"wp-block-list\"><!-- wp:list-item -->\n<li>Data yang Anda berikan: nama, alamat email, nomor telepon, dan isi pesan saat Anda mengisi formulir, meminta dukungan, berkomentar, atau berlangganan.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Data akun dan transaksi: data pemesanan, alamat pengiriman, dan riwayat transaksi saat layanan belanja dibuka.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Data teknis: alamat IP, jenis peramban dan perangkat, halaman yang dikunjungi, serta cookie, untuk menjaga keamanan dan memahami cara situs digunakan.</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Untuk apa data dipakai</h2>\n<!-- /wp:heading -->\n\n<!-- wp:list -->\n<ul class=\"wp-block-list\"><!-- wp:list-item -->\n<li>Menjalankan layanan dan menanggapi permintaan Anda.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Memproses pesanan, pembayaran, dan pengiriman.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Mengirim informasi yang Anda minta, misalnya buletin. Anda dapat berhenti berlangganan kapan saja.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Menjaga keamanan situs dan mencegah penyalahgunaan.</li>\n<!-- /wp:list-item --><!-- wp:list-item -->\n<li>Memperbaiki isi dan layanan berdasarkan statistik penggunaan.</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Cookie</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Kami memakai cookie yang diperlukan agar situs berfungsi (misalnya keranjang belanja dan sesi masuk) serta cookie analitik untuk statistik kunjungan. Anda dapat mengatur atau menghapus cookie melalui pengaturan peramban.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Berbagi data dengan pihak lain</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Kami tidak menjual data pribadi Anda. Data hanya dibagikan kepada pihak yang membantu layanan kami, misalnya penyedia hosting, pembayaran, pengiriman, email, dan analitik, sebatas yang diperlukan, atau bila diwajibkan oleh hukum.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Penyimpanan dan keamanan</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Data disimpan selama diperlukan untuk tujuan di atas atau selama diwajibkan oleh peraturan, lalu dihapus atau dianonimkan. Kami menerapkan langkah pengamanan teknis dan organisasi yang wajar untuk melindungi data Anda.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Hak Anda</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Sesuai UU PDP, Anda berhak meminta akses, perbaikan, atau penghapusan data pribadi Anda, menarik persetujuan, dan mengajukan keberatan atas pemrosesan tertentu.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Hubungi kami</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Untuk pertanyaan atau permintaan terkait data pribadi, hubungi kami melalui halaman <a href=\"/support/request/\">Request Support</a>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Perubahan kebijakan</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Kebijakan ini dapat diperbarui sewaktu-waktu. Versi terbaru selalu tersedia di halaman ini.</p>\n<!-- /wp:paragraph -->"
     },
     {
       "slug": "nostek-dev",
