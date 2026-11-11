@@ -369,4 +369,36 @@
 			io.observe( el );
 		} );
 	}
+
+	/* Article table of contents (WEB-33): folded on phones, open on desktop rails, current section marked. */
+	each( '.nk-toc', function ( toc ) {
+		var box = toc.querySelector( 'details' );
+		if ( box && ! window.matchMedia( '(min-width: 1200px)' ).matches ) {
+			box.open = false;
+		}
+		if ( ! hasIO ) {
+			return;
+		}
+		var links = {};
+		each( 'a[href^="#"]', function ( a ) {
+			links[ decodeURIComponent( a.getAttribute( 'href' ).slice( 1 ) ) ] = a;
+		}, toc );
+		var spy = new IntersectionObserver( function ( entries ) {
+			entries.forEach( function ( entry ) {
+				var a = links[ entry.target.id ];
+				if ( a && entry.isIntersecting ) {
+					each( '.is-current', function ( el ) {
+						el.classList.remove( 'is-current' );
+					}, toc );
+					a.classList.add( 'is-current' );
+				}
+			} );
+		}, { rootMargin: '-15% 0px -70% 0px' } );
+		Object.keys( links ).forEach( function ( id ) {
+			var target = document.getElementById( id );
+			if ( target ) {
+				spy.observe( target );
+			}
+		} );
+	} );
 }() );

@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Nostek Core
- * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb and Topics list blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.3.2
+ * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb, Topics list, table of contents, related and share blocks, agent roles, SEO head tags, consent-gated analytics.
+ * Version: 0.4.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.3.2' );
+define( 'NOSTEK_CORE_VERSION', '0.4.0' );
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/seo.php';
@@ -24,6 +24,7 @@ require_once __DIR__ . '/includes/analytics.php';
 require_once __DIR__ . '/includes/media.php';
 require_once __DIR__ . '/includes/menus.php';
 require_once __DIR__ . '/includes/slugs.php';
+require_once __DIR__ . '/includes/article.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**

@@ -277,7 +277,8 @@ function nostek_core_head_tags() {
 }
 
 /**
- * Organization on the front page, Article on single posts.
+ * Organization on the front page, Article + BreadcrumbList on single posts,
+ * BreadcrumbList on other pages.
  *
  * @param string     $canonical   Canonical URL.
  * @param string     $description Meta description.
@@ -309,8 +310,9 @@ function nostek_core_schema( $canonical, $description, $image ) {
 	if ( is_front_page() ) {
 		return array( '@context' => 'https://schema.org' ) + $org;
 	}
+	$crumbs = nostek_core_breadcrumb_schema( $canonical );
 	if ( ! is_singular( 'post' ) ) {
-		return null;
+		return $crumbs ? array( '@context' => 'https://schema.org' ) + $crumbs : null;
 	}
 
 	$post    = get_queried_object();
@@ -324,6 +326,7 @@ function nostek_core_schema( $canonical, $description, $image ) {
 		'author'           => array(
 			'@type' => 'Person',
 			'name'  => get_the_author_meta( 'display_name', (int) $post->post_author ),
+			'url'   => get_author_posts_url( (int) $post->post_author ),
 		),
 		'publisher'        => $org,
 		'inLanguage'       => 'id-ID',
@@ -334,5 +337,58 @@ function nostek_core_schema( $canonical, $description, $image ) {
 	if ( $image ) {
 		$article['image'] = $image['url'];
 	}
-	return $article;
+	$cats = get_the_category( $post->ID );
+	if ( $cats ) {
+		$article['articleSection'] = $cats[0]->name;
+	}
+	$tags = get_the_tags( $post->ID );
+	if ( $tags && ! is_wp_error( $tags ) ) {
+		$article['keywords'] = implode( ', ', wp_list_pluck( $tags, 'name' ) );
+	}
+	if ( ! $crumbs ) {
+		return $article;
+	}
+	unset( $article['@context'] );
+	return array(
+		'@context' => 'https://schema.org',
+		'@graph'   => array( $article, $crumbs ),
+	);
+}
+
+/**
+ * BreadcrumbList from the same trail the ribbon shows (WEB-33), ending with
+ * the current page so search results show the section path.
+ *
+ * @param string $canonical Canonical URL of the current view.
+ * @return array|null
+ */
+function nostek_core_breadcrumb_schema( $canonical ) {
+	if ( ! function_exists( 'nostek_core_breadcrumb_trail' ) || is_404() || is_search() ) {
+		return null;
+	}
+	$trail = nostek_core_breadcrumb_trail();
+	if ( is_singular( 'post' ) ) {
+		$trail[] = array( get_the_title( get_queried_object() ), null );
+	}
+	if ( count( $trail ) < 2 ) {
+		return null;
+	}
+	$items = array();
+	$last  = count( $trail ) - 1;
+	foreach ( $trail as $i => $item ) {
+		$url = $item[1] ? $item[1] : ( $i === $last ? $canonical : null );
+		$row = array(
+			'@type'    => 'ListItem',
+			'position' => $i + 1,
+			'name'     => html_entity_decode( wp_strip_all_tags( $item[0] ), ENT_QUOTES, 'UTF-8' ),
+		);
+		if ( $url ) {
+			$row['item'] = $url;
+		}
+		$items[] = $row;
+	}
+	return array(
+		'@type'           => 'BreadcrumbList',
+		'itemListElement' => $items,
+	);
 }
