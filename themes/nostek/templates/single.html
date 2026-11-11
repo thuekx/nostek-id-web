@@ -55,15 +55,33 @@
 	<h2 class="wp-block-heading is-style-divider">Baca Juga</h2>
 	<!-- /wp:heading -->
 	<!-- wp:pattern {"slug":"nostek/post-carousel"} /-->
-	<!-- wp:comments -->
-	<div class="wp-block-comments">
-		<!-- wp:comments-title /-->
+	<!-- wp:comments {"className":"nk-comments"} -->
+	<div class="wp-block-comments nk-comments">
+		<!-- wp:comments-title {"level":2,"className":"is-style-divider"} /-->
 		<!-- wp:comment-template -->
-			<!-- wp:comment-author-name /-->
-			<!-- wp:comment-date /-->
-			<!-- wp:comment-content /-->
-			<!-- wp:comment-reply-link /-->
+			<!-- wp:group {"className":"nk-comment","layout":{"type":"default"}} -->
+			<div class="wp-block-group nk-comment">
+				<!-- wp:avatar {"size":44,"className":"nk-comment__avatar"} /-->
+				<!-- wp:group {"className":"nk-comment__body","layout":{"type":"default"}} -->
+				<div class="wp-block-group nk-comment__body">
+					<!-- wp:group {"className":"nk-comment__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+					<div class="wp-block-group nk-comment__meta">
+						<!-- wp:comment-author-name /-->
+						<!-- wp:comment-date /-->
+					</div>
+					<!-- /wp:group -->
+					<!-- wp:comment-content /-->
+					<!-- wp:comment-reply-link /-->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
 		<!-- /wp:comment-template -->
+		<!-- wp:comments-pagination -->
+			<!-- wp:comments-pagination-previous /-->
+			<!-- wp:comments-pagination-numbers /-->
+			<!-- wp:comments-pagination-next /-->
+		<!-- /wp:comments-pagination -->
 		<!-- wp:post-comments-form /-->
 	</div>
 	<!-- /wp:comments -->
