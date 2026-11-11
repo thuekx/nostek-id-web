@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 const NOSTEK_CORE_SETTINGS = 'nostek_core_settings';
 
 /**
- * @param string $key ga4_id | meta_pixel_id | meta_pixel_enabled | org_name | logo_url | same_as.
+ * @param string $key ga4_id | meta_pixel_id | meta_pixel_enabled | org_name | logo_url | same_as | shop_open.
  * @return string
  */
 function nostek_core_setting( $key ) {
@@ -55,6 +55,7 @@ function nostek_core_sanitize_settings( $input ) {
 		'ga4_id'             => strtoupper( trim( (string) ( $input['ga4_id'] ?? '' ) ) ),
 		'meta_pixel_id'      => trim( (string) ( $input['meta_pixel_id'] ?? '' ) ),
 		'meta_pixel_enabled' => empty( $input['meta_pixel_enabled'] ) ? '' : '1',
+		'shop_open'          => empty( $input['shop_open'] ) ? '' : '1',
 		'org_name'           => sanitize_text_field( (string) ( $input['org_name'] ?? '' ) ),
 		'logo_url'           => esc_url_raw( trim( (string) ( $input['logo_url'] ?? '' ) ) ),
 		'same_as'            => implode( "\n", array_filter( array_map( 'esc_url_raw', preg_split( '/\s+/', (string) ( $input['same_as'] ?? '' ) ) ) ) ),
@@ -120,6 +121,14 @@ function nostek_core_settings_page() {
 					<th scope="row"><label for="nostek-pixel">Meta Pixel ID</label></th>
 					<td><input id="nostek-pixel" class="regular-text code" name="<?php echo esc_attr( $name ); ?>[meta_pixel_id]" value="<?php echo esc_attr( $value( 'meta_pixel_id' ) ); ?>"<?php echo $locked( 'NOSTEK_META_PIXEL_ID' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 					<p><label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[meta_pixel_enabled]" value="1" <?php checked( '1', $value( 'meta_pixel_enabled' ) ); ?>> <?php esc_html_e( 'Load the Meta Pixel (only after the owner approved it)', 'nostek-core' ); ?></label></p></td>
+				</tr>
+			</table>
+			<h2><?php esc_html_e( 'Shop', 'nostek-core' ); ?></h2>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Shop status', 'nostek-core' ); ?></th>
+					<td><label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[shop_open]" value="1" <?php checked( '1', $value( 'shop_open' ) ); ?>> <?php esc_html_e( 'Shop is open', 'nostek-core' ); ?></label>
+					<p class="description"><?php esc_html_e( 'Not ticked = Market, Sell With Nostek, shop, cart, checkout, account and shop help/policy pages show "Segera hadir", nothing can be bought, and these pages leave the menus and sitemap. Page content is kept.', 'nostek-core' ); ?></p></td>
 				</tr>
 			</table>
 			<h2><?php esc_html_e( 'Brand (search results and link previews)', 'nostek-core' ); ?></h2>
