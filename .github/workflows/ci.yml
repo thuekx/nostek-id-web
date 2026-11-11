@@ -44,6 +44,9 @@ jobs:
       - name: Media URL filter (offline test)
         run: php tools/test_media_urls.php
 
+      - name: Shop mode (offline test)
+        run: php tools/test_shop_mode.php
+
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v3
         env:
