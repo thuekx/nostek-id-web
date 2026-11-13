@@ -1,0 +1,58 @@
+/* Editor-only layout for Nostek element blocks. The look of the elements themselves comes from the theme. */
+.nk-ed-slider__head {
+	display: flex;
+	gap: 0.8rem;
+	align-items: center;
+	padding: 0.5rem 0.75rem;
+	background: #2f2f2d;
+	color: #efe9de;
+	font: 600 13px/1.4 system-ui, sans-serif;
+}
+.nk-ed-slider__head span { opacity: 0.8; }
+.nk-ed-slider__head .components-button { margin-left: auto; }
+.nk-ed-slider__track {
+	display: flex;
+	gap: 16px;
+	overflow-x: auto;
+	padding: 16px;
+	background: repeating-linear-gradient(45deg, #dedad2 0 10px, #e9e4da 10px 20px);
+	counter-reset: nk-slide;
+	scroll-snap-type: x mandatory;
+}
+.nk-ed-slider__track > .wp-block-cover {
+	flex: 0 0 82%;
+	margin: 0 !important;
+	scroll-snap-align: start;
+	counter-increment: nk-slide;
+	position: relative;
+}
+.nk-ed-slider__track > .wp-block-cover::after {
+	content: "Slide " counter(nk-slide);
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 5;
+	padding: 2px 8px;
+	background: #e0442a;
+	color: #fff;
+	font: 700 12px/1.6 system-ui, sans-serif;
+	letter-spacing: 0.04em;
+}
+.nk-ed-tabs__list { padding: 12px; background: #dedad2; }
+.nk-ed-tab { border: 2px solid #2f2f2d; background: #efe9de; margin: 0 0 12px !important; }
+.nk-ed-tab__title {
+	display: inline-block;
+	min-width: 8rem;
+	padding: 6px 14px;
+	background: #2f2f2d;
+	color: #efe9de;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.nk-ed-tab__body { padding: 8px 14px; }
+.nk-ed-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-top: 8px; }
+.nk-ed-row > * { flex: 1 1 160px; }
+.nk-ed-row > .components-button { flex: 0 0 auto; }
+.nk-ed-rows { margin-top: 12px; padding: 12px; border: 1px dashed #2f2f2d; background: #f6f2ea; }
+.nk-ed-help { color: #555; font-size: 12px; }

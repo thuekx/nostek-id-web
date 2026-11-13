@@ -52,8 +52,12 @@
 
 <!-- wp:pattern {"slug":"nostek/cta-band"} /-->
 
+<!-- wp:group {"align":"full","className":"is-style-torn","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull is-style-torn">
 <!-- wp:heading {"className":"is-style-divider"} -->
 <h2 class="wp-block-heading is-style-divider">Services &amp; Market</h2>
 <!-- /wp:heading -->
 
 <!-- wp:pattern {"slug":"nostek/banner-boxes"} /-->
+</div>
+<!-- /wp:group -->

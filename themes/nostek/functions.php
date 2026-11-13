@@ -19,7 +19,7 @@ define( 'NOSTEK_THEME_VERSION', wp_get_theme()->get( 'Version' ) );
 add_action( 'after_setup_theme', 'nostek_setup' );
 function nostek_setup() {
 	add_theme_support( 'editor-styles' );
-	add_editor_style( array( 'assets/css/retro.css', 'assets/css/editorial.css' ) );
+	add_editor_style( array( 'assets/css/retro.css', 'assets/css/editorial.css', 'assets/css/elements.css' ) );
 	load_theme_textdomain( 'nostek', get_template_directory() . '/languages' );
 	add_theme_support( 'woocommerce' );
 	add_theme_support( 'wc-product-gallery-zoom' );
@@ -45,6 +45,12 @@ function nostek_enqueue_styles() {
 		'nostek-editorial',
 		get_template_directory_uri() . '/assets/css/editorial.css',
 		array( 'nostek-motion' ),
+		NOSTEK_THEME_VERSION
+	);
+	wp_enqueue_style(
+		'nostek-elements',
+		get_template_directory_uri() . '/assets/css/elements.css',
+		array( 'nostek-editorial' ),
 		NOSTEK_THEME_VERSION
 	);
 	if ( is_singular() && ( comments_open() || get_comments_number() ) ) {
@@ -96,6 +102,10 @@ function nostek_register_block_styles() {
 			'sunburst'     => __( 'Sunburst', 'nostek' ),
 			'slider'       => __( 'Slider', 'nostek' ),
 			'carousel'     => __( 'Carousel', 'nostek' ),
+			'torn'         => __( 'Pita tepi sobek', 'nostek' ),
+			'card-frame'   => __( 'Kartu bingkai ganda', 'nostek' ),
+			'card-teal'    => __( 'Kartu teal', 'nostek' ),
+			'card-stamp'   => __( 'Kartu stempel merah', 'nostek' ),
 		),
 		'core/button'    => array(
 			'ruled'  => __( 'Ruled', 'nostek' ),
@@ -103,9 +113,23 @@ function nostek_register_block_styles() {
 		),
 		'core/details'   => array(
 			'accordion' => __( 'Accordion', 'nostek' ),
+			'toggle'    => __( 'Toggle', 'nostek' ),
 		),
 		'core/image'     => array(
-			'sepia' => __( 'Sepia', 'nostek' ),
+			'sepia'    => __( 'Sepia', 'nostek' ),
+			'polaroid' => __( 'Polaroid', 'nostek' ),
+			'icon'     => __( 'Ikon bulat', 'nostek' ),
+		),
+		'core/list'      => array(
+			'check' => __( 'Centang', 'nostek' ),
+			'arrow' => __( 'Panah', 'nostek' ),
+			'steps' => __( 'Langkah bernomor', 'nostek' ),
+		),
+		'core/embed'     => array(
+			'tv' => __( 'TV jadul', 'nostek' ),
+		),
+		'core/video'     => array(
+			'tv' => __( 'TV jadul', 'nostek' ),
 		),
 	);
 
@@ -125,6 +149,13 @@ function nostek_register_block_styles() {
 add_action( 'init', 'nostek_register_pattern_categories' );
 function nostek_register_pattern_categories() {
 	register_block_pattern_category( 'nostek', array( 'label' => __( 'Nostek', 'nostek' ) ) );
+	register_block_pattern_category(
+		'nostek-elements',
+		array(
+			'label'       => __( 'Nostek – Elemen', 'nostek' ),
+			'description' => __( 'Info box, accordion, toggle, tabs, progress bar, list, gambar, video, chart, slider dan pita tepi sobek.', 'nostek' ),
+		)
+	);
 }
 
 /*

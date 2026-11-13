@@ -1,0 +1,565 @@
+/*
+ * Nostek content elements (WEB-38): block styles on core blocks and the look of
+ * the Nostek Core element blocks (slider, tabs, progress, donut). Every element
+ * is inserted from the editor (Patterns > "Nostek – Elemen", or the Styles
+ * panel of a block) or as block markup over the REST API (docs/content-elements.md).
+ */
+:root {
+	--nk-ink: var(--wp--preset--color--ink);
+	--nk-cream: var(--wp--preset--color--cream);
+	--nk-paper: var(--wp--preset--color--paper);
+	--nk-paper-2: var(--wp--preset--color--paper-2);
+	--nk-teal: var(--wp--preset--color--teal);
+	--nk-teal-d: var(--wp--preset--color--teal-dark);
+	--nk-red: var(--wp--preset--color--red);
+	--nk-mus: var(--wp--preset--color--mustard);
+	--nk-fringe: #f6f2ea;
+	--nk-display: var(--wp--preset--font-family--display);
+}
+
+/* ---------- Torn paper edge (group style "Pita tepi sobek", footer top) ---------- */
+.is-style-torn,
+.nk-torn-top {
+	position: relative;
+	filter: drop-shadow(0 -2px 0 var(--nk-fringe)) drop-shadow(0 2px 0 var(--nk-fringe));
+}
+.is-style-torn {
+	margin-block: calc(28px + var(--wp--preset--spacing--40, 2rem)) !important;
+	padding-block: var(--wp--preset--spacing--50, 3rem);
+}
+.is-style-torn:not(.has-background) {
+	background-color: var(--nk-ink);
+}
+.is-style-torn:not(.has-text-color) {
+	color: var(--nk-cream);
+}
+.is-style-torn :where(h1, h2, h3, h4, p, li, a):not(.has-text-color) {
+	color: inherit;
+}
+.is-style-torn::before,
+.is-style-torn::after,
+.nk-torn-top::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 28px;
+	background-color: inherit;
+	-webkit-mask: url(../img/torn-edge.svg) center / 100% 100% no-repeat;
+	mask: url(../img/torn-edge.svg) center / 100% 100% no-repeat;
+	pointer-events: none;
+}
+.is-style-torn::before,
+.nk-torn-top::before {
+	bottom: calc(100% - 1px);
+}
+.is-style-torn::after {
+	top: calc(100% - 1px);
+	transform: scaleY(-1);
+}
+.is-style-torn .is-style-divider::before,
+.is-style-torn .is-style-divider::after {
+	border-color: currentColor;
+}
+
+/* Framed boxes keep their paper face on a dark band. */
+.is-style-torn :is(.is-style-frame, .is-style-card-frame, .is-style-card-stamp) {
+	background-color: var(--nk-paper);
+	color: var(--nk-ink);
+}
+.is-style-torn :is(.is-style-frame, .is-style-card-frame, .is-style-card-stamp) :where(h2, h3, h4) {
+	color: var(--nk-ink);
+}
+.is-style-torn :is(.is-style-frame, .is-style-card-frame, .is-style-card-stamp) .has-background:not(.has-text-color) {
+	color: var(--nk-cream);
+}
+
+/* ---------- Cards / info boxes (group styles) ---------- */
+.is-style-card-frame,
+.is-style-card-teal,
+.is-style-card-stamp {
+	padding: 1.6rem 1.4rem !important;
+	height: 100%;
+}
+.is-style-card-frame {
+	background: var(--nk-cream);
+	border: 3px double var(--nk-ink);
+}
+.is-style-card-teal {
+	background: var(--nk-teal-d);
+	color: var(--nk-cream);
+}
+.is-style-card-teal :where(h2, h3, h4, p, a):not(.has-text-color) {
+	color: inherit;
+}
+.is-style-card-stamp {
+	background: var(--nk-cream);
+	border: 2px solid var(--nk-ink);
+	box-shadow: 7px 7px 0 var(--nk-red);
+}
+:where(.is-style-card-frame, .is-style-card-teal, .is-style-card-stamp) :where(h3, h4) {
+	margin: 0.4rem 0 0.4rem;
+	font-size: 1.6rem;
+	line-height: 1;
+}
+:where(.is-style-card-frame, .is-style-card-teal, .is-style-card-stamp) p {
+	font-size: 0.92rem;
+	line-height: 1.6;
+}
+
+/* Image style "Ikon bulat": small round icon for cards. */
+.wp-block-image.is-style-icon img {
+	width: 58px !important;
+	height: 58px !important;
+	padding: 13px;
+	border: 2px solid currentColor;
+	border-radius: 50%;
+	object-fit: contain;
+}
+.is-style-card-stamp .wp-block-image.is-style-icon img {
+	background: var(--nk-red);
+	border-color: var(--nk-red);
+}
+.is-style-card-teal .wp-block-image.is-style-icon img {
+	border-color: var(--nk-mus);
+}
+
+/* ---------- Accordion (details style, numbered) ---------- */
+:where(*):has(> .wp-block-details.is-style-accordion) {
+	counter-reset: nk-acc;
+}
+.wp-block-details.is-style-accordion {
+	counter-increment: nk-acc;
+	background: none;
+	border-bottom: 1px dashed var(--nk-ink);
+	margin-block: 0 !important;
+}
+.wp-block-details.is-style-accordion:first-of-type,
+:not(.wp-block-details) + .wp-block-details.is-style-accordion {
+	border-top: 3px solid var(--nk-ink);
+}
+.wp-block-details.is-style-accordion summary {
+	padding: 0.95rem 0.2rem;
+	color: var(--nk-ink);
+	font-size: 1.3rem;
+}
+.wp-block-details.is-style-accordion summary::before {
+	content: counter(nk-acc, decimal-leading-zero);
+	width: 1.8rem;
+	color: var(--nk-red);
+	font-family: var(--wp--preset--font-family--script, cursive);
+	font-size: 1.5rem;
+	text-transform: none;
+}
+.wp-block-details.is-style-accordion[open] summary::before {
+	content: counter(nk-acc, decimal-leading-zero);
+	color: var(--nk-red);
+}
+.wp-block-details.is-style-accordion summary::after {
+	content: "+";
+	flex: 0 0 auto;
+	width: 30px;
+	height: 30px;
+	margin-left: auto;
+	border: 2px solid var(--nk-ink);
+	display: grid;
+	place-items: center;
+	font-size: 1.2rem;
+	line-height: 1;
+}
+.wp-block-details.is-style-accordion[open] summary {
+	color: var(--nk-teal-d);
+}
+.wp-block-details.is-style-accordion[open] summary::after {
+	content: "\2212";
+	background: var(--nk-red);
+	border-color: var(--nk-red);
+	color: var(--nk-cream);
+}
+.wp-block-details.is-style-accordion > :not(summary) {
+	padding: 0 0.2rem 1.1rem 2.8rem;
+}
+
+/* ---------- Toggle (details style with a switch) ---------- */
+.wp-block-details.is-style-toggle {
+	background: var(--nk-cream);
+	border: 2px solid var(--nk-ink);
+	margin-block: 0 0.7rem !important;
+}
+.wp-block-details.is-style-toggle summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.75rem 1rem;
+	cursor: pointer;
+	list-style: none;
+	font-family: var(--nk-display);
+	font-weight: 700;
+	font-size: 1.15rem;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+.wp-block-details.is-style-toggle summary::-webkit-details-marker {
+	display: none;
+}
+.wp-block-details.is-style-toggle summary::after {
+	content: "";
+	flex: 0 0 44px;
+	height: 24px;
+	border: 2px solid currentColor;
+	border-radius: 12px;
+	background: radial-gradient(circle at 11px 50%, currentColor 0 8px, transparent 9px) var(--nk-paper-2);
+	transition: background-position 0.2s;
+}
+.wp-block-details.is-style-toggle[open] summary {
+	background: var(--nk-ink);
+	color: var(--nk-cream);
+}
+.wp-block-details.is-style-toggle[open] summary::after {
+	background: radial-gradient(circle at 31px 50%, var(--nk-cream) 0 8px, transparent 9px) var(--nk-teal);
+}
+.wp-block-details.is-style-toggle > :not(summary) {
+	margin: 0;
+	padding: 0.8rem 1rem 1rem;
+	font-size: 0.93rem;
+}
+
+/* ---------- Lists ---------- */
+.wp-block-list:is(.is-style-check, .is-style-arrow, .is-style-steps) {
+	list-style: none;
+	padding-left: 0;
+}
+.wp-block-list:is(.is-style-check, .is-style-arrow, .is-style-steps) > li {
+	position: relative;
+	padding: 0.45rem 0 0.45rem 2rem;
+	border-bottom: 1px dotted #a29d93;
+}
+.wp-block-list.is-style-check > li::before {
+	content: "\2713";
+	position: absolute;
+	left: 0;
+	top: 0.5rem;
+	width: 1.35rem;
+	height: 1.35rem;
+	display: grid;
+	place-items: center;
+	background: var(--nk-teal);
+	color: var(--nk-cream);
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+.wp-block-list.is-style-arrow > li::before {
+	content: "\279C";
+	position: absolute;
+	left: 0.1rem;
+	color: var(--nk-red);
+	font-weight: 700;
+}
+.wp-block-list.is-style-steps {
+	counter-reset: nk-step;
+}
+.wp-block-list.is-style-steps > li {
+	counter-increment: nk-step;
+	padding-left: 2.6rem;
+}
+.wp-block-list.is-style-steps > li::before {
+	content: counter(nk-step, decimal-leading-zero);
+	position: absolute;
+	left: 0;
+	top: 0.35rem;
+	color: var(--nk-red);
+	font-family: var(--nk-display);
+	font-size: 1.3rem;
+	font-weight: 800;
+	line-height: 1;
+}
+
+/* ---------- Image "Polaroid" ---------- */
+.wp-block-image.is-style-polaroid {
+	position: relative;
+	padding: 12px 12px 0;
+	background: var(--nk-fringe);
+	border: 1px solid #cfc8bb;
+	box-shadow: 0 2px 0 var(--nk-ink), 4px 8px 0 rgba(0, 0, 0, 0.12);
+	transform: rotate(-1.5deg);
+}
+.wp-block-image.is-style-polaroid img {
+	display: block;
+	filter: sepia(0.3);
+}
+.wp-block-image.is-style-polaroid figcaption,
+.wp-block-image.is-style-polaroid .wp-element-caption {
+	margin: 0;
+	padding: 0.5rem 0 0.7rem;
+	color: var(--nk-teal-d);
+	font-family: var(--wp--preset--font-family--script, cursive);
+	font-size: 1.35rem;
+	text-align: center;
+	text-transform: none;
+	letter-spacing: 0;
+}
+.wp-block-image.is-style-polaroid::before,
+.wp-block-image.is-style-polaroid::after {
+	content: "";
+	position: absolute;
+	top: -12px;
+	width: 90px;
+	height: 26px;
+	background: rgba(192, 161, 47, 0.55);
+}
+.wp-block-image.is-style-polaroid::before {
+	left: -18px;
+	transform: rotate(-35deg);
+}
+.wp-block-image.is-style-polaroid::after {
+	right: -18px;
+	transform: rotate(35deg);
+}
+
+/* ---------- Video "TV jadul" (Embed / Video) ---------- */
+:is(.wp-block-embed, .wp-block-video).is-style-tv {
+	position: relative;
+	padding: 16px 16px 40px;
+	background: var(--nk-ink);
+	border-radius: 14px;
+}
+:is(.wp-block-embed, .wp-block-video).is-style-tv :is(.wp-block-embed__wrapper, video) {
+	overflow: hidden;
+	border: 3px solid #111;
+	border-radius: 10px;
+}
+:is(.wp-block-embed, .wp-block-video).is-style-tv::after {
+	content: "";
+	position: absolute;
+	right: 20px;
+	bottom: 12px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--nk-mus);
+	box-shadow: -26px 0 0 var(--nk-mus);
+}
+:is(.wp-block-embed, .wp-block-video).is-style-tv figcaption {
+	position: absolute;
+	left: 20px;
+	bottom: 8px;
+	margin: 0;
+	color: var(--nk-cream);
+	font-family: var(--nk-display);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+/* ---------- Nostek Slider ---------- */
+.wp-block-nostek-slider:not(.nk-slider--on) > .wp-block-cover + .wp-block-cover {
+	display: none;
+}
+
+/* ---------- Nostek Tabs ---------- */
+.nk-tabs__bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+	padding-left: 0.6rem;
+}
+.nk-tabs__tab {
+	position: relative;
+	padding: 0.6rem 1.4rem 0.5rem;
+	border: 2px solid var(--nk-ink);
+	border-bottom: none;
+	background: var(--nk-paper-2);
+	color: #6b675f;
+	font-family: var(--nk-display);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	cursor: pointer;
+	clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+}
+.nk-tabs__tab.is-on {
+	top: 2px;
+	background: var(--nk-cream);
+	color: var(--nk-red);
+}
+.nk-tabs__panel {
+	padding: 1.4rem 1.5rem;
+	border: 2px solid var(--nk-ink);
+	background: var(--nk-cream);
+}
+.nk-tabs__panel > :first-child {
+	margin-top: 0;
+}
+
+/* ---------- Nostek Progress Bar ---------- */
+.nk-pbar {
+	margin-block: 0 1.1rem;
+}
+.nk-pbar__head {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0.35rem;
+	font-family: var(--nk-display);
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+.nk-pbar__track {
+	height: 20px;
+	padding: 2px;
+	border: 2px solid var(--nk-ink);
+	background: var(--nk-cream);
+}
+.nk-pbar__fill {
+	height: 100%;
+	background: repeating-linear-gradient(-45deg, var(--nk-c) 0 8px, color-mix(in srgb, var(--nk-c) 78%, #000) 8px 16px);
+}
+
+/* ---------- Nostek Donut Chart ---------- */
+.nk-donut {
+	display: grid;
+	grid-template-columns: minmax(160px, 240px) 1fr;
+	gap: 2rem;
+	align-items: center;
+	margin-inline: 0;
+	padding: 1.6rem;
+	border: 3px double var(--nk-ink);
+	background: var(--nk-cream);
+}
+.nk-donut__ring {
+	position: relative;
+	aspect-ratio: 1;
+	border: 3px solid var(--nk-ink);
+	border-radius: 50%;
+}
+.nk-donut__ring span {
+	position: absolute;
+	inset: 24%;
+	display: grid;
+	place-items: center;
+	padding: 0.4rem;
+	border: 3px solid var(--nk-ink);
+	border-radius: 50%;
+	background: var(--nk-cream);
+	font-family: var(--nk-display);
+	font-size: 1.05rem;
+	font-weight: 800;
+	line-height: 1.05;
+	text-align: center;
+	text-transform: uppercase;
+}
+.nk-donut__legend {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.nk-donut__legend li {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	padding: 0.35rem 0;
+	border-bottom: 1px dotted #a29d93;
+	font-family: var(--nk-display);
+	font-size: 1.1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+.nk-donut__legend i {
+	width: 18px;
+	height: 18px;
+	border: 2px solid var(--nk-ink);
+}
+.nk-donut__legend b {
+	margin-left: auto;
+}
+.nk-donut figcaption {
+	grid-column: 1 / -1;
+	margin: 0;
+	color: #6b675f;
+	font-size: 0.8rem;
+	font-style: italic;
+}
+
+/* ---------- Blog checkerboard (Query Loop pattern) ---------- */
+.nk-checker .wp-block-post-template {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0;
+	margin: 0;
+	border: 3px solid var(--nk-ink);
+}
+.nk-checker .wp-block-post-template > li {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 0;
+}
+.nk-checker .wp-block-post-featured-image {
+	margin: 0;
+	aspect-ratio: 1;
+}
+.nk-checker .wp-block-post-featured-image :is(img, a) {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	filter: sepia(0.35) contrast(1.05);
+}
+.nk-checker .nk-checker__text {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 1.4rem;
+	aspect-ratio: 1;
+	overflow: hidden;
+}
+.nk-checker .nk-checker__text .wp-block-post-title {
+	margin: 0.3rem 0 0.6rem;
+	font-size: 1.55rem;
+	line-height: 1.02;
+	text-transform: uppercase;
+}
+.nk-checker .nk-checker__text .wp-block-post-excerpt {
+	font-size: 0.85rem;
+	line-height: 1.55;
+}
+/* Rows alternate: image | text, then text | image; four tile colours in turn. */
+.nk-checker li:nth-child(4n + 3) .wp-block-post-featured-image,
+.nk-checker li:nth-child(4n + 4) .wp-block-post-featured-image {
+	order: 2;
+}
+.nk-checker li:nth-child(4n + 1) .nk-checker__text { background: var(--nk-cream); }
+.nk-checker li:nth-child(4n + 2) .nk-checker__text { background: var(--nk-teal-d); color: var(--nk-cream); }
+.nk-checker li:nth-child(4n + 3) .nk-checker__text { background: var(--nk-red); color: var(--nk-cream); }
+.nk-checker li:nth-child(4n + 4) .nk-checker__text { background: var(--nk-paper-2); }
+.nk-checker li:is(:nth-child(4n + 2), :nth-child(4n + 3)) .nk-checker__text :is(a, h2, h3, p, .wp-block-post-terms a) {
+	color: inherit;
+}
+.nk-checker .nk-checker__text .wp-block-post-terms {
+	font-family: var(--nk-display);
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+	.nk-checker .wp-block-post-template {
+		grid-template-columns: 1fr;
+	}
+	.nk-checker li:nth-child(n) .wp-block-post-featured-image {
+		order: 0;
+	}
+	.nk-checker li:nth-child(even) .wp-block-post-featured-image {
+		order: 2;
+	}
+	.nk-donut {
+		grid-template-columns: 1fr;
+	}
+	.nk-donut__ring {
+		max-width: 240px;
+		margin-inline: auto;
+	}
+}

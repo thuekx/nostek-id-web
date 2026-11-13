@@ -2,12 +2,11 @@
 /**
  * Title: Slider: banner slides
  * Slug: nostek/banner-slider
- * Categories: nostek, featured
- * Description: Hand-made slides for pages (Services, Market, About). Replace the text, add a background image to any slide, or add more slides.
+ * Categories: nostek, nostek-elements, featured
+ * Description: Slider untuk halaman: klik "Tambah slide", ganti teks dan gambar langsung di tiap slide.
  */
 ?>
-<!-- wp:group {"align":"full","className":"is-style-slider nk-hero","style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
-<div class="wp-block-group alignfull is-style-slider nk-hero" style="padding-top:0;padding-bottom:0">
+<!-- wp:nostek/slider {"align":"full"} -->
 	<!-- wp:cover {"overlayColor":"teal-dark","minHeight":460,"contentPosition":"center left","isDark":true,"layout":{"type":"default"}} -->
 	<div class="wp-block-cover is-dark has-custom-content-position is-position-center-left" style="min-height:460px"><span aria-hidden="true" class="wp-block-cover__background has-teal-dark-background-color has-background-dim-100 has-background-dim"></span><div class="wp-block-cover__inner-container">
 		<!-- wp:group {"className":"nk-hero__card","layout":{"type":"default"}} -->
@@ -80,5 +79,4 @@
 		<!-- /wp:group -->
 	</div></div>
 	<!-- /wp:cover -->
-</div>
-<!-- /wp:group -->
+<!-- /wp:nostek/slider -->
