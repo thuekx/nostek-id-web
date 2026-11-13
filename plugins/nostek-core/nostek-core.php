@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb, Topics list, table of contents, related and share blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.6.0
+ * Version: 0.6.1
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
