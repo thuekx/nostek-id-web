@@ -42,6 +42,8 @@ foreach ( array( 'journal', 'topics', 'services', 'support', 'support/request', 
 }
 check( 'closed by default', nostek_core_shop_closed() );
 check( 'nothing purchasable while closed', false === apply( 'woocommerce_is_purchasable', true ) );
+check( 'mini cart skipped before render (no drawer in footer)', '' === apply( 'pre_render_block', null, array( 'blockName' => 'woocommerce/mini-cart' ) ) );
+check( 'other blocks render normally', null === apply( 'pre_render_block', null, array( 'blockName' => 'core/paragraph' ) ) );
 check( 'mini cart hidden', '' === apply( 'render_block', '<div>cart</div>', array( 'blockName' => 'woocommerce/mini-cart' ) ) );
 check( 'footer Payment link hidden', '' === apply( 'render_block', '<li>Payment</li>', array( 'blockName' => 'core/navigation-link', 'attrs' => array( 'url' => '/support/payment/' ) ) ) );
 check( 'footer Request Support kept', '<li>R</li>' === apply( 'render_block', '<li>R</li>', array( 'blockName' => 'core/navigation-link', 'attrs' => array( 'url' => '/support/request/' ) ) ) );
@@ -57,6 +59,7 @@ check( 'sitemap drops products', array( 'post' => 1 ) === apply( 'wp_sitemaps_po
 // Open shop: everything back to normal (fresh process: the request result is cached per request).
 $GLOBALS['opt']['shop_open'] = '1';
 check( 'open shop: purchasable unchanged', true === apply( 'woocommerce_is_purchasable', true ) );
+check( 'open shop: mini cart renders', null === apply( 'pre_render_block', null, array( 'blockName' => 'woocommerce/mini-cart' ) ) );
 check( 'open shop: mini cart shown', '<div>cart</div>' === apply( 'render_block', '<div>cart</div>', array( 'blockName' => 'woocommerce/mini-cart' ) ) );
 check( 'open shop: products stay in sitemap', isset( apply( 'wp_sitemaps_post_types', array( 'product' => 1 ) )['product'] ) );
 echo 'RESULT shop-mode ' . ( $ok === $n ? 'PASS' : 'FAIL' ) . " $ok/$n\n";
