@@ -111,6 +111,24 @@ function nostek_core_shop_purchasable( $purchasable ) {
 	return nostek_core_shop_closed() ? false : $purchasable;
 }
 
+add_filter( 'pre_render_block', 'nostek_core_shop_mini_cart', PHP_INT_MAX, 2 );
+/**
+ * No mini cart at all while the shop is closed. Skipped before it renders:
+ * WooCommerce's mini cart adds its drawer ("Your cart (items: 0)") to
+ * wp_footer from inside its render, so emptying the block's output afterwards
+ * left the drawer, unstyled, below the footer.
+ *
+ * @param string|null $pre    Content from an earlier filter, or null.
+ * @param array       $parsed Parsed block.
+ * @return string|null
+ */
+function nostek_core_shop_mini_cart( $pre, $parsed ) {
+	if ( null === $pre && 'woocommerce/mini-cart' === ( $parsed['blockName'] ?? '' ) && ! is_admin() && nostek_core_shop_closed() ) {
+		return '';
+	}
+	return $pre;
+}
+
 add_filter( 'render_block', 'nostek_core_shop_blocks', PHP_INT_MAX, 3 );
 /**
  * Header and footer while the shop is closed: no mini cart, the Market
