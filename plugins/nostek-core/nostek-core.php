@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.6.0' );
+define( 'NOSTEK_CORE_VERSION', '0.6.1' );
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/seo.php';
