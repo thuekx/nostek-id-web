@@ -8,8 +8,7 @@
 
 $nostek_img = get_theme_file_uri( 'assets/img/brand/' );
 ?>
-<!-- wp:group {"align":"full","className":"is-style-slider nk-hero nk-stage","style":{"spacing":{"padding":{"top":"0","bottom":"0"},"margin":{"top":"0"}}},"layout":{"type":"default"}} -->
-<div class="wp-block-group alignfull is-style-slider nk-hero nk-stage" style="margin-top:0;padding-top:0;padding-bottom:0">
+<!-- wp:nostek/slider {"align":"full","className":"nk-stage","style":{"spacing":{"margin":{"top":"0"}}}} -->
 	<!-- wp:cover {"url":"<?php echo esc_url( $nostek_img . 'hero-wide.webp' ); ?>","dimRatio":0,"focalPoint":{"x":0.66,"y":0.5},"minHeight":640,"contentPosition":"center left","className":"nk-stage__slide nk-stage__slide--brand","layout":{"type":"default"}} -->
 	<div class="wp-block-cover has-custom-content-position is-position-center-left nk-stage__slide nk-stage__slide--brand" style="min-height:640px"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( $nostek_img . 'hero-wide.webp' ); ?>" style="object-position:66% 50%" data-object-fit="cover" data-object-position="66% 50%"/><div class="wp-block-cover__inner-container">
 		<!-- wp:group {"className":"nk-stage__card","layout":{"type":"default"}} -->
@@ -58,5 +57,4 @@ $nostek_img = get_theme_file_uri( 'assets/img/brand/' );
 		<!-- /wp:group -->
 	</div></div>
 	<!-- /wp:cover -->
-</div>
-<!-- /wp:group -->
+<!-- /wp:nostek/slider -->

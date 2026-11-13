@@ -203,7 +203,7 @@
 		var interval = parseInt( el.getAttribute( 'data-interval' ), 10 ) || 6500;
 		var timer = null;
 		var held = false;
-		var stopped = isCarousel || reduce;
+		var stopped = isCarousel || reduce || '0' === el.getAttribute( 'data-autoplay' );
 		var visible = true;
 
 		function play() {

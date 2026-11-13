@@ -57,7 +57,7 @@ See [`examples/article.json`](examples/article.json).
 |---|---|---|
 | `slug` | yes | Lowercase words joined by `-`. Also the article's stable id: sending the same slug again **updates** that article instead of creating a duplicate (stored as post meta `nostek_source_id`). |
 | `title` | yes | Keep the original Indonesian/English mix; do not translate. |
-| `content` | yes | Gutenberg block markup (preferred) or plain HTML. Theme block styles can be used, e.g. `is-style-info-warning` on a group. |
+| `content` | yes | Gutenberg block markup (preferred) or plain HTML. Theme block styles and Nostek element blocks can be used: see [content-elements.md](content-elements.md). |
 | `excerpt` | no | One or two sentences for cards; also the search snippet when `meta_description` is empty. |
 | `meta_description` | no | Search snippet, at most 160 characters (post meta `nostek_meta_description`). Left out = the stored value is kept. |
 | `category` | yes | One Journal section slug: `news`, `insights`, `guides-tutorials`, `reviews`, `founders-note`. |
