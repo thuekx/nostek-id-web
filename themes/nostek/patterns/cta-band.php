@@ -19,7 +19,7 @@
 		<!-- wp:buttons -->
 		<div class="wp-block-buttons">
 			<!-- wp:button {"className":"is-style-ruled"} -->
-			<div class="wp-block-button is-style-ruled"><a class="wp-block-button__link wp-element-button" href="/journal/founders-note/">Baca</a></div>
+			<div class="wp-block-button is-style-ruled"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/category/founders-note/' ) ); ?>">Baca</a></div>
 			<!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->

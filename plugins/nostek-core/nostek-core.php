@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb, Topics list, table of contents, related and share blocks, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.7.0
+ * Version: 0.7.1
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.7.0' );
+define( 'NOSTEK_CORE_VERSION', '0.7.1' );
 define( 'NOSTEK_CORE_FILE', __FILE__ );
 
 require_once __DIR__ . '/includes/settings.php';
@@ -26,6 +26,7 @@ require_once __DIR__ . '/includes/media.php';
 require_once __DIR__ . '/includes/menus.php';
 require_once __DIR__ . '/includes/footer-menus.php';
 require_once __DIR__ . '/includes/slugs.php';
+require_once __DIR__ . '/includes/redirects.php';
 require_once __DIR__ . '/includes/icons.php';
 require_once __DIR__ . '/includes/article.php';
 require_once __DIR__ . '/includes/author.php';
