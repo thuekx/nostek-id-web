@@ -14,7 +14,7 @@ Each entry: what changes on nostek.id, what to check after the deploy, and check
 
 Staging after deploy + Site setup apply:
 - [ ] `/legal/cookie-policy/` returns 200 and shows the cookie tables (staging shows the "only essential cookies" note: the banner never runs off the live site).
-- [ ] Footer Nostek column lists Cookie Policy. Site setup never changes an existing menu: when the "Footer Nostek" menu already exists, add the link in Appearance > Editor > Navigation > Footer Nostek (Custom link, `/legal/cookie-policy/`, label `Cookie Policy`, after Privacy Policy).
+- [ ] Footer Nostek column lists Cookie Policy (Site setup adds it to the existing menu after Privacy Policy, WEB-44: `PASS add to menu 'footer-nostek' … Cookie Policy`).
 - [ ] Existing Privacy Policy page: Site setup does not rewrite it; its Cookie paragraph can link to `/legal/cookie-policy/` by hand.
 
 After the production deploy (nostek.id), when a GA4 ID is set:

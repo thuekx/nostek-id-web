@@ -17,8 +17,11 @@ Settings > Reading: a static front page and the Journal as the posts page, and
 the WooCommerce store settings listed under "shop_settings" (Rupiah, Indonesian
 number format) through wc/v3; those are skipped with a WARN without WooCommerce.
 Footer menus listed under "menus" are created as Navigation menus
-(Appearance > Editor > Navigation) when no menu with that slug exists; an
-existing menu is never changed, so the owner's renames stay.
+(Appearance > Editor > Navigation) when no menu with that slug exists. An
+existing menu keeps its items, order and labels; the only change made to it is
+adding a link marked "add_if_missing": true whose URL is not in the menu yet
+(placed after the link listed before it in the spec, else at the end), so new
+pages such as the Cookie Policy reach menus created earlier.
 Standard library only.
 
 Credentials come from the environment, never from argv. The user must be an
@@ -35,6 +38,7 @@ import argparse
 import json
 import os
 import pathlib
+import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -133,14 +137,51 @@ def menu_content(items):
     return "\n".join(links)
 
 
+LINK_RE = re.compile(r'<!-- wp:navigation-(?:link|submenu) (\{.*?\}) /?-->')
+
+
+def add_missing_links(content, items):
+    """Return (new content, added labels) with every "add_if_missing" item whose
+    URL is not in the menu yet; nothing else in the menu is touched."""
+    added = []
+    for n, item in enumerate(items):
+        if not item.get("add_if_missing"):
+            continue
+        urls = {json.loads(a).get("url") for a in LINK_RE.findall(content)}
+        if item["url"] in urls:
+            continue
+        block = menu_content([item])
+        at = None
+        for prev in reversed(items[:n]):
+            for mt in LINK_RE.finditer(content):
+                if json.loads(mt.group(1)).get("url") == prev["url"]:
+                    at = mt.end()
+                    break
+            if at is not None:
+                break
+        content = content.rstrip("\n") + "\n" + block if at is None else content[:at] + "\n" + block + content[at:]
+        added.append(item["label"])
+    return content, added
+
+
 def ensure_menus(wp, spec, apply):
     changes = 0
     for m in spec.get("menus", []):
         found = wp.call("GET", "navigation", {
-            "slug": m["slug"], "status": "publish,draft", "context": "edit", "_fields": "id,status"})
+            "slug": m["slug"], "status": "publish,draft", "context": "edit", "_fields": "id,status,content"})
         if found:
-            # Never overwritten: the owner edits these in the Site Editor.
-            print(f"SKIP menu '{m['slug']}' exists (id={found[0]['id']}, {found[0]['status']})")
+            # Edited in the Site Editor: only links marked add_if_missing are added.
+            mid = found[0]["id"]
+            content, added = add_missing_links(found[0]["content"]["raw"], m["items"])
+            if not added:
+                print(f"SKIP menu '{m['slug']}' exists (id={mid}, {found[0]['status']})")
+                continue
+            changes += 1
+            if not apply:
+                print(f"PLAN add to menu '{m['slug']}' id={mid}: {', '.join(added)}")
+                continue
+            wp.call("POST", f"navigation/{mid}", body={"content": content})
+            print(f"PASS add to menu '{m['slug']}' id={mid}: {', '.join(added)}")
             continue
         changes += 1
         if not apply:

@@ -13,7 +13,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 html = (ROOT / "themes/nostek/parts/footer.html").read_text(encoding="utf-8")
-spec = {m["slug"]: m["items"] for m in json.loads((ROOT / "site/pages.json").read_text(encoding="utf-8")).get("menus", [])}
+spec = {m["slug"]: [{"label": i["label"], "url": i["url"]} for i in m["items"]] for m in json.loads((ROOT / "site/pages.json").read_text(encoding="utf-8")).get("menus", [])}
 
 found = {}
 for attrs, body in re.findall(r"<!-- wp:navigation (\{.*?\}) -->(.*?)<!-- /wp:navigation -->", html, re.S):
