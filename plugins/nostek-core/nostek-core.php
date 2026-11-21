@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb, Topics list, table of contents, related and share blocks, page section menu, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.8.0
+ * Version: 0.9.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.8.0' );
+define( 'NOSTEK_CORE_VERSION', '0.9.0' );
 define( 'NOSTEK_CORE_FILE', __FILE__ );
 
 require_once __DIR__ . '/includes/settings.php';
@@ -34,6 +34,7 @@ require_once __DIR__ . '/includes/author.php';
 require_once __DIR__ . '/includes/elements.php';
 require_once __DIR__ . '/includes/comments.php';
 require_once __DIR__ . '/includes/shop-mode.php';
+require_once __DIR__ . '/includes/product-urls.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -254,9 +255,20 @@ register_activation_hook( __FILE__, 'nostek_core_activate' );
 function nostek_core_activate() {
 	nostek_core_register_topics();
 	flush_rewrite_rules();
+	// WooCommerce registered its taxonomies before this plugin loaded: rebuild the shop rules on the next request.
+	delete_option( 'nostek_core_product_urls_version' );
 }
 
-register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_deactivation_hook( __FILE__, 'nostek_core_deactivate' );
+/**
+ * Our filters are still loaded while deactivating, so a flush here would keep
+ * our rules: drop the stored rules instead and let WordPress rebuild them
+ * (WooCommerce defaults again) on the next request.
+ */
+function nostek_core_deactivate() {
+	delete_option( 'rewrite_rules' );
+	delete_option( 'nostek_core_product_urls_version' );
+}
 
 add_action( 'init', 'nostek_core_register_blocks' );
 function nostek_core_register_blocks() {

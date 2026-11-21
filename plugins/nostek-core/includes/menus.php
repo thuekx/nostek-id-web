@@ -173,12 +173,18 @@ function nostek_core_menu_object( $url, $attrs ) {
 			get_option( 'category_base' ) ? get_option( 'category_base' ) : 'category' => 'category',
 			get_option( 'tag_base' ) ? get_option( 'tag_base' ) : 'tag'                 => 'post_tag',
 			'topics'                                                                     => 'topic',
+			'product'                                                                    => 'product_cat',
 			'product-category'                                                           => 'product_cat',
 		);
 		if ( isset( $bases[ $segments[0] ] ) && taxonomy_exists( $bases[ $segments[0] ] ) ) {
 			$term = get_term_by( 'slug', end( $segments ), $bases[ $segments[0] ] );
 			if ( $term ) {
 				return array( 'type' => $term->taxonomy, 'slug' => $term->slug );
+			}
+			// /product/<slug>/ is a product when no category has that slug (WEB-41).
+			$product = 'product' === $segments[0] && 2 === count( $segments ) ? get_page_by_path( $segments[1], OBJECT, 'product' ) : null;
+			if ( $product ) {
+				return array( 'type' => 'product', 'slug' => $product->post_name );
 			}
 		}
 	}
