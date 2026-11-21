@@ -44,15 +44,29 @@ Search and 404 pages get no extra tags (core already marks search results `noind
 Invalid IDs are refused with a notice and not stored. These are public IDs, not secrets, but they still stay out of git so staging and production can differ.
 Softaculous "Push to Live" copies the database, so a value set on staging arrives on production too; on staging it never loads anything.
 
-## Consent banner
+## Consent banner (WEB-43)
 
 Shown at the bottom of the page (fixed, so it never shifts the layout) only on the live site, only when an ID is set, and never to logged-in editors.
+Retro info-box look (ink border, offset shadow, red script ribbon "Cookie"); colours follow light and dark mode.
 
-- Text (Indonesian): *"Kami memakai cookie analitik untuk memahami artikel mana yang dibaca dan dari mana pembaca datang. Data ini tidak dijual."* plus a link to the Privacy Policy page when one is set (Settings → Privacy). Buttons **Terima** / **Tolak**.
-- Nothing from Google or Meta loads before **Terima**. The choice is stored in the first-party cookie `nostek_consent` (`granted` / `denied`, 180 days).
-- GA4 loads with Consent Mode: `analytics_storage` granted, all `ad_*` denied.
-- **Tolak** after an earlier **Terima** removes the `_ga*`, `_gid`, `_gat`, `_fbp`, `_fbc` cookies.
-- The footer link **Pengaturan cookie** (any element with `data-nostek-consent-open`) opens the banner again; it is hidden where the banner is not active.
+- Text (Indonesian): essential cookies always run; with consent also analytics (and marketing when the Pixel is on). Link **Kebijakan cookie** goes to `/legal/cookie-policy/` when that page is published, else to the Privacy Policy page.
+- Buttons **Terima semua** / **Tolak** / **Atur**. **Atur** shows one switch per category, all off until the visitor turns one on, then **Simpan pilihan**:
+
+| Category | Switch | What it allows |
+|---|---|---|
+| Wajib | always on, locked | login, cart, dark mode (`localStorage`), the consent cookie itself |
+| Analitik | offered when a GA4 ID is set | GA4 (`_ga`, `_ga_*`) |
+| Pemasaran | offered when the Meta Pixel is set **and** ticked | Meta Pixel (`_fbp`, `_fbc`) |
+
+- Nothing from Google or Meta loads before the matching category is allowed.
+- Google Consent Mode v2 (basic): `gtag('consent','default')` sets `analytics_storage`, `ad_storage`, `ad_user_data`, `ad_personalization` to `denied` before anything else; gtag.js loads only after **Analitik** is allowed, followed by `gtag('consent','update')`. The `ad_*` types follow **Pemasaran**.
+- The choice is stored in the first-party cookie `nostek_consent` = `2.a<0|1|x>.m<0|1|x>` (180 days). `x` = the category was not offered when the visitor chose; when it is offered later (e.g. the Pixel is switched on), the banner asks again with **Atur** open and the earlier choices pre-set. Old values from before WEB-43: `granted` = Analitik only, `denied` = nothing.
+- Withdrawing a category removes its cookies (`_ga*`, `_gid`, `_gat` / `_fbp`, `_fbc`) and sends `fbq('consent','revoke')` when the Pixel was running.
+- The footer link **Pengaturan cookie** (any element with `data-nostek-consent-open`) opens the banner again, with **Atur** open once a choice exists; it is hidden where the banner is not active.
+- Block `nostek/cookie-settings` (on the Cookie Policy page) shows the visitor's current choice and a **Ubah pilihan cookie** button; where the banner is not active it says only essential cookies are used.
+- Other scripts: `window.nostekConsent.get()` returns `{a, m}` or `null`; a `nostek:consent` event fires on every choice.
+
+Test (not in CI, downloads WordPress): a throwaway WordPress + SQLite rig with the theme and plugin, `NOSTEK_ENV=production` and a fake GA4 ID in its `wp-config.php`, checked with Playwright (`RESULT cookie-consent-wp PASS 20/20`, with a fake Pixel ID `RESULT cookie-consent-pixel PASS 3/3`).
 
 ## UTM and clean URLs
 

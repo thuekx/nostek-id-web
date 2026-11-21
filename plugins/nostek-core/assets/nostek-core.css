@@ -32,9 +32,13 @@
 	font-size: 0.875rem;
 }
 
-/* Cookie consent banner (analytics.php). Small and at the bottom so it never
-   covers the article heading (LCP) or shifts the layout (CLS). */
+/* Cookie consent banner (analytics.php, WEB-43). Small, fixed at the bottom so
+   it never covers the article heading (LCP) or shifts the layout (CLS). Retro
+   info-box look: ink border, offset shadow, script ribbon label. Colours come
+   from the theme tokens, so dark mode follows <html data-mode="dark">. */
 .nostek-consent {
+	--nkc-ink: var(--wp--preset--color--ink, #2f2f2d);
+	--nkc-bg: var(--nk-surface, var(--wp--preset--color--cream, #efe9de));
 	position: fixed;
 	right: 1rem;
 	bottom: 1rem;
@@ -42,41 +46,199 @@
 	z-index: 9999;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem 1rem;
+	gap: 0.6rem 1rem;
 	align-items: center;
 	max-width: 46rem;
 	margin: 0 auto;
-	padding: 0.9rem 1.1rem;
-	border: 3px solid var(--wp--preset--color--ink, #2f2f2d);
-	background: var(--wp--preset--color--cream, #efe9de);
-	color: var(--wp--preset--color--ink, #2f2f2d);
+	padding: 1.4rem 1.1rem 0.9rem;
+	border: 3px solid var(--nkc-ink);
+	background: var(--nkc-bg);
+	color: var(--nkc-ink);
 	font-size: 0.9rem;
-	box-shadow: 4px 4px 0 var(--wp--preset--color--ink, #2f2f2d);
+	line-height: 1.45;
+	box-shadow: 5px 5px 0 var(--nkc-ink);
 }
 .nostek-consent[hidden] {
 	display: none;
+}
+.nostek-consent__label {
+	position: absolute;
+	top: -0.95rem;
+	left: 0.9rem;
+	margin: 0;
+	padding: 0.05rem 1.6rem 0.1rem 0.7rem;
+	background: var(--wp--preset--color--red, #e0442a);
+	color: #fff;
+	font-family: var(--wp--preset--font-family--script, cursive);
+	font-size: 1.25rem;
+	line-height: 1.3;
+	clip-path: polygon(0 0, 100% 0, calc(100% - 0.7rem) 50%, 100% 100%, 0 100%);
 }
 .nostek-consent__text {
 	flex: 1 1 20rem;
 	margin: 0;
 }
+.nostek-consent__text a {
+	color: inherit;
+	font-weight: 700;
+}
+.nostek-consent__prefs {
+	display: grid;
+	flex: 1 1 100%;
+	gap: 0.5rem;
+	max-height: calc(100vh - 16rem);
+	margin: 0.2rem 0 0;
+	overflow-y: auto;
+}
+.nostek-consent__prefs[hidden] {
+	display: none;
+}
+.nostek-consent__cat {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.15rem 0.7rem;
+	align-items: center;
+	padding: 0.55rem 0.7rem;
+	border: 2px dashed var(--nkc-ink);
+}
+.nostek-consent__cat p {
+	grid-column: 2;
+	margin: 0;
+	font-size: 0.82rem;
+	opacity: 0.85;
+}
+.nostek-consent__always {
+	margin-left: 0.4rem;
+	font-family: var(--wp--preset--font-family--mono, monospace);
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+/* Switch: a checkbox drawn as a retro slide toggle. */
+.nostek-consent__cat input {
+	position: relative;
+	width: 2.6rem;
+	height: 1.4rem;
+	margin: 0;
+	border: 2px solid var(--nkc-ink);
+	border-radius: 1rem;
+	background: transparent;
+	cursor: pointer;
+	appearance: none;
+}
+.nostek-consent__cat input::after {
+	position: absolute;
+	top: 0.13rem;
+	left: 0.15rem;
+	width: 0.9rem;
+	height: 0.9rem;
+	border-radius: 50%;
+	background: var(--nkc-ink);
+	content: "";
+	transition: transform 0.15s;
+}
+.nostek-consent__cat input:checked {
+	border-color: var(--wp--preset--color--teal, #4d7a6e);
+	background: var(--wp--preset--color--teal, #4d7a6e);
+}
+.nostek-consent__cat input:checked::after {
+	background: #fff;
+	transform: translateX(1.15rem);
+}
+.nostek-consent__cat input:disabled {
+	cursor: not-allowed;
+	opacity: 0.65;
+}
+.nostek-consent__cat input:focus-visible,
+.nostek-consent__btn:focus-visible {
+	outline: 3px solid var(--wp--preset--color--mustard, #c0a12f);
+	outline-offset: 2px;
+}
 .nostek-consent__actions {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 0.5rem;
 	margin: 0;
 }
+.nostek-consent.is-prefs .nostek-consent__actions {
+	flex: 1 1 100%;
+	justify-content: flex-end;
+}
 .nostek-consent__btn {
 	padding: 0.45rem 1rem;
-	border: 2px solid var(--wp--preset--color--ink, #2f2f2d);
+	border: 2px solid var(--nkc-ink);
 	background: transparent;
 	color: inherit;
 	font: inherit;
 	font-weight: 700;
 	cursor: pointer;
 }
+.nostek-consent__btn[hidden] {
+	display: none;
+}
 .nostek-consent__btn--accept {
+	border-color: var(--wp--preset--color--teal-dark, #2c4a42);
 	background: var(--wp--preset--color--teal-dark, #2c4a42);
 	color: var(--wp--preset--color--cream, #efe9de);
+}
+.nostek-consent.is-prefs [data-nostek-consent="all"],
+:root[data-mode="dark"] .nostek-consent.is-prefs [data-nostek-consent="all"] {
+	border-color: var(--nkc-ink);
+	background: transparent;
+	color: inherit;
+}
+.nostek-consent__btn--link {
+	border-style: dashed;
+}
+:root[data-mode="dark"] .nostek-consent__btn--accept {
+	border-color: var(--wp--preset--color--teal, #4d7a6e);
+	background: var(--wp--preset--color--teal, #4d7a6e);
+	color: #fff;
+}
+@media (max-width: 600px) {
+	.nostek-consent {
+		right: 0.6rem;
+		bottom: 0.6rem;
+		left: 0.6rem;
+	}
+	.nostek-consent__actions,
+	.nostek-consent.is-prefs .nostek-consent__actions {
+		display: grid;
+		flex: 1 1 100%;
+		grid-template-columns: 1fr 1fr;
+	}
+	.nostek-consent {
+		padding: 1.2rem 0.85rem 0.75rem;
+		font-size: 0.85rem;
+	}
+	.nostek-consent__btn--accept {
+		grid-column: 1 / -1;
+	}
+	.nostek-consent.is-prefs [data-nostek-consent="all"] {
+		grid-column: auto;
+	}
+}
+/* nostek/cookie-settings block (Cookie Policy page). */
+.nostek-cookie-settings {
+	padding: 1rem 1.2rem;
+	border: 3px solid var(--wp--preset--color--ink, #2f2f2d);
+	background: var(--nk-surface, var(--wp--preset--color--cream, #efe9de));
+	box-shadow: 4px 4px 0 var(--wp--preset--color--ink, #2f2f2d);
+}
+.nostek-cookie-settings p {
+	margin: 0;
+}
+.nostek-cookie-settings p + p {
+	margin-top: 0.7rem;
+}
+a.nostek-cookie-settings__btn {
+	display: inline-block;
+	padding: 0.45rem 1rem;
+	border: 2px solid var(--wp--preset--color--teal-dark, #2c4a42);
+	background: var(--wp--preset--color--teal-dark, #2c4a42);
+	color: var(--wp--preset--color--cream, #efe9de) !important;
+	font-weight: 700;
+	text-decoration: none;
 }
 .nostek-consent-link {
 	display: none;

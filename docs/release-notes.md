@@ -6,6 +6,22 @@ Each entry: what changes on nostek.id, what to check after the deploy, and check
 
 ## Next production release (unreleased)
 
+### WEB-43 cookie banner with categories + Cookie Policy page (PR pending, nostek-core 0.10.0, theme 0.12.3)
+
+- Consent banner gets **Atur** (per-category switches: Wajib locked on, Analitik, Pemasaran when the Pixel is on) next to **Terima semua** / **Tolak**; Google Consent Mode v2 defaults all denied. Details: [seo-analytics.md](seo-analytics.md#consent-banner-web-43).
+- New page **Cookie Policy** under Legal (`/legal/cookie-policy/`, created by Site setup), linked from the banner, the Privacy Policy and the footer Nostek column.
+- Visitors who chose before keep their choice (`granted` = Analitik only).
+
+Staging after deploy + Site setup apply:
+- [ ] `/legal/cookie-policy/` returns 200 and shows the cookie tables (staging shows the "only essential cookies" note: the banner never runs off the live site).
+- [ ] Footer Nostek column lists Cookie Policy. Site setup never changes an existing menu: when the "Footer Nostek" menu already exists, add the link in Appearance > Editor > Navigation > Footer Nostek (Custom link, `/legal/cookie-policy/`, label `Cookie Policy`, after Privacy Policy).
+- [ ] Existing Privacy Policy page: Site setup does not rewrite it; its Cookie paragraph can link to `/legal/cookie-policy/` by hand.
+
+After the production deploy (nostek.id), when a GA4 ID is set:
+- [ ] First visit in a private window: banner shows, no request to googletagmanager.com before a choice (browser DevTools > Network).
+- [ ] **Atur** > Analitik on > **Simpan pilihan**: gtag.js loads; cookie `nostek_consent` = `2.a1.mx`.
+- [ ] Footer **Pengaturan cookie** > **Tolak**: `_ga` cookies gone.
+
 ### WEB-41 shop URLs under `/product/` (PR #47, merged 2026-11-21, nostek-core 0.9.0, theme 0.12.1)
 
 Decision 2026-11-21 (option A), register row in [decisions.md](decisions.md):
