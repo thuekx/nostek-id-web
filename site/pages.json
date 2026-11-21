@@ -810,7 +810,8 @@
         },
         {
           "label": "Cookie Policy",
-          "url": "/legal/cookie-policy/"
+          "url": "/legal/cookie-policy/",
+          "add_if_missing": true
         },
         {
           "label": "Marketplace Policy",

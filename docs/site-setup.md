@@ -19,6 +19,8 @@ The same run creates the Journal categories and the Topics listed in `site/pages
 
 Names and descriptions are only the starting text: a term that already exists is never changed, so edit them in wp-admin.
 
+Footer menus (`menus` in `site/pages.json`) are created as Navigation menus when missing. A menu that already exists keeps its items, order and labels; the run only adds a link marked `"add_if_missing": true` whose URL is not in the menu yet, right after the link listed before it in the spec (else at the end): `PLAN add to menu '<slug>' id=<n>: <label>` on a dry run, `PASS add to menu …` with *apply*. A link removed by hand is not added again unless it carries that mark, so mark only new pages (first use: Cookie Policy in `footer-nostek`, WEB-44).
+
 ## Run from GitHub (no local Python needed)
 
 1. Add two repository secrets: `STAGING_WP_USER` (a staging Administrator) and `STAGING_WP_APP_PASSWORD` (that user's Application Password).
