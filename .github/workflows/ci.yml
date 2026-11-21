@@ -47,6 +47,9 @@ jobs:
       - name: Shop mode (offline test)
         run: php tools/test_shop_mode.php
 
+      - name: Shop URLs under /product/ (offline test)
+        run: php tools/test_product_urls.php
+
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v3
         env:
