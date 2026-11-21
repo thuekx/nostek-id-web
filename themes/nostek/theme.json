@@ -456,6 +456,13 @@
 			"postTypes": [
 				"page"
 			]
+		},
+		{
+			"name": "page-landing",
+			"title": "Landing page (full-width sections)",
+			"postTypes": [
+				"page"
+			]
 		}
 	]
 }

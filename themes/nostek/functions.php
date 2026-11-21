@@ -235,3 +235,41 @@ function nostek_url_path( $url ) {
 	$path = (string) wp_parse_url( $url, PHP_URL_PATH );
 	return '/' . trim( $path, '/' );
 }
+
+/*
+ * Page layouts (WEB-40). The default page template is the reading layout:
+ * narrow text column, section menu + table of contents on the left, help
+ * box + Services on the right. A page built from full-width sections
+ * (a slider or any full-width block) gets the landing layout instead, so
+ * banners and bands stay edge to edge. A template picked in the editor
+ * always wins.
+ */
+add_filter( 'page_template_hierarchy', 'nostek_page_layout_hierarchy' );
+function nostek_page_layout_hierarchy( $templates ) {
+	$page = get_queried_object();
+	if ( ! $page instanceof WP_Post || 'page' !== $page->post_type || get_page_template_slug( $page ) ) {
+		return $templates;
+	}
+	if ( nostek_page_is_landing( $page->post_content ) ) {
+		array_unshift( $templates, 'page-landing.php' );
+	}
+	return $templates;
+}
+
+/**
+ * True when the page content has a top-level full-width block or a slider.
+ *
+ * @param string $content Raw block markup.
+ * @return bool
+ */
+function nostek_page_is_landing( $content ) {
+	foreach ( parse_blocks( (string) $content ) as $block ) {
+		if ( empty( $block['blockName'] ) ) {
+			continue;
+		}
+		if ( 'nostek/slider' === $block['blockName'] || 'full' === ( $block['attrs']['align'] ?? '' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
