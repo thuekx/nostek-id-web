@@ -20,6 +20,7 @@ The host has no shell access, so deploys go over FTPS from GitHub Actions.
 - `main` deploys to **staging.nostek.id** with an FTP account whose home is the staging `wp-content`.
 - `production` deploys to **nostek.id** with a separate FTP account whose home is the live `wp-content`.
 - Until the FTP secrets exist the workflow skips and uploads nothing. Any other branch is refused.
+- What the next production release carries, and its checks: [docs/release-notes.md](docs/release-notes.md).
 - Rollback = revert the commit; the next deploy uploads the previous files. JetBackup keeps daily server backups.
 
 ## Design
