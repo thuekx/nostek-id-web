@@ -783,6 +783,16 @@ footer .nk-brand__mark {
 	--nostek-noise: url("../img/paper-print.svg");
 }
 
+/* ---------- WEB-42: same mega menu size on every page ----------
+   Core's List block stylesheet (ol,ul{box-sizing:border-box}) is only
+   loaded on pages that hold a List block, e.g. every page with the WEB-40
+   rail. The menu panels are <ul>s sized as content-box (approved size on
+   the home page), so pin that here: the panel must not shrink by its
+   padding and wrap the tiles taller on some pages. */
+.nk-mega ul {
+	box-sizing: content-box;
+}
+
 /* ---------- WEB-19: mega menu tiles of equal size ---------- */
 @media (min-width: 782px) {
 	.nk-mega .has-child > .wp-block-navigation__submenu-container {
