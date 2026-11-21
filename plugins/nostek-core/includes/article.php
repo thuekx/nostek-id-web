@@ -4,7 +4,8 @@
  * related articles and share links. Lives in the plugin so the internal
  * links and anchors survive a theme change.
  *
- * - Every h2/h3 in a post gets a stable id (kept when the editor set one).
+ * - Every h2/h3 in a post or page gets a stable id (kept when the editor
+ *   set one). Pages use the same TOC on the reading layout (WEB-40).
  * - nostek/toc lists those headings; hidden when there are fewer than two.
  * - nostek/related lists posts that share a Topic, then the category.
  * - nostek/share prints plain share links: no third-party script, no
@@ -67,7 +68,7 @@ add_filter( 'the_content', 'nostek_core_content_anchors', 20 );
  * @return string
  */
 function nostek_core_content_anchors( $content ) {
-	if ( ! is_singular( 'post' ) || get_the_ID() !== get_queried_object_id() ) {
+	if ( ! is_singular( array( 'post', 'page' ) ) || get_the_ID() !== get_queried_object_id() ) {
 		return $content;
 	}
 	return nostek_core_heading_anchors( $content )[0];
@@ -80,14 +81,14 @@ function nostek_core_content_anchors( $content ) {
  */
 function nostek_core_article_headings() {
 	$post = get_post( get_queried_object_id() );
-	if ( ! $post || 'post' !== $post->post_type ) {
+	if ( ! $post || ! in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
 		return array();
 	}
 	return nostek_core_heading_anchors( $post->post_content )[1];
 }
 
 function nostek_core_render_toc() {
-	$items = is_singular( 'post' ) ? nostek_core_article_headings() : array();
+	$items = is_singular( array( 'post', 'page' ) ) ? nostek_core_article_headings() : array();
 	if ( count( $items ) < 2 ) {
 		return '';
 	}

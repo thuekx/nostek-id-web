@@ -3,7 +3,26 @@
 <!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
 <main class="wp-block-group">
 	<!-- wp:template-part {"slug":"page-title","align":"full"} /-->
-	<!-- wp:post-content {"align":"full","layout":{"type":"constrained"}} /-->
+	<!-- wp:group {"align":"wide","className":"nk-article nk-page","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide nk-article nk-page">
+		<!-- wp:group {"tagName":"aside","className":"nk-rail nk-rail--left","layout":{"type":"default"}} -->
+		<aside class="wp-block-group nk-rail nk-rail--left">
+			<!-- wp:nostek/page-nav /-->
+			<!-- wp:nostek/toc /-->
+		</aside>
+		<!-- /wp:group -->
+		<!-- wp:group {"className":"nk-article__body","layout":{"type":"default"}} -->
+		<div class="wp-block-group nk-article__body">
+			<!-- wp:post-content {"layout":{"type":"default"}} /-->
+		</div>
+		<!-- /wp:group -->
+		<!-- wp:group {"tagName":"aside","className":"nk-rail nk-rail--right","layout":{"type":"default"}} -->
+		<aside class="wp-block-group nk-rail nk-rail--right">
+			<!-- wp:pattern {"slug":"nostek/page-rail"} /-->
+		</aside>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 
