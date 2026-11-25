@@ -18,15 +18,19 @@ Code goes through Git; **content goes through the WordPress REST API**, one Word
 | Capability | Nostek Agent | Nostek Publisher |
 |---|---|---|
 | Create / edit own drafts and Pending Review posts **and pages** | yes | yes |
-| Withdraw (Trash) own unpublished posts and pages | yes | no |
+| Withdraw (Trash) own unpublished posts and pages | yes | yes |
+| Move other users' draft / Pending Review posts and pages to the Trash (roles v3, Nostek Core 0.11.0) | no | yes |
+| Restore an item from the Trash | own only | yes |
 | Upload media, set alt text, use any media item as featured image | yes | yes |
 | Read menus (`GET /nostek/v1/menus`) and term trees | yes | yes |
 | Publish posts and pages | no | yes |
 | Edit or publish other users' posts and pages | no | yes |
 | Change a published post or page / move it back to draft | no | yes |
-| Delete other users' posts or pages, users, plugins, themes, settings, menus, terms | no | no |
+| Trash a published, scheduled or private post or page | no | no |
+| Delete permanently (REST `force=true`, empty Trash): answers 403 | no | no |
+| Users, plugins, themes, settings, menus, terms | no | no |
 
-The lists live in `nostek_core_role_caps()` (Nostek Core 0.3.0+). Changing a list bumps `NOSTEK_CORE_ROLES_VERSION`, so sites that already have the roles get the new capabilities once, on the next page load after the deploy (option `nostek_core_roles_version`).
+The lists live in `nostek_core_role_caps()` (Nostek Core 0.3.0+). Changing a list bumps `NOSTEK_CORE_ROLES_VERSION`, so sites that already have the roles get the new capabilities once, on the next page load after the deploy (option `nostek_core_roles_version`). Trash rules and the audit record (post meta `_nostek_trashed_by` / `_nostek_untrashed_by`: post, type, old status, user, time WIB; plus a PHP error-log line) live in `includes/trash-guard.php` (roles v3).
 
 ## Tool
 
