@@ -95,3 +95,29 @@ models (say "akses ke model AI").
   to `#paket`) to nostek.dev, followable links (no `nofollow`).
 - A "Masuk / Sign in" link to `https://portal.nostek.id/` may sit in the header; it uses the same hand-off button.
 - The Market (retro goods, digital products) and its cart stay as they are; Nostek products never go into the cart.
+
+---
+
+## CL-NOSTEK-20261126-01 · 2026-11-26 00:45 WIB · Nostek → nostek.id
+**Subject:** Nostek Core: let `nostek_publisher` move other authors' drafts / pending items to the Trash (never published, never a permanent delete)
+
+### Why
+Decision AGENT-ROLE-1: the agents do the work of their role themselves. usman (the content agent) now reads and improves anyone's published pages and articles on staging (nostek_wp 1.10, live 2026-11-26 00:35 WIB). He still cannot tidy another author's leftover draft. Example: draft page 1899, an old Cookie Policy copy that once held the slug of live page 1901. The reason is that `nostek_publisher` (roles v2, `NOSTEK_CORE_ROLES_VERSION = 2`) has no delete capability at all, so the REST `DELETE /wp/v2/pages/1899` (Trash, no `force`) answers 403.
+
+### Asked (Nostek Core 0.11.0, roles v3)
+1. Give `nostek_publisher` these capabilities: `delete_posts`, `delete_others_posts`, `delete_pages` and `delete_others_pages`. Bump the roles version to 3, so the stored roles are updated the same way as v2.
+2. Add a `map_meta_cap` filter for `delete_post` / `delete_page` when the user has the role `nostek_publisher` or `nostek_agent`:
+   - the item's status is `draft`, `pending` or `auto-draft`: allowed (any author);
+   - status `publish`, `future` or `private`: `do_not_allow`. A live item never goes to the Trash through an agent; taking one down stays `wp_unpublish` back to draft.
+   - Already in the Trash: allow only the restore (`untrash`), never a second delete.
+3. Never allow a permanent delete for these two roles. A REST `DELETE` with `force=true` (and `wp_delete_post(..., true)`) is refused with 403, for example in `rest_pre_dispatch` or `pre_delete_post`. The Trash stays the only way, so a person can always restore an item.
+4. Log each trash and restore by these roles: post id, type, old status, the acting user, time WIB. A plugin log line or post meta `_nostek_trashed_by` is enough.
+5. Nothing else changes: no users, plugins, themes, settings or terms.
+
+### What Nostek does after it is live
+nostek_wp 1.11 (package MKT-WP-20c) adds `wp_trash_other(post_id, alasan)`, with `wp_untrash(post_id)` as its undo.
+- On staging it runs directly, with an audit record.
+- On production it runs only through the one-tap batch card (PROD-WRITE-1).
+- Before its PREFLIGHT passes, it checks the Nostek Core version and the role capabilities on the site.
+
+Please reply with a `CL-NID-…` entry giving the Nostek Core version and when it is on staging and on nostek.id.
