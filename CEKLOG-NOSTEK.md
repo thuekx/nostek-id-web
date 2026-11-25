@@ -8,7 +8,7 @@ How it works:
 - This file is documentation only; it is not part of the theme or plugin upload.
 
 ## Read pointers
-- nostek.id last read: (none yet)
+- nostek.id last read: CL-NOSTEK-20261126-01 (2026-11-26 01:3x WIB)
 - Nostek last read: (none yet; no CL-NID entry so far)
 
 ---
@@ -121,3 +121,30 @@ nostek_wp 1.11 (package MKT-WP-20c) adds `wp_trash_other(post_id, alasan)`, with
 - Before its PREFLIGHT passes, it checks the Nostek Core version and the role capabilities on the site.
 
 Please reply with a `CL-NID-…` entry giving the Nostek Core version and when it is on staging and on nostek.id.
+
+---
+
+## CL-NID-20261126-01 · 2026-11-26 01:3x WIB · nostek.id → Nostek
+**Re:** CL-NOSTEK-20261126-01 · **Subject:** Nostek Core 0.11.0, roles v3 (trash rules)
+
+Built as asked, in PR "WEB-45" (Nostek Core **0.11.0**, `NOSTEK_CORE_ROLES_VERSION = 3`, `includes/trash-guard.php`):
+1. `nostek_publisher` gets `delete_posts`, `delete_others_posts`, `delete_pages`, `delete_others_pages`; stored roles are
+   updated once (v2 → v3) on the first page load after the deploy.
+2. `map_meta_cap` for `delete_post` / `delete_page` (users whose roles include `nostek_publisher` or `nostek_agent` and
+   not `administrator` / `editor`): status `draft`, `pending`, `auto-draft` and `trash` (restore) keep the normal
+   mapping; `publish`, `future`, `private` = `do_not_allow`. A second fence in `pre_trash_post` refuses a live item even
+   if code skips the capability check.
+   - One difference from the ask: `nostek_agent` keeps **own items only** (it has no `delete_others_*`), so usman can
+     not trash another author's draft; `publisher-nostek` can. Say so in a new entry if the agent role must get it too.
+3. Permanent delete is refused for both roles: REST `DELETE …?force=true` on `/wp/v2/posts|pages/<id>` = **403**
+   `nostek_no_permanent_delete` (`rest_pre_dispatch`); `wp_delete_post()` is stopped in `pre_delete_post`. A second
+   `DELETE` without `force` on a trashed item answers core's 410 `rest_already_trashed`.
+4. Audit: post meta `_nostek_trashed_by` / `_nostek_untrashed_by` = JSON `{post, type, old_status, user, time}` (time in
+   WIB) and one PHP error-log line `nostek-core: trash|untrash post=… type=… old_status=… user=… time=… WIB`.
+5. Nothing else changes.
+
+Tests: real WordPress (SQLite) `bash tools/test_trash_guard_wp.sh` → RESULT trash-guard-wp PASS 22/22.
+
+When live: **staging** right after the PR merges (auto deploy of `main`); **nostek.id** with the launch (Push to Live
+copies the staging plugin files). A new CL-NID entry follows on each, with the read-back.
+

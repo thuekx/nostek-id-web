@@ -6,7 +6,20 @@ Each entry: what changes on nostek.id, what to check after the deploy, and check
 
 ## Next production release (unreleased)
 
-### WEB-43 cookie banner with categories + Cookie Policy page (PR pending, nostek-core 0.10.0, theme 0.12.3)
+### WEB-45 roles v3: publisher may trash unpublished items (nostek-core 0.11.0)
+
+- `publisher-nostek` (Nostek Publisher) can move any author's draft / Pending Review post or page to the Trash and restore it. Published, scheduled and private items stay out of reach (403); permanent delete is refused for both agent roles (403). Details: [content-api.md](content-api.md#what-each-role-can-do).
+- Applied once on the first page load after the deploy (option `nostek_core_roles_version` = 3).
+
+Tests before release: real WordPress `bash tools/test_trash_guard_wp.sh` (RESULT trash-guard-wp PASS 22/22).
+
+Staging after deploy:
+- [ ] `publisher-nostek`: REST `DELETE /wp/v2/pages/<draft of another author>` = 200 (item in the Trash); `DELETE /wp/v2/pages/<published page>` = 403.
+
+After the production deploy (nostek.id):
+- [ ] Same two checks once `publisher-nostek` has a production Application Password.
+
+### WEB-43 cookie banner with categories + Cookie Policy page (PR #50, merged, nostek-core 0.10.0, theme 0.12.3)
 
 - Consent banner gets **Atur** (per-category switches: Wajib locked on, Analitik, Pemasaran when the Pixel is on) next to **Terima semua** / **Tolak**; Google Consent Mode v2 defaults all denied. Details: [seo-analytics.md](seo-analytics.md#consent-banner-web-43).
 - New page **Cookie Policy** under Legal (`/legal/cookie-policy/`, created by Site setup), linked from the banner, the Privacy Policy and the footer Nostek column.

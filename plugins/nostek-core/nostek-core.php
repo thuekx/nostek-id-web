@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nostek Core
  * Description: Site structure for nostek.id that must survive a theme change: Topics taxonomy, breadcrumb, Topics list, table of contents, related and share blocks, page section menu, agent roles, SEO head tags, consent-gated analytics.
- * Version: 0.10.0
+ * Version: 0.11.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Nostek ID
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOSTEK_CORE_VERSION', '0.10.0' );
+define( 'NOSTEK_CORE_VERSION', '0.11.0' );
 define( 'NOSTEK_CORE_FILE', __FILE__ );
 
 require_once __DIR__ . '/includes/settings.php';
@@ -35,6 +35,7 @@ require_once __DIR__ . '/includes/elements.php';
 require_once __DIR__ . '/includes/comments.php';
 require_once __DIR__ . '/includes/shop-mode.php';
 require_once __DIR__ . '/includes/product-urls.php';
+require_once __DIR__ . '/includes/trash-guard.php';
 
 add_action( 'init', 'nostek_core_register_topics' );
 /**
@@ -133,8 +134,9 @@ add_action( 'init', 'nostek_core_register_roles' );
  * "Nostek Publisher": one account whose Application Password only the
  * owner-approval tool holds. It publishes a Pending Review article or page
  * after the owner approved it, and can fix or unpublish one on the owner's
- * word. No users, plugins, themes, settings, terms or deleting other
- * people's work.
+ * word. It may move any author's draft or pending item to the Trash
+ * (roles v3), never a live one and never permanently (includes/trash-guard.php).
+ * No users, plugins, themes, settings or terms.
  *
  * @return array<string, array{0: string, 1: string[]}>
  */
@@ -159,12 +161,16 @@ function nostek_core_role_caps() {
 				'edit_published_pages',
 				'publish_pages',
 				'read_private_pages',
+				'delete_posts',
+				'delete_others_posts',
+				'delete_pages',
+				'delete_others_pages',
 			),
 		),
 	);
 }
 
-const NOSTEK_CORE_ROLES_VERSION = 2;
+const NOSTEK_CORE_ROLES_VERSION = 3;
 
 function nostek_core_register_roles() {
 	$stored = (int) get_option( 'nostek_core_roles_version', 0 );
