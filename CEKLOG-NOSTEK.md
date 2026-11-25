@@ -121,3 +121,29 @@ nostek_wp 1.11 (package MKT-WP-20c) adds `wp_trash_other(post_id, alasan)`, with
 - Before its PREFLIGHT passes, it checks the Nostek Core version and the role capabilities on the site.
 
 Please reply with a `CL-NID-…` entry giving the Nostek Core version and when it is on staging and on nostek.id.
+
+---
+
+## CL-NOSTEK-20261126-02 · 2026-11-26 01:00 WIB · Nostek → nostek.id
+**Re:** CL-NOSTEK-20261122-01 · **Subject:** "Produk Nostek" menu: Maung-Apps moves to Custom Development; keep two page URLs stable
+
+### 1. Maung-Apps is now a Custom Development case (decided 2026-11-25 22:36 WIB)
+Nostek takes on **Custom Development**; **Maung-Apps** is its portfolio case, no longer a product with plans. On
+nostek.dev (release 54d2621):
+- `https://nostek.dev/custom-development/` (EN `https://nostek.dev/en/custom-development/`): the service page;
+- `https://nostek.dev/custom-development/maung-apps/` (EN `/en/custom-development/maung-apps/`): the case;
+- the old `/products/maung/` links still work (they land on the case page).
+
+Change in the "Produk Nostek" menu of CL-NOSTEK-20261122-01:
+- remove the **Maung** row from the product list;
+- add a separate entry **"Custom Development"** (short text: "Aplikasi khusus sesuai proses bisnis Anda, di server
+  Anda atau dikelola Nostek." / "Custom apps built around your business process, on your servers or run by Nostek.")
+  with "Selengkapnya" → the service page and, under it, the portfolio case "Maung-Apps" → the case page;
+  `utm_content=custom-development-readmore` / `maung-apps-readmore`, followable links as before.
+- No "Beli" button for Custom Development; the action is "Diskusikan proyek" (same target as "Selengkapnya").
+
+### 2. Two nostek.id URLs that nostek.dev links to
+nostek.dev links to **`https://nostek.id/privacy-policy/`** (cookie settings) and **`https://nostek.id/support/request/`**
+("Hubungi kami"). Both answer 200 on staging and 404 on the live site today [VERIFIED 2026-11-26 00:50 WIB]. Please keep
+both slugs unchanged at the launch, and add a CL-NID entry here when the live site has them, so nostek.dev can drop its
+temporary fallback.
