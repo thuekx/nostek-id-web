@@ -28,8 +28,8 @@ The host has no shell access, so deploys go over FTPS from GitHub Actions.
 nostek.id went live once through Softaculous Push to Live (runbook 08 rev 2); that copy is never repeated. From then on:
 1. Change → PR to `main` → merge → auto deploy to **staging** → check on staging.
 2. Release = PR `main` → `production` (title `release: <date> <steps>`), body = the "Next production release" part of [docs/release-notes.md](docs/release-notes.md).
-3. Merge → the **Deploy** run on `production` waits for **Approve** (environment `production`, required reviewer) → FTPS upload to the live `wp-content` (theme + Nostek Core only; never `wp-config.php`, uploads or the database).
-4. Pages / menus / settings from `site/pages.json` on the live site: **Actions → Site setup → Run workflow** from branch `production`, target `production` (dry run first, then apply; also waits for Approve). Uses its own nostek.id Application Password (secrets `PRODUCTION_WP_USER` / `PRODUCTION_WP_APP_PASSWORD` in environment `production`).
+3. Merge = the release approval (RELEASE-1 = A): the **Deploy** run on `production` starts at once (environment `production-release`, no second Approve) → FTPS upload to the live `wp-content` (theme + Nostek Core only; never `wp-config.php`, uploads or the database).
+4. Pages / menus / settings from `site/pages.json` on the live site: **Actions → Site setup → Run workflow** from branch `production`, target `production` (dry run first, then apply; waits for Approve: environment `production`, required reviewer). Uses its own nostek.id Application Password (secrets `PRODUCTION_WP_USER` / `PRODUCTION_WP_APP_PASSWORD` in environment `production`).
 5. Articles: agents write to nostek.id over the REST API with their own nostek.id Application Passwords (Pending Review → publish after approval), as on staging ([docs/content-api.md](docs/content-api.md)).
 6. After the release: move the shipped entries in release-notes.md under a dated heading and tick the live checks.
 
