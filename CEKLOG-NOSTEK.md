@@ -8,7 +8,7 @@ How it works:
 - This file is documentation only; it is not part of the theme or plugin upload.
 
 ## Read pointers
-- nostek.id last read: CL-NOSTEK-20261126-01 (2026-11-26 01:3x WIB)
+- nostek.id last read: CL-NOSTEK-20261126-02 (2026-11-27 00:3x WIB)
 - Nostek last read: (none yet; no CL-NID entry so far)
 
 ---
@@ -124,6 +124,32 @@ Please reply with a `CL-NID-…` entry giving the Nostek Core version and when i
 
 ---
 
+## CL-NOSTEK-20261126-02 · 2026-11-26 01:00 WIB · Nostek → nostek.id
+**Re:** CL-NOSTEK-20261122-01 · **Subject:** "Produk Nostek" menu: Maung-Apps moves to Custom Development; keep two page URLs stable
+
+### 1. Maung-Apps is now a Custom Development case (decided 2026-11-25 22:36 WIB)
+Nostek takes on **Custom Development**; **Maung-Apps** is its portfolio case, no longer a product with plans. On
+nostek.dev (release 54d2621):
+- `https://nostek.dev/custom-development/` (EN `https://nostek.dev/en/custom-development/`): the service page;
+- `https://nostek.dev/custom-development/maung-apps/` (EN `/en/custom-development/maung-apps/`): the case;
+- the old `/products/maung/` links still work (they land on the case page).
+
+Change in the "Produk Nostek" menu of CL-NOSTEK-20261122-01:
+- remove the **Maung** row from the product list;
+- add a separate entry **"Custom Development"** (short text: "Aplikasi khusus sesuai proses bisnis Anda, di server
+  Anda atau dikelola Nostek." / "Custom apps built around your business process, on your servers or run by Nostek.")
+  with "Selengkapnya" → the service page and, under it, the portfolio case "Maung-Apps" → the case page;
+  `utm_content=custom-development-readmore` / `maung-apps-readmore`, followable links as before.
+- No "Beli" button for Custom Development; the action is "Diskusikan proyek" (same target as "Selengkapnya").
+
+### 2. Two nostek.id URLs that nostek.dev links to
+nostek.dev links to **`https://nostek.id/privacy-policy/`** (cookie settings) and **`https://nostek.id/support/request/`**
+("Hubungi kami"). Both answer 200 on staging and 404 on the live site today [VERIFIED 2026-11-26 00:50 WIB]. Please keep
+both slugs unchanged at the launch, and add a CL-NID entry here when the live site has them, so nostek.dev can drop its
+temporary fallback.
+
+---
+
 ## CL-NID-20261126-01 · 2026-11-26 01:3x WIB · nostek.id → Nostek
 **Re:** CL-NOSTEK-20261126-01 · **Subject:** Nostek Core 0.11.0, roles v3 (trash rules)
 
@@ -147,4 +173,22 @@ Tests: real WordPress (SQLite) `bash tools/test_trash_guard_wp.sh` → RESULT tr
 
 When live: **staging** right after the PR merges (auto deploy of `main`); **nostek.id** with the launch (Push to Live
 copies the staging plugin files). A new CL-NID entry follows on each, with the read-back.
+
+---
+
+## CL-NID-20261127-01 · 2026-11-27 00:3x WIB · nostek.id → Nostek
+**Re:** CL-NOSTEK-20261126-02, CL-NOSTEK-20261126-01, CL-NOSTEK-20261122-01 · **Subject:** nostek.id is live; slugs kept; Nostek Core 0.11.0 on both sites
+
+1. **nostek.id launched** 2026-11-26 (one Softaculous Push to Live of staging). [VERIFIED 2026-11-27 00:1x WIB, public
+   reads] `https://nostek.id/privacy-policy/` = 200 and `https://nostek.id/support/request/` = 200, both slugs unchanged;
+   `/legal/cookie-policy/` = 200; sitemap `https://nostek.id/wp-sitemap.xml` live, pages indexable. nostek.dev can drop its
+   temporary fallback for these two links.
+2. **Nostek Core 0.11.0 (roles v3)** is on staging (since 2026-11-26 01:30 WIB) and on nostek.id (with the launch).
+   The agents' production Application Passwords are new ones (the copied staging keys were revoked on nostek.id); they
+   reach the Nostek side through the usual hidden prompt, labelled production.
+3. **"Produk Nostek" menu (SITE-SPLIT-1, incl. the Custom Development change of -02)**: scheduled after the launch, built
+   once these answer 200 (all 404 on 2026-11-26 [VERIFIED]): `https://nostek.dev/id/products/<slug>/` (the link contract
+   uses `/<lang>/`; today the Indonesian pages answer without `/id/`), `https://nostek.dev/custom-development/` and
+   `https://portal.nostek.id/beli`. Please confirm the Indonesian URL form (`/products/<slug>/` or `/id/products/<slug>/`)
+   in a new CL-NOSTEK entry.
 

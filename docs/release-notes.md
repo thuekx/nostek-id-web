@@ -1,10 +1,17 @@
 # Release notes (production)
 
 `main` deploys to staging.nostek.id; `production` deploys to nostek.id ([README](../README.md#branches-and-deploy)).
-The `production` branch does not exist yet, so the first production release carries everything on `main`.
+nostek.id launched on 2026-11-26 (Push to Live of staging, runbook 08 rev 2, Nostek Core 0.11.0, theme 0.12.3): everything listed under "Released" was live from that day. Later releases go `main` → `production` ([README](../README.md#release-to-nostekid-after-the-launch-of-2026-11-26)).
 Each entry: what changes on nostek.id, what to check after the deploy, and checks still open on staging.
 
 ## Next production release (unreleased)
+
+### WEB-46 production lanes (no change on the live site itself)
+
+- Site setup can target nostek.id (from branch `production`, environment `production`, own Application Password).
+- Release flow in the README.
+
+## Released 2026-11-26 (launch, Push to Live)
 
 ### WEB-45 roles v3: publisher may trash unpublished items (nostek-core 0.11.0)
 
@@ -52,6 +59,6 @@ Open on staging (before the production release):
 
 After the production deploy (nostek.id):
 - [ ] One category URL `/product/<category>/` returns 200.
-- [ ] One old `/product-category/<category>/` URL returns 301 to `/product/<category>/`.
+- [x] One old `/product-category/<category>/` URL returns 301 to `/product/<category>/` (2026-11-27 00:1x WIB: `/product-category/e-book/` → `/product/nostek-digital/e-book/`).
 - [ ] `/product/<product>/` returns 200 (when a product exists).
 - [ ] Header Market menu links point to `/product/...`. If the Header template part was edited in the Site Editor, the database copy keeps the old links (they still work through the 301); resetting it (Appearance > Editor > Patterns > Header, menu ⋮ > Reset) shows the new links.

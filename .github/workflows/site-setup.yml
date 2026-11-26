@@ -1,16 +1,25 @@
 name: Site setup
 
-# Creates the base pages and reading settings on STAGING with
+# Creates the base pages, menus links and reading settings with
 # tools/setup_site.py, so nobody needs Python on their own computer.
 # Run it from the Actions tab (Run workflow). Dry run unless "apply" is ticked.
-# Secrets (Settings > Secrets and variables > Actions):
-#   STAGING_WP_USER          a staging Administrator username
-#   STAGING_WP_APP_PASSWORD  that user's Application Password
+#   target staging:    run from branch main;       environment "staging"
+#   target production: run from branch production; environment "production"
+#                      (required reviewer: the run waits for Approve)
+# Secrets (Settings > Environments > <environment> > secrets):
+#   staging:    STAGING_WP_USER / STAGING_WP_APP_PASSWORD        (staging Administrator)
+#   production: PRODUCTION_WP_USER / PRODUCTION_WP_APP_PASSWORD  (nostek.id Administrator, own
+#               Application Password, never the staging one)
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: "Site to set up"
+        type: choice
+        options: [staging, production]
+        default: staging
       apply:
-        description: "Write to staging (unticked = dry run)"
+        description: "Write to the site (unticked = dry run)"
         type: boolean
         default: false
 
@@ -24,27 +33,34 @@ concurrency:
 jobs:
   setup:
     runs-on: ubuntu-24.04  # pinned: ubuntu-latest moves to 26.04
-    environment: staging
+    environment: ${{ inputs.target == 'production' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@v6
 
-      - name: Run setup_site.py on staging.nostek.id
+      - name: Run setup_site.py on the chosen site
         env:
           REF: ${{ github.ref_name }}
+          TARGET: ${{ inputs.target }}
           APPLY: ${{ inputs.apply }}
           PYTHONUNBUFFERED: "1"  # keep stdout and stderr lines in order in the log
-          NOSTEK_WP_URL: https://staging.nostek.id
-          NOSTEK_WP_USER: ${{ secrets.STAGING_WP_USER }}
-          NOSTEK_WP_APP_PASSWORD: ${{ secrets.STAGING_WP_APP_PASSWORD }}
+          NOSTEK_WP_URL: ${{ inputs.target == 'production' && 'https://nostek.id' || 'https://staging.nostek.id' }}
+          NOSTEK_WP_USER: ${{ inputs.target == 'production' && secrets.PRODUCTION_WP_USER || secrets.STAGING_WP_USER }}
+          NOSTEK_WP_APP_PASSWORD: ${{ inputs.target == 'production' && secrets.PRODUCTION_WP_APP_PASSWORD || secrets.STAGING_WP_APP_PASSWORD }}
         run: |
-          if [ "$REF" != "main" ]; then
-            echo "REFUSE: run this from main (got $REF); nothing done"
+          case "$TARGET" in
+            staging)    want=main;       names="STAGING_WP_USER / STAGING_WP_APP_PASSWORD" ;;
+            production) want=production; names="PRODUCTION_WP_USER / PRODUCTION_WP_APP_PASSWORD" ;;
+            *) echo "REFUSE: unknown target $TARGET; nothing done"; exit 1 ;;
+          esac
+          if [ "$REF" != "$want" ]; then
+            echo "REFUSE: target $TARGET runs from branch $want (got $REF); nothing done"
             exit 1
           fi
           if [ -z "$NOSTEK_WP_USER" ] || [ -z "$NOSTEK_WP_APP_PASSWORD" ]; then
-            echo "FAIL: secrets STAGING_WP_USER / STAGING_WP_APP_PASSWORD are not set; nothing done"
+            echo "FAIL: secrets $names are not set in environment $TARGET; nothing done"
             exit 1
           fi
+          echo "target $TARGET = $NOSTEK_WP_URL (branch $REF)"
           if [ "$APPLY" = "true" ]; then
             python3 tools/setup_site.py --apply
           else
