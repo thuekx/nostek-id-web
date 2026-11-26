@@ -11,6 +11,10 @@ Each entry: what changes on nostek.id, what to check after the deploy, and check
 - Site setup can target nostek.id (from branch `production`, environment `production`, own Application Password).
 - Release flow in the README.
 
+### WEB-47 release in one tap (no change on the live site itself)
+
+- Deploy of `production` runs in environment `production-release` without a reviewer; the merge of the release PR is the approval. Site setup on nostek.id keeps its Approve.
+
 ## Released 2026-11-26 (launch, Push to Live)
 
 ### WEB-45 roles v3: publisher may trash unpublished items (nostek-core 0.11.0)

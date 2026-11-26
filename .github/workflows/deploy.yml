@@ -7,6 +7,10 @@ name: Deploy
 #   FTP_PRODUCTION_USER, FTP_PRODUCTION_PASSWORD
 # Each FTP account's home directory is that site's wp-content folder, so
 # server paths below are relative to wp-content.
+# Release to nostek.id = merging the release PR main -> production (decision
+# RELEASE-1 = A, 2026-11-27): the push deploys at once in environment
+# "production-release" (no reviewer). Environment "production" (reviewer +
+# PRODUCTION_WP_* secrets) stays for Site setup on nostek.id only.
 on:
   push:
     branches: [main, production]
@@ -22,7 +26,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-24.04  # pinned: ubuntu-latest moves to 26.04
-    environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
+    environment: ${{ github.ref_name == 'production' && 'production-release' || 'staging' }}
     steps:
       - uses: actions/checkout@v6
 
