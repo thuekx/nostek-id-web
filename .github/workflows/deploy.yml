@@ -7,6 +7,12 @@ name: Deploy
 #   FTP_PRODUCTION_USER, FTP_PRODUCTION_PASSWORD
 # Each FTP account's home directory is that site's wp-content folder, so
 # server paths below are relative to wp-content.
+# Nostek Panel lane (WEB-48): repository variable STAGING_DEPLOY_VIA /
+# PRODUCTION_DEPLOY_VIA = sftp switches that site to SFTP (port 2222) with
+# bin/deploy-sftp.sh; unset or ftps keeps the cPanel FTPS lane (rollback =
+# set the variable back to ftps). SFTP secrets: SFTP_HOST, SFTP_HOSTKEY_SHA256,
+# SFTP_STAGING_USER, SFTP_STAGING_PASSWORD, SFTP_PRODUCTION_USER,
+# SFTP_PRODUCTION_PASSWORD. The SFTP account's folder is the site's /wp-content.
 # Release to nostek.id = merging the release PR main -> production (decision
 # RELEASE-1 = A, 2026-11-27): the push deploys at once in environment
 # "production-release" (no reviewer). Environment "production" (reviewer +
@@ -39,22 +45,48 @@ jobs:
           S_PASS: ${{ secrets.FTP_STAGING_PASSWORD }}
           P_USER: ${{ secrets.FTP_PRODUCTION_USER }}
           P_PASS: ${{ secrets.FTP_PRODUCTION_PASSWORD }}
+          S_VIA: ${{ vars.STAGING_DEPLOY_VIA }}
+          P_VIA: ${{ vars.PRODUCTION_DEPLOY_VIA }}
         run: |
           case "$REF" in
-            main)       user="$S_USER"; pass="$S_PASS"; site="staging.nostek.id" ;;
-            production) user="$P_USER"; pass="$P_PASS"; site="nostek.id" ;;
+            main)       user="$S_USER"; pass="$S_PASS"; site="staging.nostek.id"; via="${S_VIA:-ftps}" ;;
+            production) user="$P_USER"; pass="$P_PASS"; site="nostek.id"; via="${P_VIA:-ftps}" ;;
             *) echo "REFUSE: branch $REF has no deploy target; nothing done"; exit 1 ;;
           esac
+          case "$via" in
+            ftps|sftp) ;;
+            *) echo "REFUSE: deploy lane '$via' for $site is not ftps or sftp; nothing done"; exit 1 ;;
+          esac
+          echo "via=$via" >> "$GITHUB_OUTPUT"
+          echo "site=$site" >> "$GITHUB_OUTPUT"
+          if [ "$via" = sftp ]; then
+            echo "ready=yes" >> "$GITHUB_OUTPUT"
+            echo "Deploy lane for $site: SFTP (Nostek Panel)"
+            exit 0
+          fi
           if [ -z "$HOST" ] || [ -z "$user" ] || [ -z "$pass" ]; then
             echo "SKIP: FTP secrets for $site are not set yet; nothing deployed"
             echo "ready=no" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "ready=yes" >> "$GITHUB_OUTPUT"
-          echo "site=$site" >> "$GITHUB_OUTPUT"
+          echo "Deploy lane for $site: FTPS (cPanel)"
+
+      - name: Upload theme and plugin over SFTP (Nostek Panel)
+        if: steps.target.outputs.ready == 'yes' && steps.target.outputs.via == 'sftp'
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_HOSTKEY_SHA256: ${{ secrets.SFTP_HOSTKEY_SHA256 }}
+          SFTP_USER: ${{ github.ref_name == 'production' && secrets.SFTP_PRODUCTION_USER || secrets.SFTP_STAGING_USER }}
+          LFTP_PASSWORD: ${{ github.ref_name == 'production' && secrets.SFTP_PRODUCTION_PASSWORD || secrets.SFTP_STAGING_PASSWORD }}
+          SITE: ${{ steps.target.outputs.site }}
+        run: |
+          sudo apt-get -o DPkg::Lock::Timeout=120 update -qq < /dev/null > /dev/null
+          sudo apt-get -o DPkg::Lock::Timeout=120 -o Dpkg::Use-Pty=0 install -y -q lftp < /dev/null > /dev/null
+          bash bin/deploy-sftp.sh
 
       - name: Upload theme
-        if: steps.target.outputs.ready == 'yes'
+        if: steps.target.outputs.ready == 'yes' && steps.target.outputs.via == 'ftps'
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -66,7 +98,7 @@ jobs:
           state-name: .nostek-deploy-state.json
 
       - name: Upload plugin
-        if: steps.target.outputs.ready == 'yes'
+        if: steps.target.outputs.ready == 'yes' && steps.target.outputs.via == 'ftps'
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -78,5 +110,5 @@ jobs:
           state-name: .nostek-deploy-state.json
 
       - name: Result
-        if: steps.target.outputs.ready == 'yes'
+        if: steps.target.outputs.ready == 'yes' && steps.target.outputs.via == 'ftps'
         run: echo "PASS deployed ${GITHUB_SHA::7} to ${{ steps.target.outputs.site }}"
