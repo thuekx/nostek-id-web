@@ -50,6 +50,12 @@ jobs:
       - name: Shop URLs under /product/ (offline test)
         run: php tools/test_product_urls.php
 
+      - name: SFTP deploy to Nostek Panel (local test server)
+        run: |
+          sudo apt-get -o DPkg::Lock::Timeout=120 update -qq < /dev/null > /dev/null
+          sudo apt-get -o DPkg::Lock::Timeout=120 -o Dpkg::Use-Pty=0 install -y -q lftp openssh-server < /dev/null > /dev/null
+          sudo bash tools/test_deploy_sftp.sh
+
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v3
         env:
