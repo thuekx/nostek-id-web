@@ -12,6 +12,12 @@ staging against the same articles before it goes to production.
 - Each copy carries nostek_source_id = "mirror-<production id>"; an unchanged
   article (same production modified time and image) is skipped, a changed one is
   updated, a new one is created as published on staging.
+- An article that already exists on staging with the SAME id and slug (the
+  Push to Live of 2026-11-26 copied staging's database to production, so the
+  launch articles exist on both) is adopted: it gets the mirror source id and
+  is updated in place instead of a duplicate being created (ADOPT). Any other
+  staging post with the same slug is left alone and reported (WARN), because a
+  new copy would get a "-2" slug.
 - --prune moves staging copies whose production article is gone (404) or no
   longer published to the Trash. Articles written on staging itself are never touched.
 - --fixtures DIR also keeps a fixed set of staging-only test articles
@@ -29,8 +35,8 @@ Environment (never argv):
 Usage:
   mirror_content.py                      # dry run: list what would change
   mirror_content.py --apply [--prune] [--fixtures site/fixtures]   # write to staging
-Output: one line per article (CREATE / UPDATE / SKIP / TRASH / WARN), then
-  RESULT PASS created=… updated=… unchanged=… trashed=… skipped=… warn=…
+Output: one line per article (CREATE / ADOPT / UPDATE / SKIP / TRASH / WARN), then
+  RESULT PASS created=… adopted=… updated=… unchanged=… trashed=… skipped=… warn=…
 or RESULT FAIL … (exit 1).
 """
 import argparse
@@ -160,6 +166,14 @@ def staging_copies(wp):
         page += 1
 
 
+def staging_by_slug(wp, slug):
+    """The staging post with this slug (any status), or None."""
+    found = wp.call("GET", "posts", {
+        "slug": slug, "status": "any", "context": "edit", "_fields": "id,slug,status,meta,featured_media",
+    })
+    return found[0] if found else None
+
+
 def term_map(prod, wp, rest_base, ids, warns, title):
     """Production term ids -> staging term ids, matched by slug."""
     out = []
@@ -183,7 +197,7 @@ def main():
     ap.add_argument("--since", default=os.environ.get("MIRROR_SINCE", "2026-11-01"),
                     help="only articles published on/after this date (YYYY-MM-DD, default 2026-11-01 = launch)")
     args = ap.parse_args()
-    counts = dict(created=0, updated=0, unchanged=0, trashed=0, skipped=0, warn=0)
+    counts = dict(created=0, adopted=0, updated=0, unchanged=0, trashed=0, skipped=0, warn=0)
     try:
         env = {k: os.environ.get(k, "") for k in ("NOSTEK_WP_URL", "NOSTEK_WP_USER", "NOSTEK_WP_APP_PASSWORD")}
         missing = [k for k, v in env.items() if not v]
@@ -222,6 +236,19 @@ def main():
             if have and (have.get("meta") or {}).get("nostek_mirror_state") == state and have["status"] == "publish":
                 counts["unchanged"] += 1
                 continue
+            adopt = False
+            if not have:
+                same = staging_by_slug(wp, p["slug"])
+                if same:
+                    same_sid = (same.get("meta") or {}).get("nostek_source_id", "")
+                    if same["id"] == p["id"] and not same_sid.startswith(PREFIX):
+                        have, adopt = same, True
+                    else:
+                        counts["warn"] += 1
+                        counts["skipped"] += 1
+                        print(f"WARN slug '{p['slug']}' already used by staging id={same['id']} "
+                              f"(not prod id={p['id']}); not copied, to avoid a duplicate")
+                        continue
             warns = []
             body = {
                 "slug": p["slug"],
@@ -238,13 +265,16 @@ def main():
             for w in warns:
                 print(w)
             counts["warn"] += len(warns)
-            action = "UPDATE" if have else "CREATE"
+            action = "ADOPT" if adopt else "UPDATE" if have else "CREATE"
+            key = "adopted" if adopt else "updated" if have else "created"
             if not args.apply:
                 print(f"{action} (dry run) prod id={p['id']} {title!r}")
-                counts["updated" if have else "created"] += 1
+                counts[key] += 1
                 continue
             old_media = ((have or {}).get("meta") or {}).get("nostek_mirror_state", "|").split("|")[-1]
-            if p.get("featured_media") and str(p["featured_media"]) != old_media:
+            if adopt and have.get("featured_media"):
+                pass  # the adopted post keeps its own featured image (same file as production)
+            elif p.get("featured_media") and str(p["featured_media"]) != old_media:
                 media, _ = prod.get(f"media/{p['featured_media']}", {"_fields": "source_url,alt_text"})
                 data, ctype = prod.download(media["source_url"])
                 name = urllib.parse.urlparse(media["source_url"]).path.rsplit("/", 1)[-1] or "image"
@@ -255,7 +285,7 @@ def main():
             elif not p.get("featured_media"):
                 body["featured_media"] = 0
             res = wp.call("POST", f"posts/{have['id']}" if have else "posts", body=body)
-            counts["updated" if have else "created"] += 1
+            counts[key] += 1
             print(f"{action} prod id={p['id']} -> staging id={res['id']} {res.get('link', '')}")
 
         if args.prune:
