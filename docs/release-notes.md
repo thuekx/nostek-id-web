@@ -15,6 +15,16 @@ Each entry: what changes on nostek.id, what to check after the deploy, and check
 
 - Deploy of `production` runs in environment `production-release` without a reviewer; the merge of the release PR is the approval. Site setup on nostek.id keeps its Approve.
 
+## Done on nostek.id 2026-11-27 (settings only, no code release)
+
+### WEB-M3 images of nostek.id on the media server, folder `nostek/`
+
+- Advanced Media Offloader is on for nostek.id with path prefix `nostek/` (staging keeps `staging/`), Mirror Delete on, Retain Local Files, same media key as staging. Pages show images from `https://media.nostek.id/nostek/…`.
+- The Push to Live had copied staging's per-image offload marks (post meta `advmo_*`, 6 keys x 62 images), so nostek.id pointed to `staging/` and Mirror Delete there could have removed staging files. The marks were saved to a backup table and removed on nostek.id only, then Bulk Offload copied all 62 images to `nostek/` (0 errors).
+- [VERIFIED 2026-11-27 12:2x WIB, public reads] `/persiapan-video-company-profile/` 21 hits and `/` 11 hits for `media.nostek.id/nostek/`, 0 for `media.nostek.id/staging`, 0 local upload URLs; sample images 200 `image/webp`.
+- Agents: no change (upload with `POST /wp/v2/media` as before).
+- Rollback: deactivate the plugin (local copies were kept).
+
 ## Released 2026-11-26 (launch, Push to Live)
 
 ### WEB-45 roles v3: publisher may trash unpublished items (nostek-core 0.11.0)
