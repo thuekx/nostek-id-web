@@ -84,6 +84,8 @@ def make_handler(kind):
             if path == "posts" and "nostek_source_id" in q:
                 return self.send(200, [{"id": p["id"], "status": p["status"]} for p in S.staging_posts.values()
                                        if p["meta"].get("nostek_source_id") == q["nostek_source_id"]])
+            if path == "posts" and "slug" in q:
+                return self.send(200, [p for p in S.staging_posts.values() if p.get("slug") == q["slug"]])
             if path.startswith("posts/"):
                 return self.send(200, S.staging_posts[int(path.split("/")[1])])
             if path == "posts":
@@ -113,7 +115,8 @@ def make_handler(kind):
                 S.next_id += 1
             else:
                 pid = int(path.split("/")[1])
-            S.staging_posts[pid] = dict(id=pid, status=data["status"], meta=data["meta"])
+            S.staging_posts[pid] = dict(S.staging_posts.get(pid, {}), id=pid, status=data["status"], meta=data["meta"],
+                                        slug=data["slug"])
             return self.send(201, {"id": pid, "link": f"https://staging.example/{data['slug']}/"})
 
         def do_DELETE(self):
@@ -182,6 +185,35 @@ def main():
     rc, out = run(["--apply", "--fixtures", fx], prod, st)
     checks.append(("fixtures unchanged on second run", rc == 0 and f"unchanged={n_fx + 1}" in out
                    and len(S.writes) == before_w + n_fx))
+
+    # Push to Live: the launch article exists on staging with the same id and slug (agent source id, own image)
+    S.prod_posts[13] = dict(id=13, slug="push-copy", date="2026-11-20T09:00:00", modified="2026-11-26T09:00:00",
+                            title={"rendered": "Dari staging"}, content={"rendered": "<p>Isi</p>"},
+                            excerpt={"rendered": ""}, categories=[5], topic=[], tags=[], featured_media=91,
+                            status="publish")
+    S.staging_posts[13] = dict(id=13, slug="push-copy", status="publish", featured_media=77,
+                               meta={"nostek_source_id": "agent-push-copy", "nostek_mirror_state": ""})
+    # same slug but another staging post: never overwritten, never duplicated
+    S.prod_posts[14] = dict(id=14, slug="bentrok", date="2026-11-21T09:00:00", modified="2026-11-21T09:00:00",
+                            title={"rendered": "Bentrok"}, content={"rendered": "x"}, excerpt={"rendered": ""},
+                            categories=[5], topic=[], tags=[], featured_media=0, status="publish")
+    S.staging_posts[700] = dict(id=700, slug="bentrok", status="draft", meta={})
+    before_w, before_up = len(S.writes), S.uploads
+    rc, out = run([], prod, st)
+    checks.append(("dry run: launch article adopted, slug clash warned, nothing written",
+                   rc == 0 and "ADOPT (dry run) prod id=13" in out and "adopted=1" in out and "created=0" in out
+                   and "WARN slug 'bentrok' already used by staging id=700" in out and len(S.writes) == before_w))
+    rc, out = run(["--apply", "--prune"], prod, st)
+    new = S.writes[before_w:]
+    checks.append(("adopt updates the same staging post in place, no duplicate",
+                   rc == 0 and "adopted=1" in out and "created=0" in out and [w[0] for w in new] == ["posts/13"]
+                   and new[0][1]["meta"]["nostek_source_id"] == "mirror-13"))
+    checks.append(("adopted post keeps its own image (no upload)", S.uploads == before_up
+                   and "featured_media" not in new[0][1]))
+    checks.append(("clashing staging post untouched", S.staging_posts[700] == dict(id=700, slug="bentrok", status="draft", meta={})))
+    rc, out = run(["--apply"], prod, st)
+    checks.append(("adopted article unchanged on next run", rc == 0 and "adopted=0" in out
+                   and len(S.writes) == before_w + 1))
 
     ok = 0
     for name, passed in checks:
